@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader2, TrendingUp, Clock, Target, DollarSign, Download } from "lucide-react";
+import { Loader2, TrendingUp, Clock, Target, DollarSign, Download, FileText } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -16,7 +16,7 @@ import {
 } from "recharts";
 import { getAnalyticsData, getDrivers } from "@/lib/supabase/database";
 import { PIPELINE_STAGES, SOURCE_CHANNELS, MONTHLY_TARGETS_2026, CPA_RATE_UGX } from "@/constants";
-import { exportDriversToCSV, generateDriverSummary, exportSummaryReport } from "@/lib/export";
+import { exportDriversToCSV, generateDriverSummary, exportSummaryReport, exportAnalyticsPDF } from "@/lib/export";
 import { PermissionGate } from "@/components/auth";
 import type { Driver } from "@/types/database";
 
@@ -61,6 +61,11 @@ export default function AnalyticsPage() {
   const handleExportSummary = () => {
     const summary = generateDriverSummary(drivers);
     exportSummaryReport(summary);
+  };
+
+  const handleExportPDF = () => {
+    const summary = generateDriverSummary(drivers);
+    exportAnalyticsPDF(summary, data?.monthlyData || {});
   };
 
   if (loading) {
@@ -112,14 +117,22 @@ export default function AnalyticsPage() {
           </p>
         </div>
         <PermissionGate permission="EXPORT_DATA">
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={handleExportPDF}
+              disabled={drivers.length === 0}
+              className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <FileText className="h-4 w-4" />
+              Export PDF
+            </button>
             <button
               onClick={handleExportSummary}
               disabled={drivers.length === 0}
               className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Download className="h-4 w-4" />
-              Export Summary
+              Export CSV
             </button>
             <button
               onClick={handleExportDrivers}
@@ -127,7 +140,7 @@ export default function AnalyticsPage() {
               className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Download className="h-4 w-4" />
-              Export All Drivers
+              Export Drivers
             </button>
           </div>
         </PermissionGate>

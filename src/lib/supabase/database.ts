@@ -418,6 +418,34 @@ export async function completeHandover(handoverId: string) {
   return data as Handover;
 }
 
+export async function cancelHandover(handoverId: string) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("handovers")
+    .update({ status: "cancelled" })
+    .eq("id", handoverId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data as Handover;
+}
+
+export async function getDriversByIds(ids: string[]) {
+  if (ids.length === 0) return [];
+
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("drivers")
+    .select("id, first_name, last_name")
+    .in("id", ids);
+
+  if (error) throw error;
+  return data as Pick<Driver, "id" | "first_name" | "last_name">[];
+}
+
 // ============================================
 // PROFILES
 // ============================================

@@ -5,8 +5,11 @@ import { Filter, RefreshCw, Loader2 } from "lucide-react";
 import { PipelineBoard } from "@/components/pipeline";
 import type { Driver, DriverStatus } from "@/types/database";
 import { getDrivers, updateDriverStatus, subscribeToDrivers, unsubscribeFromChannel } from "@/lib/supabase/database";
+import { useToast } from "@/components/ui/toast";
+import { PIPELINE_STAGES } from "@/constants";
 
 export default function PipelinePage() {
+  const { addToast } = useToast();
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,20 +51,34 @@ export default function PipelinePage() {
   };
 
   const handleStatusChange = async (driverId: string, newStatus: DriverStatus) => {
+    const driver = drivers.find((d) => d.id === driverId);
+    const stageName = PIPELINE_STAGES.find((s) => s.id === newStatus)?.label || newStatus;
+
     try {
       // Optimistic update
       setDrivers((prev) =>
-        prev.map((driver) =>
-          driver.id === driverId
-            ? { ...driver, status: newStatus, updated_at: new Date().toISOString() }
-            : driver
+        prev.map((d) =>
+          d.id === driverId
+            ? { ...d, status: newStatus, updated_at: new Date().toISOString() }
+            : d
         )
       );
 
       // Update in database
       await updateDriverStatus(driverId, newStatus);
+
+      addToast({
+        type: "success",
+        title: "Status updated",
+        message: `${driver?.first_name} ${driver?.last_name} moved to ${stageName}`,
+      });
     } catch (err) {
       console.error("Error updating status:", err);
+      addToast({
+        type: "error",
+        title: "Failed to update status",
+        message: "Please try again",
+      });
       // Revert on error
       loadDrivers();
     }

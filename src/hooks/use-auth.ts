@@ -40,6 +40,7 @@ export const PERMISSIONS = {
   // Handover management
   VIEW_HANDOVERS: ["smp_admin", "smp_agent", "partner"] as UserRole[],
   CREATE_HANDOVER: ["smp_admin", "smp_agent"] as UserRole[],
+  MANAGE_HANDOVERS: ["smp_admin", "smp_agent"] as UserRole[],
   COMPLETE_HANDOVER: ["smp_admin"] as UserRole[],
 
   // Analytics

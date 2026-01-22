@@ -7,6 +7,7 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { SOURCE_CHANNELS } from "@/constants";
 import type { SourceChannel } from "@/types/database";
 import { createDriver } from "@/lib/supabase/database";
+import { useToast } from "@/components/ui/toast";
 
 interface FormData {
   first_name: string;
@@ -32,6 +33,7 @@ const initialFormData: FormData = {
 
 export default function NewDriverPage() {
   const router = useRouter();
+  const { addToast } = useToast();
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -78,11 +80,22 @@ export default function NewDriverPage() {
         notes: formData.notes || null,
       });
 
+      addToast({
+        type: "success",
+        title: "Driver added successfully",
+        message: `${formData.first_name} ${formData.last_name} has been added to the pipeline`,
+      });
+
       // Redirect to drivers list
       router.push("/dashboard/drivers");
     } catch (err) {
       console.error("Error creating driver:", err);
       setError("Failed to save driver. Please try again.");
+      addToast({
+        type: "error",
+        title: "Failed to add driver",
+        message: "Please try again",
+      });
     } finally {
       setLoading(false);
     }
