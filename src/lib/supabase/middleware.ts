@@ -47,7 +47,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect authenticated users away from auth pages
+  // Redirect authenticated users away from login/register pages (but NOT from / or /logout)
   if (
     user &&
     (request.nextUrl.pathname === "/login" ||
@@ -58,12 +58,8 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Redirect root to dashboard if authenticated, otherwise to login
-  if (request.nextUrl.pathname === "/") {
-    const url = request.nextUrl.clone();
-    url.pathname = user ? "/dashboard" : "/login";
-    return NextResponse.redirect(url);
-  }
+  // Landing page (/) is public and accessible to everyone
+  // No redirect needed - let users see the landing page
 
   return supabaseResponse;
 }

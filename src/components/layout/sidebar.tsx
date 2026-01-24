@@ -13,7 +13,6 @@ import {
   Bike,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/hooks/use-auth";
 
 const navigation = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -29,7 +28,6 @@ const secondaryNavigation = [
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { signOut } = useAuth();
 
   return (
     <div className="flex h-full w-64 flex-col bg-gray-900">
@@ -88,13 +86,13 @@ export function Sidebar() {
             </Link>
           );
         })}
-        <button
-          onClick={signOut}
+        <Link
+          href="/logout"
           className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
         >
           <LogOut className="h-5 w-5" />
           Sign Out
-        </button>
+        </Link>
       </div>
     </div>
   );

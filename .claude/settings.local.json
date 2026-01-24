@@ -8,7 +8,22 @@
       "Bash(vercel --version:*)",
       "Bash(vercel:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: SMP Green Rides Africa Partner Dashboard\n\nA complete driver acquisition management system for Greenwheels electric bike leasing in Uganda.\n\nFeatures implemented:\n- Authentication with Supabase \\(login/register\\)\n- Dashboard layout with responsive sidebar navigation\n- Pipeline board \\(Kanban-style\\) with drag-and-drop\n- Driver management \\(CRUD, search, filter, pagination\\)\n- Driver detail page with real-time data from Supabase\n- Document upload/verification workflows with Supabase Storage\n- Screening questionnaire system with auto-scoring \\(9 questions, 65% pass threshold\\)\n- Analytics dashboard with Recharts \\(funnel chart, pie chart, monthly targets\\)\n- Role-based access control \\(smp_admin, smp_agent, partner\\)\n- CSV export for drivers and summary reports\n- Real-time subscriptions via Supabase\n\nTech stack:\n- Next.js 16 with App Router\n- React 19 + TypeScript\n- Tailwind CSS\n- Supabase \\(PostgreSQL, Auth, Storage, Realtime\\)\n- Recharts for data visualization\n- Vercel for deployment\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(gh repo create:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git push:*)",
+      "Bash(npx vercel:*)",
+      "Bash(tree:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd toast notifications, batch handovers, and PDF export\n\n- Add toast notification system with success/error/warning/info variants\n- Implement batch driver selection for handovers with search & filtering\n- Add handover scheduling, completion, and cancellation functionality\n- Add PDF export for analytics reports using jspdf\n- Integrate toast notifications across pipeline and driver creation\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npx prisma init)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npx prisma db push:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx prisma db execute:*)",
+      "WebFetch(domain:bykea.com)",
+      "WebSearch"
     ]
   }
 }

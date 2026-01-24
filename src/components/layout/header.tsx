@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Bell, Search, Menu, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
@@ -17,7 +18,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
 
 export function Header({ onMenuClick }: HeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const { user, profile, role, signOut } = useAuth();
+  const { user, profile, role } = useAuth();
 
   // Get user initials from profile or email
   const getInitials = () => {
@@ -109,12 +110,12 @@ export function Header({ onMenuClick }: HeaderProps) {
                   Settings
                 </a>
                 <hr className="my-1 border-gray-200" />
-                <button
-                  onClick={signOut}
+                <Link
+                  href="/logout"
                   className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
                 >
                   Sign Out
-                </button>
+                </Link>
               </div>
             </>
           )}

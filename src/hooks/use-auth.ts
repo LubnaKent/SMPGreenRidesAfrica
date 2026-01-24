@@ -131,10 +131,26 @@ export function useAuth() {
   }, []);
 
   const signOut = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/login");
-    router.refresh();
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Sign out error:", error);
+      }
+      // Clear state immediately
+      setState({
+        user: null,
+        profile: null,
+        role: null,
+        loading: false,
+      });
+      router.push("/login");
+      router.refresh();
+    } catch (err) {
+      console.error("Sign out exception:", err);
+      // Force redirect even on error
+      router.push("/login");
+    }
   };
 
   // Check if user has a specific permission

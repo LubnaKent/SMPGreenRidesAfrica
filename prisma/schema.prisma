@@ -1,0 +1,197 @@
+// SMP Green Rides Africa - Prisma Schema
+// Matches the Supabase database schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  smp_admin
+  smp_agent
+  partner
+
+  @@map("user_role")
+}
+
+enum DriverStatus {
+  sourced
+  screening
+  qualified
+  onboarding
+  handed_over
+  rejected
+
+  @@map("driver_status")
+}
+
+enum SourceChannel {
+  social_media
+  referral
+  roadshow
+  boda_stage
+  whatsapp
+  other
+
+  @@map("source_channel")
+}
+
+enum DocumentType {
+  national_id
+  driving_permit
+  photo
+  other
+
+  @@map("document_type")
+}
+
+enum HandoverStatus {
+  scheduled
+  completed
+  cancelled
+
+  @@map("handover_status")
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+/// User profiles - extends Supabase auth.users
+model Profile {
+  id        String   @id @db.Uuid
+  email     String
+  name      String
+  role      UserRole @default(smp_agent)
+  phone     String?
+  avatarUrl String?  @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  assignedDrivers    Driver[]          @relation("AssignedAgent")
+  verifiedDocuments  DriverDocument[]  @relation("VerifiedBy")
+  statusChanges      StatusHistory[]   @relation("ChangedBy")
+  createdHandovers   Handover[]        @relation("CreatedBy")
+
+  @@map("profiles")
+}
+
+/// Drivers in the acquisition pipeline
+model Driver {
+  id                  String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  firstName           String        @map("first_name")
+  lastName            String        @map("last_name")
+  phone               String
+  nationalId          String?       @map("national_id")
+  drivingPermitNumber String?       @map("driving_permit_number")
+  location            String?
+  sourceChannel       SourceChannel @default(other) @map("source_channel")
+  referredById        String?       @map("referred_by") @db.Uuid
+  status              DriverStatus  @default(sourced)
+  screeningScore      Int?          @map("screening_score")
+  assignedAgentId     String?       @map("assigned_agent_id") @db.Uuid
+  notes               String?
+  createdAt           DateTime      @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt           DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  referredBy          Driver?             @relation("DriverReferrals", fields: [referredById], references: [id])
+  referrals           Driver[]            @relation("DriverReferrals")
+  assignedAgent       Profile?            @relation("AssignedAgent", fields: [assignedAgentId], references: [id])
+  documents           DriverDocument[]
+  screeningResponses  ScreeningResponse[]
+  statusHistory       StatusHistory[]
+
+  @@index([status])
+  @@index([sourceChannel], map: "idx_drivers_source_channel")
+  @@index([assignedAgentId], map: "idx_drivers_assigned_agent")
+  @@index([createdAt(sort: Desc)], map: "idx_drivers_created_at")
+  @@index([phone])
+  @@map("drivers")
+}
+
+/// Documents uploaded for drivers
+model DriverDocument {
+  id           String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  driverId     String       @map("driver_id") @db.Uuid
+  documentType DocumentType @map("document_type")
+  fileUrl      String       @map("file_url")
+  fileName     String?      @map("file_name")
+  verified     Boolean      @default(false)
+  verifiedById String?      @map("verified_by") @db.Uuid
+  verifiedAt   DateTime?    @map("verified_at") @db.Timestamptz
+  uploadedAt   DateTime     @default(now()) @map("uploaded_at") @db.Timestamptz
+
+  // Relations
+  driver     Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  verifiedBy Profile? @relation("VerifiedBy", fields: [verifiedById], references: [id])
+
+  @@index([driverId], map: "idx_driver_documents_driver_id")
+  @@index([documentType], map: "idx_driver_documents_type")
+  @@map("driver_documents")
+}
+
+/// Screening question responses
+model ScreeningResponse {
+  id                String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  driverId          String   @map("driver_id") @db.Uuid
+  questionKey       String   @map("question_key")
+  questionText      String   @map("question_text")
+  response          String
+  scoreContribution Int      @default(0) @map("score_contribution")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  driver Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@map("screening_responses")
+}
+
+/// Audit trail for driver status changes
+model StatusHistory {
+  id         String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  driverId   String        @map("driver_id") @db.Uuid
+  fromStatus DriverStatus? @map("from_status")
+  toStatus   DriverStatus  @map("to_status")
+  changedById String?      @map("changed_by") @db.Uuid
+  notes      String?
+  changedAt  DateTime      @default(now()) @map("changed_at") @db.Timestamptz
+
+  // Relations
+  driver    Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  changedBy Profile? @relation("ChangedBy", fields: [changedById], references: [id])
+
+  @@index([driverId], map: "idx_status_history_driver_id")
+  @@index([changedAt(sort: Desc)], map: "idx_status_history_changed_at")
+  @@map("status_history")
+}
+
+/// Batch handovers to partners
+model Handover {
+  id            String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  scheduledDate DateTime       @map("scheduled_date") @db.Date
+  scheduledTime DateTime?      @map("scheduled_time") @db.Time
+  location      String?
+  driverIds     String[]       @default([]) @map("driver_ids") @db.Uuid
+  status        HandoverStatus @default(scheduled)
+  notes         String?
+  createdById   String?        @map("created_by") @db.Uuid
+  completedAt   DateTime?      @map("completed_at") @db.Timestamptz
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  createdBy Profile? @relation("CreatedBy", fields: [createdById], references: [id])
+
+  @@index([scheduledDate], map: "idx_handovers_scheduled_date")
+  @@index([status])
+  @@map("handovers")
+}

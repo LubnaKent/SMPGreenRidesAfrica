@@ -21,7 +21,7 @@ export default function LoginPage() {
 
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -29,6 +29,25 @@ export default function LoginPage() {
       if (error) {
         setError(error.message);
         return;
+      }
+
+      // Check if profile exists, create if not (fallback for existing users)
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("id", data.user.id)
+          .single();
+
+        if (!profile) {
+          // Create profile for existing user
+          await supabase.from("profiles").insert({
+            id: data.user.id,
+            email: data.user.email!,
+            name: data.user.user_metadata?.name || email.split("@")[0],
+            role: data.user.user_metadata?.role || "smp_agent",
+          });
+        }
       }
 
       router.push("/dashboard");

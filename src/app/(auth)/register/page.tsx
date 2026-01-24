@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bike, Eye, EyeOff } from "lucide-react";
+import { Bike, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
@@ -40,7 +40,7 @@ export default function RegisterPage() {
 
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -54,6 +54,24 @@ export default function RegisterPage() {
       if (error) {
         setError(error.message);
         return;
+      }
+
+      // Create profile in the database
+      if (data.user) {
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .insert({
+            id: data.user.id,
+            email: formData.email,
+            name: formData.name,
+            role: "smp_agent",
+          });
+
+        if (profileError) {
+          console.error("Profile creation error:", profileError);
+          // Don't block registration if profile creation fails
+          // Profile can be created on first login as fallback
+        }
       }
 
       // Redirect to verification message or dashboard
