@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle } from "lucide-react";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -46,90 +46,108 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-gray-50">
+    <section id="contact" className="py-24 lg:py-32 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
-          <span className="text-green-600 font-semibold text-sm uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#00D54B]/10 rounded-full text-[#00D54B] text-sm font-bold uppercase tracking-wider">
             Contact Us
           </span>
-          <h2 className="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">
-            Get in Touch
+          <h2 className="mt-6 text-4xl sm:text-5xl font-black text-gray-900">
+            Let&apos;s <span className="text-[#00D54B]">Connect</span>
           </h2>
-          <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+          <p className="mt-6 text-lg text-gray-600 leading-relaxed">
             Have questions about our services or want to become a partner? We&apos;d love to hear from you.
           </p>
         </div>
 
-        <div className="mt-16 grid lg:grid-cols-3 gap-12">
-          {/* Contact Info */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="flex items-start gap-4 p-5 bg-white rounded-xl border border-gray-100">
-              <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                <Mail className="h-6 w-6 text-green-600" />
+        <div className="mt-16 grid lg:grid-cols-3 gap-8">
+          {/* Contact Info Cards */}
+          <div className="space-y-6">
+            <div className="group flex items-start gap-5 p-6 bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 hover:shadow-xl hover:border-[#00D54B]/30 transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00D54B] to-[#00A038] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <Mail className="h-7 w-7 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Email</h3>
-                <p className="mt-1 text-gray-600">info@smpgreenrides.africa</p>
+                <h3 className="font-bold text-gray-900 text-lg">Email Us</h3>
+                <p className="mt-1 text-gray-500">We reply within 24 hours</p>
+                <a href="mailto:info@smpgreenrides.africa" className="mt-2 inline-block text-[#00D54B] font-semibold hover:underline">
+                  info@smpgreenrides.africa
+                </a>
               </div>
             </div>
 
-            <div className="flex items-start gap-4 p-5 bg-white rounded-xl border border-gray-100">
-              <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                <Phone className="h-6 w-6 text-green-600" />
+            <div className="group flex items-start gap-5 p-6 bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 hover:shadow-xl hover:border-[#00D54B]/30 transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <Phone className="h-7 w-7 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Phone</h3>
-                <p className="mt-1 text-gray-600">+256 700 000 000</p>
+                <h3 className="font-bold text-gray-900 text-lg">Call Us</h3>
+                <p className="mt-1 text-gray-500">Mon-Fri, 8am-6pm</p>
+                <a href="tel:+256700000000" className="mt-2 inline-block text-blue-600 font-semibold hover:underline">
+                  +256 700 000 000
+                </a>
               </div>
             </div>
 
-            <div className="flex items-start gap-4 p-5 bg-white rounded-xl border border-gray-100">
-              <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-                <MapPin className="h-6 w-6 text-green-600" />
+            <div className="group flex items-start gap-5 p-6 bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 hover:shadow-xl hover:border-[#00D54B]/30 transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                <MapPin className="h-7 w-7 text-white" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Location</h3>
-                <p className="mt-1 text-gray-600">Kampala, Uganda</p>
+                <h3 className="font-bold text-gray-900 text-lg">Visit Us</h3>
+                <p className="mt-1 text-gray-500">Come say hello</p>
+                <p className="mt-2 text-purple-600 font-semibold">Kampala, Uganda</p>
               </div>
             </div>
+
+            {/* WhatsApp Button */}
+            <a
+              href="https://wa.me/256700000000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-3 p-4 bg-[#25D366] text-white rounded-2xl font-bold hover:bg-[#20BD5A] transition-all hover:scale-105"
+            >
+              <MessageCircle className="h-6 w-6" />
+              Chat on WhatsApp
+            </a>
           </div>
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8">
+            <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 p-8 lg:p-10">
               {success ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
-                    <CheckCircle className="h-8 w-8 text-green-600" />
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="w-20 h-20 rounded-full bg-[#00D54B]/10 flex items-center justify-center mb-6">
+                    <CheckCircle className="h-10 w-10 text-[#00D54B]" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900">
+                  <h3 className="text-2xl font-bold text-gray-900">
                     Message Sent!
                   </h3>
-                  <p className="mt-2 text-gray-600">
-                    Thank you for reaching out. We&apos;ll get back to you soon.
+                  <p className="mt-3 text-gray-600 max-w-sm">
+                    Thank you for reaching out. We&apos;ll get back to you within 24 hours.
                   </p>
                   <button
                     type="button"
                     onClick={() => setSuccess(false)}
-                    className="mt-6 text-green-600 font-medium hover:text-green-700"
+                    className="mt-8 px-8 py-3 bg-[#00D54B] text-white font-bold rounded-full hover:bg-[#00C043] transition-all"
                   >
                     Send another message
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {error && (
-                    <div className="p-4 rounded-lg bg-red-50 text-red-600 text-sm">
+                    <div className="p-4 rounded-2xl bg-red-50 text-red-600 text-sm font-medium">
                       {error}
                     </div>
                   )}
 
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid sm:grid-cols-2 gap-6">
                     <div>
                       <label
                         htmlFor="name"
-                        className="block text-sm font-medium text-gray-700 mb-1.5"
+                        className="block text-sm font-bold text-gray-700 mb-2"
                       >
                         Full Name
                       </label>
@@ -140,14 +158,14 @@ export function Contact() {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full h-11 px-4 rounded-lg border border-gray-200 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                        className="w-full h-14 px-5 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none transition-colors"
                         placeholder="John Doe"
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700 mb-1.5"
+                        className="block text-sm font-bold text-gray-700 mb-2"
                       >
                         Email Address
                       </label>
@@ -158,7 +176,7 @@ export function Contact() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full h-11 px-4 rounded-lg border border-gray-200 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                        className="w-full h-14 px-5 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none transition-colors"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -167,7 +185,7 @@ export function Contact() {
                   <div>
                     <label
                       htmlFor="subject"
-                      className="block text-sm font-medium text-gray-700 mb-1.5"
+                      className="block text-sm font-bold text-gray-700 mb-2"
                     >
                       Subject
                     </label>
@@ -177,7 +195,7 @@ export function Contact() {
                       required
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full h-11 px-4 rounded-lg border border-gray-200 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none bg-white"
+                      className="w-full h-14 px-5 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none bg-white transition-colors"
                     >
                       <option value="">Select a subject</option>
                       <option value="partnership">Partnership Inquiry</option>
@@ -190,7 +208,7 @@ export function Contact() {
                   <div>
                     <label
                       htmlFor="message"
-                      className="block text-sm font-medium text-gray-700 mb-1.5"
+                      className="block text-sm font-bold text-gray-700 mb-2"
                     >
                       Message
                     </label>
@@ -201,7 +219,7 @@ export function Contact() {
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none resize-none"
+                      className="w-full px-5 py-4 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none resize-none transition-colors"
                       placeholder="Tell us how we can help..."
                     />
                   </div>
@@ -209,14 +227,14 @@ export function Contact() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-4 bg-[#00D54B] text-white font-bold text-lg rounded-full hover:bg-[#00C043] disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105 shadow-lg shadow-[#00D54B]/30"
                   >
                     {loading ? (
                       "Sending..."
                     ) : (
                       <>
                         Send Message
-                        <Send className="h-4 w-4" />
+                        <Send className="h-5 w-5" />
                       </>
                     )}
                   </button>
