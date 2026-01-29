@@ -556,6 +556,7 @@ export async function getAnalyticsData() {
     roadshow: 0,
     boda_stage: 0,
     whatsapp: 0,
+    online_application: 0,
     other: 0,
   };
 

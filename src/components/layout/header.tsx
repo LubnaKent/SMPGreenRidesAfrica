@@ -3,18 +3,11 @@
 import Link from "next/link";
 import { Bell, Search, Menu, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { useAuth } from "@/hooks/use-auth";
-import type { UserRole } from "@/types/database";
+import { useAuth, ROLE_LABELS } from "@/hooks/use-auth";
 
 interface HeaderProps {
   onMenuClick?: () => void;
 }
-
-const ROLE_LABELS: Record<UserRole, string> = {
-  smp_admin: "Administrator",
-  smp_agent: "SMP Agent",
-  partner: "Partner",
-};
 
 export function Header({ onMenuClick }: HeaderProps) {
   const [showUserMenu, setShowUserMenu] = useState(false);

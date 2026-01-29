@@ -18,6 +18,7 @@ const sourceLabels: Record<SourceChannel, string> = {
   roadshow: "Roadshow",
   boda_stage: "Boda Stage",
   whatsapp: "WhatsApp",
+  online_application: "Online Application",
   other: "Other",
 };
 
@@ -130,6 +131,7 @@ export function generateDriverSummary(drivers: Driver[]): DriverSummaryReport {
     roadshow: 0,
     boda_stage: 0,
     whatsapp: 0,
+    online_application: 0,
     other: 0,
   };
 

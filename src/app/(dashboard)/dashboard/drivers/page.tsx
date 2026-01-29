@@ -26,6 +26,7 @@ const sourceLabels: Record<SourceChannel, string> = {
   roadshow: "Roadshow",
   boda_stage: "Boda Stage",
   whatsapp: "WhatsApp",
+  online_application: "Online Application",
   other: "Other",
 };
 

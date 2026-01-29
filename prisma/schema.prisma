@@ -18,6 +18,8 @@ enum UserRole {
   smp_admin
   smp_agent
   partner
+  security_officer
+  driver
 
   @@map("user_role")
 }
@@ -39,6 +41,7 @@ enum SourceChannel {
   roadshow
   boda_stage
   whatsapp
+  online_application
   other
 
   @@map("source_channel")
@@ -61,6 +64,48 @@ enum HandoverStatus {
   @@map("handover_status")
 }
 
+enum AuditAction {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  VIEW_SENSITIVE
+  DECRYPT
+  EXPORT
+  LOGIN
+  LOGOUT
+  PERMISSION_DENIED
+
+  @@map("audit_action")
+}
+
+enum ApplicationStatus {
+  pending
+  under_review
+  approved
+  rejected
+  requires_info
+
+  @@map("application_status")
+}
+
+enum ThreadStatus {
+  open
+  closed
+  pending
+
+  @@map("thread_status")
+}
+
+enum EnrollmentStatus {
+  enrolled
+  attended
+  no_show
+  cancelled
+
+  @@map("enrollment_status")
+}
+
 // ============================================
 // MODELS
 // ============================================
@@ -77,10 +122,14 @@ model Profile {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   // Relations
-  assignedDrivers    Driver[]          @relation("AssignedAgent")
-  verifiedDocuments  DriverDocument[]  @relation("VerifiedBy")
-  statusChanges      StatusHistory[]   @relation("ChangedBy")
-  createdHandovers   Handover[]        @relation("CreatedBy")
+  assignedDrivers      Driver[]             @relation("AssignedAgent")
+  verifiedDocuments    DriverDocument[]     @relation("VerifiedBy")
+  statusChanges        StatusHistory[]      @relation("ChangedBy")
+  createdHandovers     Handover[]           @relation("CreatedBy")
+  auditLogs            AuditLog[]           @relation("AuditUser")
+  reviewedApplications DriverApplication[]  @relation("ReviewedBy")
+  assignedThreads      MessageThread[]      @relation("AssignedAgent")
+  createdTrainings     TrainingSession[]    @relation("CreatedBy")
 
   @@map("profiles")
 }
@@ -104,12 +153,16 @@ model Driver {
   updatedAt           DateTime      @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
 
   // Relations
-  referredBy          Driver?             @relation("DriverReferrals", fields: [referredById], references: [id])
-  referrals           Driver[]            @relation("DriverReferrals")
-  assignedAgent       Profile?            @relation("AssignedAgent", fields: [assignedAgentId], references: [id])
+  referredBy          Driver?              @relation("DriverReferrals", fields: [referredById], references: [id])
+  referrals           Driver[]             @relation("DriverReferrals")
+  assignedAgent       Profile?             @relation("AssignedAgent", fields: [assignedAgentId], references: [id])
   documents           DriverDocument[]
   screeningResponses  ScreeningResponse[]
   statusHistory       StatusHistory[]
+  sensitiveData       SensitiveData?
+  application         DriverApplication?
+  messageThreads      MessageThread[]
+  trainingEnrollments TrainingEnrollment[]
 
   @@index([status])
   @@index([sourceChannel], map: "idx_drivers_source_channel")
@@ -158,13 +211,13 @@ model ScreeningResponse {
 
 /// Audit trail for driver status changes
 model StatusHistory {
-  id         String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  driverId   String        @map("driver_id") @db.Uuid
-  fromStatus DriverStatus? @map("from_status")
-  toStatus   DriverStatus  @map("to_status")
-  changedById String?      @map("changed_by") @db.Uuid
-  notes      String?
-  changedAt  DateTime      @default(now()) @map("changed_at") @db.Timestamptz
+  id          String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  driverId    String        @map("driver_id") @db.Uuid
+  fromStatus  DriverStatus? @map("from_status")
+  toStatus    DriverStatus  @map("to_status")
+  changedById String?       @map("changed_by") @db.Uuid
+  notes       String?
+  changedAt   DateTime      @default(now()) @map("changed_at") @db.Timestamptz
 
   // Relations
   driver    Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
@@ -194,4 +247,218 @@ model Handover {
   @@index([scheduledDate], map: "idx_handovers_scheduled_date")
   @@index([status])
   @@map("handovers")
+}
+
+// ============================================
+// SECURITY & AUDIT MODELS
+// ============================================
+
+/// Encrypted sensitive data storage
+model SensitiveData {
+  id              String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  driverId        String   @unique @map("driver_id") @db.Uuid
+  nationalIdHash  String?  @map("national_id_hash")
+  nationalIdEnc   String?  @map("national_id_encrypted")
+  permitHash      String?  @map("permit_hash")
+  permitEnc       String?  @map("permit_encrypted")
+  phoneHash       String   @map("phone_hash")
+  phoneEnc        String   @map("phone_encrypted")
+  encryptionKeyId String   @map("encryption_key_id")
+  iv              String
+  authTag         String   @map("auth_tag")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  driver Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@index([nationalIdHash])
+  @@index([permitHash])
+  @@index([phoneHash])
+  @@map("sensitive_data")
+}
+
+/// Encryption key management
+model EncryptionKey {
+  id         String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  keyVersion Int       @unique @map("key_version")
+  isActive   Boolean   @default(true) @map("is_active")
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  rotatedAt  DateTime? @map("rotated_at") @db.Timestamptz
+
+  @@map("encryption_keys")
+}
+
+/// Comprehensive audit trail
+model AuditLog {
+  id           String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userId       String      @map("user_id") @db.Uuid
+  userRole     UserRole    @map("user_role")
+  action       AuditAction
+  resourceType String      @map("resource_type")
+  resourceId   String?     @map("resource_id") @db.Uuid
+  oldValue     Json?       @map("old_value")
+  newValue     Json?       @map("new_value")
+  ipAddress    String?     @map("ip_address")
+  userAgent    String?     @map("user_agent")
+  metadata     Json?
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  user Profile @relation("AuditUser", fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([resourceType, resourceId])
+  @@index([action])
+  @@index([createdAt(sort: Desc)])
+  @@map("audit_logs")
+}
+
+// ============================================
+// DRIVER APPLICATION MODELS
+// ============================================
+
+/// Self-service driver applications
+model DriverApplication {
+  id            String            @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email         String            @unique
+  phone         String
+  firstName     String            @map("first_name")
+  lastName      String            @map("last_name")
+  location      String?
+  sourceChannel SourceChannel     @default(online_application) @map("source_channel")
+  status        ApplicationStatus @default(pending)
+  driverId      String?           @unique @map("driver_id") @db.Uuid
+  notes         String?
+  submittedAt   DateTime          @default(now()) @map("submitted_at") @db.Timestamptz
+  reviewedAt    DateTime?         @map("reviewed_at") @db.Timestamptz
+  reviewedById  String?           @map("reviewed_by") @db.Uuid
+  createdAt     DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime          @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  driver           Driver?                  @relation(fields: [driverId], references: [id])
+  reviewedBy       Profile?                 @relation("ReviewedBy", fields: [reviewedById], references: [id])
+  documents        ApplicationDocument[]
+  screeningData    ApplicationScreening[]
+
+  @@index([status])
+  @@index([email])
+  @@index([phone])
+  @@map("driver_applications")
+}
+
+/// Documents uploaded with applications
+model ApplicationDocument {
+  id            String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  applicationId String       @map("application_id") @db.Uuid
+  documentType  DocumentType @map("document_type")
+  fileUrl       String       @map("file_url")
+  fileName      String?      @map("file_name")
+  verified      Boolean      @default(false)
+  uploadedAt    DateTime     @default(now()) @map("uploaded_at") @db.Timestamptz
+
+  // Relations
+  application DriverApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("application_documents")
+}
+
+/// Self-service screening responses
+model ApplicationScreening {
+  id                String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  applicationId     String   @map("application_id") @db.Uuid
+  questionKey       String   @map("question_key")
+  questionText      String   @map("question_text")
+  response          String
+  scoreContribution Int      @default(0) @map("score_contribution")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  application DriverApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("application_screening")
+}
+
+// ============================================
+// MESSAGING MODELS
+// ============================================
+
+/// Message threads for conversations
+model MessageThread {
+  id        String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  driverId  String       @map("driver_id") @db.Uuid
+  agentId   String?      @map("agent_id") @db.Uuid
+  subject   String?
+  status    ThreadStatus @default(open)
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  // Relations
+  driver   Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  agent    Profile? @relation("AssignedAgent", fields: [agentId], references: [id])
+  messages Message[]
+
+  @@index([driverId])
+  @@index([agentId])
+  @@map("message_threads")
+}
+
+/// Messages between drivers and agents
+model Message {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  threadId   String   @map("thread_id") @db.Uuid
+  senderId   String   @map("sender_id") @db.Uuid
+  senderRole UserRole @map("sender_role")
+  content    String
+  isRead     Boolean  @default(false) @map("is_read")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  thread MessageThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@index([threadId])
+  @@index([senderId])
+  @@map("messages")
+}
+
+// ============================================
+// TRAINING MODELS
+// ============================================
+
+/// Training sessions for drivers
+model TrainingSession {
+  id            String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title         String
+  description   String?
+  scheduledDate DateTime  @map("scheduled_date") @db.Date
+  scheduledTime DateTime? @map("scheduled_time") @db.Time
+  location      String?
+  maxCapacity   Int       @default(20) @map("max_capacity")
+  createdById   String?   @map("created_by") @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  // Relations
+  createdBy   Profile?             @relation("CreatedBy", fields: [createdById], references: [id])
+  enrollments TrainingEnrollment[]
+
+  @@index([scheduledDate])
+  @@map("training_sessions")
+}
+
+/// Driver enrollments in training
+model TrainingEnrollment {
+  id         String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  sessionId  String           @map("session_id") @db.Uuid
+  driverId   String           @map("driver_id") @db.Uuid
+  status     EnrollmentStatus @default(enrolled)
+  enrolledAt DateTime         @default(now()) @map("enrolled_at") @db.Timestamptz
+  attendedAt DateTime?        @map("attended_at") @db.Timestamptz
+
+  // Relations
+  session TrainingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  driver  Driver          @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, driverId])
+  @@map("training_enrollments")
 }
