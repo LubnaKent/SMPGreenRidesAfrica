@@ -1,190 +1,187 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, Play, Star } from "lucide-react";
+import { ArrowRight, Zap, Shield, Clock, ChevronDown } from "lucide-react";
 
 export function Hero() {
-  return (
-    <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-white">
-      {/* Background Decorations */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-[#00D54B]/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-[#00D54B]/10 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
+  const scrollToAbout = () => {
+    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+  };
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          {/* Text Content */}
+  return (
+    <section id="home" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0">
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-green-800 to-teal-900" />
+
+        {/* Animated mesh gradient overlay */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 -left-40 w-80 h-80 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
+          <div className="absolute top-0 -right-40 w-80 h-80 bg-emerald-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
+          <div className="absolute -bottom-40 left-20 w-80 h-80 bg-teal-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000" />
+        </div>
+
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }} />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Content */}
           <div className="text-center lg:text-left">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#00D54B]/10 rounded-full text-[#00D54B] text-sm font-semibold mb-6">
-              <Star className="h-4 w-4 fill-[#00D54B]" />
-              <span>#1 Driver Partner Platform in Africa</span>
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-emerald-300 text-sm font-medium mb-8 border border-white/10">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              Now Onboarding Drivers in 5 Cities
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-[1.1]">
-              Ride with{" "}
-              <span className="text-[#00D54B]">Green</span>{" "}
-              <br className="hidden sm:block" />
-              Rides Africa
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-[0.95] tracking-tight">
+              Power the
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400">
+                Green Revolution
+              </span>
+              on Two Wheels
             </h1>
 
-            <p className="mt-6 text-lg sm:text-xl text-gray-600 leading-relaxed max-w-xl">
-              Join thousands of drivers earning with eco-friendly rides. Quick onboarding, great earnings, and a greener future.
+            <p className="mt-8 text-lg sm:text-xl text-emerald-100/80 leading-relaxed max-w-xl">
+              Join Africa&apos;s fastest-growing eco-mobility network. Get trained, get certified, and start earning with sustainable transportation.
             </p>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#00D54B] text-white font-bold text-lg rounded-full hover:bg-[#00C043] transition-all hover:scale-105 shadow-lg shadow-[#00D54B]/30"
+                className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-emerald-900 font-bold text-lg rounded-2xl hover:bg-emerald-50 transition-all shadow-2xl shadow-black/20"
               >
-                Become a Driver
-                <ArrowRight className="h-5 w-5" />
+                Start Your Journey
+                <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <a
-                href="#how-it-works"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-100 text-gray-800 font-bold text-lg rounded-full hover:bg-gray-200 transition-all"
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold text-lg rounded-2xl hover:bg-white/20 transition-all border border-white/20"
               >
-                <Play className="h-5 w-5 fill-gray-800" />
-                How It Works
-              </a>
+                Partner Login
+              </Link>
             </div>
 
-            {/* Trust Badges */}
-            <div className="mt-10 flex flex-wrap items-center gap-8 justify-center lg:justify-start">
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00D54B] to-[#00A038] border-2 border-white flex items-center justify-center text-white text-xs font-bold"
-                    >
-                      {String.fromCharCode(64 + i)}
-                    </div>
-                  ))}
+            {/* Quick Stats */}
+            <div className="mt-12 grid grid-cols-3 gap-6">
+              {[
+                { value: "2,500+", label: "Certified Drivers" },
+                { value: "50+", label: "Fleet Partners" },
+                { value: "98%", label: "Success Rate" },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center lg:text-left">
+                  <p className="text-2xl sm:text-3xl font-black text-white">{stat.value}</p>
+                  <p className="text-sm text-emerald-300/70">{stat.label}</p>
                 </div>
-                <div className="text-sm">
-                  <p className="font-bold text-gray-900">2,500+</p>
-                  <p className="text-gray-500">Active Drivers</p>
-                </div>
-              </div>
-              <div className="h-10 w-px bg-gray-200 hidden sm:block" />
-              <div className="text-sm">
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <p className="text-gray-500 mt-1">4.9 Rating</p>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Hero Illustration */}
-          <div className="relative hidden lg:block">
-            {/* Main Rider Illustration */}
-            <div className="relative z-10">
-              <svg viewBox="0 0 500 500" className="w-full h-auto">
-                {/* Background Circle */}
-                <circle cx="250" cy="250" r="200" fill="#00D54B" fillOpacity="0.1" />
-                <circle cx="250" cy="250" r="150" fill="#00D54B" fillOpacity="0.1" />
+          {/* Right Content - Creative Visual */}
+          <div className="hidden lg:block relative">
+            {/* Main visual container */}
+            <div className="relative w-full aspect-square max-w-lg mx-auto">
+              {/* Outer ring */}
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-white/20 animate-spin-slow" />
 
-                {/* Motorcycle Rider Illustration */}
-                <g transform="translate(100, 120)">
-                  {/* Wheel Back */}
-                  <circle cx="50" cy="200" r="45" fill="#333" />
-                  <circle cx="50" cy="200" r="35" fill="#555" />
-                  <circle cx="50" cy="200" r="20" fill="#333" />
-                  <circle cx="50" cy="200" r="8" fill="#888" />
+              {/* Middle ring */}
+              <div className="absolute inset-8 rounded-full border border-white/10" />
 
-                  {/* Wheel Front */}
-                  <circle cx="250" cy="200" r="45" fill="#333" />
-                  <circle cx="250" cy="200" r="35" fill="#555" />
-                  <circle cx="250" cy="200" r="20" fill="#333" />
-                  <circle cx="250" cy="200" r="8" fill="#888" />
-
-                  {/* Body Frame */}
-                  <path d="M50 200 L100 140 L200 130 L250 200" stroke="#00D54B" strokeWidth="8" fill="none" />
-                  <path d="M100 140 L120 80 L180 80 L200 130" fill="#00D54B" />
-
-                  {/* Seat */}
-                  <ellipse cx="130" cy="90" rx="40" ry="15" fill="#333" />
-
-                  {/* Handlebars */}
-                  <path d="M200 130 L220 100 L240 90" stroke="#333" strokeWidth="6" fill="none" />
-                  <circle cx="240" cy="90" r="8" fill="#555" />
-
-                  {/* Rider Body */}
-                  <ellipse cx="140" cy="50" rx="25" ry="30" fill="#00D54B" /> {/* Torso */}
-                  <circle cx="140" cy="10" r="20" fill="#FFD5B5" /> {/* Head */}
-
-                  {/* Helmet */}
-                  <path d="M120 10 Q140 -15 160 10 Q165 20 160 25 L120 25 Q115 20 120 10" fill="#00D54B" />
-                  <rect x="125" y="5" width="30" height="8" rx="2" fill="#333" opacity="0.5" /> {/* Visor */}
-
-                  {/* Arms */}
-                  <path d="M155 40 Q180 60 210 95" stroke="#FFD5B5" strokeWidth="12" fill="none" strokeLinecap="round" />
-                  <path d="M125 40 Q110 70 100 120" stroke="#FFD5B5" strokeWidth="12" fill="none" strokeLinecap="round" />
-
-                  {/* Legs */}
-                  <path d="M130 75 Q100 120 80 170" stroke="#1a365d" strokeWidth="14" fill="none" strokeLinecap="round" />
-                  <path d="M150 75 Q180 120 200 150" stroke="#1a365d" strokeWidth="14" fill="none" strokeLinecap="round" />
-
-                  {/* Delivery Box */}
-                  <rect x="60" y="45" width="50" height="40" rx="5" fill="#00D54B" />
-                  <text x="85" y="72" fontSize="14" fill="white" textAnchor="middle" fontWeight="bold">SMP</text>
-                </g>
-
-                {/* Floating Elements */}
-                <circle cx="400" cy="100" r="30" fill="#00D54B" fillOpacity="0.2" />
-                <circle cx="80" cy="150" r="20" fill="#00D54B" fillOpacity="0.2" />
-                <circle cx="420" cy="350" r="25" fill="#00D54B" fillOpacity="0.2" />
-              </svg>
-            </div>
-
-            {/* Floating Stats Cards */}
-            <div className="absolute top-10 right-0 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 animate-bounce" style={{ animationDuration: '3s' }}>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-[#00D54B] flex items-center justify-center">
-                  <span className="text-2xl">🏍️</span>
-                </div>
-                <div>
-                  <p className="text-2xl font-black text-gray-900">5K+</p>
-                  <p className="text-sm text-gray-500">Daily Rides</p>
+              {/* Center content */}
+              <div className="absolute inset-16 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-xl border border-white/10 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-6xl mb-2">🌍</div>
+                  <p className="text-white font-bold text-lg">Africa&apos;s Future</p>
+                  <p className="text-emerald-300 text-sm">Moves Green</p>
                 </div>
               </div>
-            </div>
 
-            <div className="absolute bottom-20 left-0 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-                  <span className="text-2xl">💰</span>
-                </div>
-                <div>
-                  <p className="text-2xl font-black text-gray-900">UGX 50K+</p>
-                  <p className="text-sm text-gray-500">Avg. Daily Earnings</p>
+              {/* Floating cards */}
+              <div className="absolute -top-4 right-10 bg-white rounded-2xl p-4 shadow-2xl animate-float">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center">
+                    <Zap className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">Fast Onboarding</p>
+                    <p className="text-sm text-gray-500">48hr approval</p>
+                  </div>
                 </div>
               </div>
+
+              <div className="absolute top-1/3 -left-8 bg-white rounded-2xl p-4 shadow-2xl animate-float animation-delay-1000">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                    <Shield className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">Fully Insured</p>
+                    <p className="text-sm text-gray-500">Ride protected</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute -bottom-4 right-1/4 bg-white rounded-2xl p-4 shadow-2xl animate-float animation-delay-2000">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
+                    <Clock className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900">Flexible Hours</p>
+                    <p className="text-sm text-gray-500">You decide</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Decorative dots */}
+              <div className="absolute top-1/2 -right-4 w-3 h-3 rounded-full bg-emerald-400" />
+              <div className="absolute bottom-1/4 -left-2 w-2 h-2 rounded-full bg-teal-400" />
+              <div className="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-yellow-400" />
             </div>
           </div>
         </div>
 
-        {/* Mobile Stats */}
-        <div className="grid grid-cols-3 gap-4 mt-12 lg:hidden">
-          <div className="bg-[#00D54B]/10 rounded-2xl p-4 text-center">
-            <p className="text-2xl font-black text-[#00D54B]">2,500+</p>
-            <p className="text-xs text-gray-600 font-medium">Drivers</p>
-          </div>
-          <div className="bg-[#00D54B]/10 rounded-2xl p-4 text-center">
-            <p className="text-2xl font-black text-[#00D54B]">50+</p>
-            <p className="text-xs text-gray-600 font-medium">Partners</p>
-          </div>
-          <div className="bg-[#00D54B]/10 rounded-2xl p-4 text-center">
-            <p className="text-2xl font-black text-[#00D54B]">5</p>
-            <p className="text-xs text-gray-600 font-medium">Cities</p>
-          </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2">
+          <span className="text-emerald-300/50 text-sm">Scroll to explore</span>
+          <button onClick={scrollToAbout} className="animate-bounce">
+            <ChevronDown className="h-6 w-6 text-emerald-300/50" />
+          </button>
         </div>
       </div>
+
+      {/* Custom styles for animations */}
+      <style jsx>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(20px, -30px) scale(1.1); }
+          50% { transform: translate(-20px, 20px) scale(0.9); }
+          75% { transform: translate(30px, 10px) scale(1.05); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .animate-blob { animation: blob 8s infinite; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-spin-slow { animation: spin-slow 30s linear infinite; }
+        .animation-delay-1000 { animation-delay: 1s; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+      `}</style>
     </section>
   );
 }

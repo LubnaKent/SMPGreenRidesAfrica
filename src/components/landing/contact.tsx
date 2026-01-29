@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle, Clock, Users } from "lucide-react";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -45,81 +45,119 @@ export function Contact() {
     }
   };
 
+  const contactMethods = [
+    {
+      icon: Mail,
+      title: "Email Us",
+      subtitle: "We reply within 24 hours",
+      value: "info@smpgreenrides.africa",
+      href: "mailto:info@smpgreenrides.africa",
+      color: "from-emerald-500 to-teal-600",
+    },
+    {
+      icon: Phone,
+      title: "Call Us",
+      subtitle: "Mon-Fri, 8am-6pm EAT",
+      value: "+256 700 000 000",
+      href: "tel:+256700000000",
+      color: "from-blue-500 to-indigo-600",
+    },
+    {
+      icon: MapPin,
+      title: "Visit Us",
+      subtitle: "Come say hello",
+      value: "Kampala, Uganda",
+      href: null,
+      color: "from-violet-500 to-purple-600",
+    },
+  ];
+
   return (
-    <section id="contact" className="py-24 lg:py-32 bg-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-24 lg:py-32 bg-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-emerald-50 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-teal-100 rounded-full blur-3xl opacity-30" />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#00D54B]/10 rounded-full text-[#00D54B] text-sm font-bold uppercase tracking-wider">
-            Contact Us
+        <div className="max-w-2xl">
+          <span className="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full mb-4">
+            Get in Touch
           </span>
-          <h2 className="mt-6 text-4xl sm:text-5xl font-black text-gray-900">
-            Let&apos;s <span className="text-[#00D54B]">Connect</span>
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 leading-tight">
+            Let&apos;s Start a
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
+              Conversation
+            </span>
           </h2>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
             Have questions about our services or want to become a partner? We&apos;d love to hear from you.
           </p>
         </div>
 
-        <div className="mt-16 grid lg:grid-cols-3 gap-8">
-          {/* Contact Info Cards */}
-          <div className="space-y-6">
-            <div className="group flex items-start gap-5 p-6 bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 hover:shadow-xl hover:border-[#00D54B]/30 transition-all duration-300">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00D54B] to-[#00A038] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Mail className="h-7 w-7 text-white" />
+        <div className="mt-16 grid lg:grid-cols-5 gap-12">
+          {/* Left side - Contact methods and quick info */}
+          <div className="lg:col-span-2 space-y-6">
+            {contactMethods.map((method) => (
+              <div
+                key={method.title}
+                className="group flex items-start gap-4 p-5 bg-white rounded-2xl border border-gray-100 hover:border-emerald-200 hover:shadow-lg transition-all duration-300"
+              >
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${method.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                  <method.icon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900">{method.title}</h3>
+                  <p className="text-sm text-gray-500">{method.subtitle}</p>
+                  {method.href ? (
+                    <a href={method.href} className="mt-1 inline-block text-emerald-600 font-semibold hover:underline">
+                      {method.value}
+                    </a>
+                  ) : (
+                    <p className="mt-1 text-emerald-600 font-semibold">{method.value}</p>
+                  )}
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">Email Us</h3>
-                <p className="mt-1 text-gray-500">We reply within 24 hours</p>
-                <a href="mailto:info@smpgreenrides.africa" className="mt-2 inline-block text-[#00D54B] font-semibold hover:underline">
-                  info@smpgreenrides.africa
-                </a>
-              </div>
-            </div>
+            ))}
 
-            <div className="group flex items-start gap-5 p-6 bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 hover:shadow-xl hover:border-[#00D54B]/30 transition-all duration-300">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Phone className="h-7 w-7 text-white" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">Call Us</h3>
-                <p className="mt-1 text-gray-500">Mon-Fri, 8am-6pm</p>
-                <a href="tel:+256700000000" className="mt-2 inline-block text-blue-600 font-semibold hover:underline">
-                  +256 700 000 000
-                </a>
-              </div>
-            </div>
-
-            <div className="group flex items-start gap-5 p-6 bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 hover:shadow-xl hover:border-[#00D54B]/30 transition-all duration-300">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <MapPin className="h-7 w-7 text-white" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-lg">Visit Us</h3>
-                <p className="mt-1 text-gray-500">Come say hello</p>
-                <p className="mt-2 text-purple-600 font-semibold">Kampala, Uganda</p>
-              </div>
-            </div>
-
-            {/* WhatsApp Button */}
+            {/* WhatsApp CTA */}
             <a
               href="https://wa.me/256700000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 p-4 bg-[#25D366] text-white rounded-2xl font-bold hover:bg-[#20BD5A] transition-all hover:scale-105"
+              className="flex items-center justify-center gap-3 p-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-green-500/25 transition-all group"
             >
-              <MessageCircle className="h-6 w-6" />
+              <MessageCircle className="h-5 w-5 group-hover:scale-110 transition-transform" />
               Chat on WhatsApp
             </a>
+
+            {/* Quick stats */}
+            <div className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl">
+              <p className="text-emerald-400 text-sm font-bold uppercase tracking-wider mb-4">Why Contact Us?</p>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-white">
+                  <Clock className="h-5 w-5 text-emerald-400" />
+                  <span className="text-sm">Average response time: 4 hours</span>
+                </div>
+                <div className="flex items-center gap-3 text-white">
+                  <Users className="h-5 w-5 text-emerald-400" />
+                  <span className="text-sm">Dedicated support team</span>
+                </div>
+                <div className="flex items-center gap-3 text-white">
+                  <CheckCircle className="h-5 w-5 text-emerald-400" />
+                  <span className="text-sm">98% satisfaction rate</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
+          {/* Right side - Contact Form */}
+          <div className="lg:col-span-3">
             <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 p-8 lg:p-10">
               {success ? (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="w-20 h-20 rounded-full bg-[#00D54B]/10 flex items-center justify-center mb-6">
-                    <CheckCircle className="h-10 w-10 text-[#00D54B]" />
+                  <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mb-6">
+                    <CheckCircle className="h-10 w-10 text-emerald-600" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900">
                     Message Sent!
@@ -130,7 +168,7 @@ export function Contact() {
                   <button
                     type="button"
                     onClick={() => setSuccess(false)}
-                    className="mt-8 px-8 py-3 bg-[#00D54B] text-white font-bold rounded-full hover:bg-[#00C043] transition-all"
+                    className="mt-8 px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
                   >
                     Send another message
                   </button>
@@ -138,7 +176,7 @@ export function Contact() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {error && (
-                    <div className="p-4 rounded-2xl bg-red-50 text-red-600 text-sm font-medium">
+                    <div className="p-4 rounded-xl bg-red-50 text-red-600 text-sm font-medium border border-red-100">
                       {error}
                     </div>
                   )}
@@ -158,7 +196,7 @@ export function Contact() {
                         required
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full h-14 px-5 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none transition-colors"
+                        className="w-full h-14 px-5 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none transition-colors"
                         placeholder="John Doe"
                       />
                     </div>
@@ -176,7 +214,7 @@ export function Contact() {
                         required
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full h-14 px-5 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none transition-colors"
+                        className="w-full h-14 px-5 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none transition-colors"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -195,7 +233,7 @@ export function Contact() {
                       required
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full h-14 px-5 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none bg-white transition-colors"
+                      className="w-full h-14 px-5 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none bg-white transition-colors"
                     >
                       <option value="">Select a subject</option>
                       <option value="partnership">Partnership Inquiry</option>
@@ -219,7 +257,7 @@ export function Contact() {
                       rows={5}
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full px-5 py-4 rounded-2xl border-2 border-gray-200 text-base focus:border-[#00D54B] focus:ring-0 focus:outline-none resize-none transition-colors"
+                      className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none resize-none transition-colors"
                       placeholder="Tell us how we can help..."
                     />
                   </div>
@@ -227,7 +265,7 @@ export function Contact() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-4 bg-[#00D54B] text-white font-bold text-lg rounded-full hover:bg-[#00C043] disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:scale-105 shadow-lg shadow-[#00D54B]/30"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     {loading ? (
                       "Sending..."

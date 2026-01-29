@@ -1,123 +1,121 @@
-import { Users, Handshake, Leaf, Truck, GraduationCap, Shield, ArrowRight } from "lucide-react";
+"use client";
+
+import { Users, Handshake, Leaf, Truck, GraduationCap, Shield, ArrowUpRight } from "lucide-react";
 
 const services = [
   {
     icon: Users,
     title: "Driver Acquisition",
-    description: "We source and vet qualified drivers from diverse backgrounds, ensuring a steady pipeline of skilled candidates.",
-    color: "from-[#00D54B] to-[#00A038]",
+    description: "Strategic sourcing and vetting of qualified drivers from diverse backgrounds across Africa.",
+    accent: "emerald",
   },
   {
     icon: GraduationCap,
-    title: "Training Programs",
-    description: "Comprehensive training covering safe driving practices, customer service, and e-vehicle operation.",
-    color: "from-blue-500 to-blue-600",
+    title: "Certification Programs",
+    description: "Industry-recognized training covering safety, customer service, and e-vehicle operation.",
+    accent: "blue",
   },
   {
     icon: Handshake,
     title: "Fleet Partnerships",
-    description: "Connect with leading e-mobility companies looking for trained drivers. Perfect matching guaranteed.",
-    color: "from-purple-500 to-purple-600",
+    description: "Direct connections with leading mobility companies seeking trained professionals.",
+    accent: "violet",
   },
   {
     icon: Leaf,
-    title: "Green Mobility",
-    description: "Supporting the transition to sustainable transportation with a workforce dedicated to eco-friendly vehicles.",
-    color: "from-[#00D54B] to-[#00A038]",
+    title: "Sustainability Focus",
+    description: "Building a workforce dedicated to electric and eco-friendly transportation solutions.",
+    accent: "teal",
   },
   {
     icon: Truck,
-    title: "Last-Mile Delivery",
-    description: "Trained delivery riders for e-commerce and logistics partners, optimizing last-mile with green transport.",
-    color: "from-orange-500 to-orange-600",
+    title: "Logistics Training",
+    description: "Specialized programs for last-mile delivery and e-commerce logistics operations.",
+    accent: "amber",
   },
   {
     icon: Shield,
-    title: "Quality Assurance",
-    description: "Rigorous screening and ongoing support ensure our drivers meet the highest standards of professionalism.",
-    color: "from-red-500 to-red-600",
+    title: "Quality Standards",
+    description: "Rigorous screening ensuring drivers meet the highest professional standards.",
+    accent: "rose",
   },
 ];
 
+const accentStyles: Record<string, { bg: string; text: string; border: string }> = {
+  emerald: { bg: "bg-emerald-500", text: "text-emerald-600", border: "border-emerald-200" },
+  blue: { bg: "bg-blue-500", text: "text-blue-600", border: "border-blue-200" },
+  violet: { bg: "bg-violet-500", text: "text-violet-600", border: "border-violet-200" },
+  teal: { bg: "bg-teal-500", text: "text-teal-600", border: "border-teal-200" },
+  amber: { bg: "bg-amber-500", text: "text-amber-600", border: "border-amber-200" },
+  rose: { bg: "bg-rose-500", text: "text-rose-600", border: "border-rose-200" },
+};
+
 export function Services() {
   return (
-    <section id="services" className="py-24 lg:py-32 bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="services" className="py-24 lg:py-32 bg-gray-50 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-emerald-100/50 to-transparent rounded-bl-full" />
+      <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-gradient-to-tr from-teal-100/50 to-transparent rounded-tr-full" />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#00D54B]/10 rounded-full text-[#00D54B] text-sm font-bold uppercase tracking-wider">
-            What We Offer
+        <div className="max-w-2xl">
+          <span className="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full mb-4">
+            What We Do
           </span>
-          <h2 className="mt-6 text-4xl sm:text-5xl font-black text-gray-900">
-            Complete Mobility Solutions
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 leading-tight">
+            End-to-End Driver
+            <span className="block text-emerald-600">Solutions</span>
           </h2>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-            From sourcing to training to placement, we provide end-to-end services that power Africa&apos;s green transportation ecosystem.
+            From recruitment to deployment, we handle every step of building your mobility workforce.
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <div
-              key={service.title}
-              className="group relative bg-white rounded-3xl p-8 hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-transparent overflow-hidden"
-            >
-              {/* Hover Background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-              {/* Content */}
-              <div className="relative z-10">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center group-hover:bg-white/20 transition-colors duration-500`}>
-                  <service.icon className="h-8 w-8 text-white" />
+        {/* Services Grid - Bento style */}
+        <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, index) => {
+            const styles = accentStyles[service.accent];
+            return (
+              <div
+                key={service.title}
+                className={`group relative bg-white rounded-3xl p-8 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-300 ${
+                  index === 0 ? "md:col-span-2 lg:col-span-1" : ""
+                }`}
+              >
+                {/* Icon */}
+                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl ${styles.bg}`}>
+                  <service.icon className="h-7 w-7 text-white" />
                 </div>
 
-                <h3 className="mt-6 text-xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500">
+                {/* Content */}
+                <h3 className="mt-6 text-xl font-bold text-gray-900 group-hover:text-emerald-600 transition-colors">
                   {service.title}
                 </h3>
-
-                <p className="mt-3 text-gray-600 leading-relaxed group-hover:text-white/90 transition-colors duration-500">
+                <p className="mt-3 text-gray-600 leading-relaxed">
                   {service.description}
                 </p>
 
-                <div className="mt-6 flex items-center gap-2 text-[#00D54B] font-semibold group-hover:text-white transition-colors duration-500">
-                  <span>Learn more</span>
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                {/* Hover arrow */}
+                <div className="absolute top-8 right-8 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className={`h-5 w-5 ${styles.text}`} />
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* CTA Banner */}
-        <div className="mt-20 relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#00D54B] to-[#00A038] p-8 lg:p-12">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <defs>
-                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                  <circle cx="1" cy="1" r="1" fill="white" />
-                </pattern>
-              </defs>
-              <rect width="100" height="100" fill="url(#grid)" />
-            </svg>
-          </div>
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="text-center lg:text-left">
-              <h3 className="text-2xl lg:text-3xl font-black text-white">
-                Ready to start earning?
-              </h3>
-              <p className="mt-2 text-white/80 text-lg">
-                Join thousands of drivers already on the platform
-              </p>
-            </div>
+        {/* Bottom CTA */}
+        <div className="mt-20 text-center">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-2 bg-white rounded-2xl shadow-lg border border-gray-100">
+            <p className="px-4 text-gray-600">
+              Ready to scale your fleet with qualified drivers?
+            </p>
             <a
-              href="/register"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#00D54B] font-bold text-lg rounded-full hover:bg-gray-100 transition-all hover:scale-105 shadow-lg"
+              href="#contact"
+              className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
             >
-              Get Started Now
-              <ArrowRight className="h-5 w-5" />
+              Partner With Us
             </a>
           </div>
         </div>

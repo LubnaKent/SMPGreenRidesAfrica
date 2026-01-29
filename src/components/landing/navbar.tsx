@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Leaf } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Services", href: "#services" },
-  { name: "How It Works", href: "#how-it-works" },
+  { name: "Process", href: "#how-it-works" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -18,7 +18,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -34,52 +34,73 @@ export function Navbar() {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-white shadow-lg" : "bg-transparent"
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      scrolled
+        ? "bg-white/95 backdrop-blur-md shadow-lg shadow-black/5"
+        : "bg-transparent"
     }`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#00D54B]">
-              <svg viewBox="0 0 24 24" className="h-7 w-7 text-white" fill="currentColor">
-                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9H15V22H13V16H11V22H9V9H3V7H21V9Z" />
-              </svg>
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className={`flex h-11 w-11 items-center justify-center rounded-xl transition-all duration-300 ${
+              scrolled
+                ? "bg-gradient-to-br from-emerald-600 to-green-700"
+                : "bg-white/10 backdrop-blur-sm border border-white/20"
+            }`}>
+              <Leaf className={`h-6 w-6 transition-colors ${scrolled ? "text-white" : "text-white"}`} />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-black text-gray-900">SMP Green Rides</span>
-              <span className="text-xs font-semibold text-[#00D54B] -mt-0.5">AFRICA</span>
+              <span className={`text-lg font-black transition-colors ${scrolled ? "text-gray-900" : "text-white"}`}>
+                SMP Green Rides
+              </span>
+              <span className={`text-[10px] font-bold uppercase tracking-widest -mt-0.5 ${
+                scrolled ? "text-emerald-600" : "text-emerald-300"
+              }`}>
+                Africa
+              </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => scrollToSection(e, link.href)}
-                className="text-sm font-semibold text-gray-700 hover:text-[#00D54B] transition-colors relative group"
+                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all ${
+                  scrolled
+                    ? "text-gray-600 hover:text-emerald-600 hover:bg-emerald-50"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#00D54B] transition-all group-hover:w-full" />
               </a>
             ))}
           </div>
 
           {/* Desktop CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/login"
-              className="px-6 py-2.5 text-sm font-bold text-gray-700 hover:text-[#00D54B] transition-colors"
+              className={`px-5 py-2.5 text-sm font-bold rounded-xl transition-all ${
+                scrolled
+                  ? "text-gray-700 hover:text-emerald-600"
+                  : "text-white hover:bg-white/10"
+              }`}
             >
-              Login
+              Sign In
             </Link>
             <Link
               href="/register"
-              className="px-6 py-2.5 text-sm font-bold text-white bg-[#00D54B] rounded-full hover:bg-[#00C043] transition-all hover:scale-105 shadow-md shadow-[#00D54B]/20"
+              className={`px-5 py-2.5 text-sm font-bold rounded-xl transition-all ${
+                scrolled
+                  ? "bg-gradient-to-r from-emerald-600 to-green-600 text-white hover:shadow-lg hover:shadow-emerald-500/25"
+                  : "bg-white text-emerald-900 hover:bg-emerald-50"
+              }`}
             >
-              Get Started
+              Become a Driver
             </Link>
           </div>
 
@@ -87,49 +108,51 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2.5 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+            className={`lg:hidden p-2.5 rounded-xl transition-colors ${
+              scrolled
+                ? "bg-gray-100 text-gray-700"
+                : "bg-white/10 text-white"
+            }`}
           >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 shadow-lg">
-          <div className="px-4 py-6 space-y-2">
+      <div className={`lg:hidden transition-all duration-300 overflow-hidden ${
+        mobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+      }`}>
+        <div className="bg-white border-t border-gray-100 shadow-xl">
+          <div className="px-4 py-6 space-y-1">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => scrollToSection(e, link.href)}
-                className="block py-3 px-4 text-base font-semibold text-gray-700 hover:text-[#00D54B] hover:bg-[#00D54B]/5 rounded-xl transition-colors"
+                className="block py-3 px-4 text-base font-semibold text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"
               >
                 {link.name}
               </a>
             ))}
             <hr className="my-4 border-gray-100" />
-            <div className="flex flex-col gap-3 pt-2">
+            <div className="grid grid-cols-2 gap-3 pt-2">
               <Link
                 href="/login"
-                className="w-full py-3.5 text-center text-base font-bold text-gray-700 border-2 border-gray-200 rounded-full hover:border-[#00D54B] hover:text-[#00D54B] transition-colors"
+                className="py-3 text-center text-base font-bold text-gray-700 border-2 border-gray-200 rounded-xl hover:border-emerald-500 hover:text-emerald-600 transition-colors"
               >
-                Login
+                Sign In
               </Link>
               <Link
                 href="/register"
-                className="w-full py-3.5 text-center text-base font-bold text-white bg-[#00D54B] rounded-full hover:bg-[#00C043] transition-colors"
+                className="py-3 text-center text-base font-bold text-white bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl"
               >
-                Get Started
+                Join Now
               </Link>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }
