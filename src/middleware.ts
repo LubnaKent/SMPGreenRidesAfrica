@@ -2,6 +2,15 @@ import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import type { UserRole } from "@/types/database";
 
+// Security headers to apply to all responses
+const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "X-XSS-Protection": "1; mode=block",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+};
+
 // Route configuration: path prefix -> allowed roles
 const ROUTE_PERMISSIONS: Record<string, UserRole[]> = {
   "/admin": ["smp_admin"],
@@ -28,6 +37,14 @@ const PUBLIC_ROUTES = [
   "/api/contact",
   "/api/applications", // For driver self-registration
 ];
+
+// Helper to add security headers to response
+function applySecurityHeaders(response: NextResponse): NextResponse {
+  Object.entries(SECURITY_HEADERS).forEach(([key, value]) => {
+    response.headers.set(key, value);
+  });
+  return response;
+}
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -61,7 +78,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/favicon.ico") ||
     pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico)$/)
   ) {
-    return supabaseResponse;
+    return applySecurityHeaders(supabaseResponse);
   }
 
   // Check if route is public
@@ -76,7 +93,7 @@ export async function middleware(request: NextRequest) {
 
   // Handle logout route - always allow
   if (pathname === "/logout") {
-    return supabaseResponse;
+    return applySecurityHeaders(supabaseResponse);
   }
 
   // Handle public routes
@@ -91,17 +108,19 @@ export async function middleware(request: NextRequest) {
 
       if (profile?.role) {
         const defaultDashboard = ROLE_DEFAULT_DASHBOARD[profile.role as UserRole];
-        return NextResponse.redirect(new URL(defaultDashboard, request.url));
+        const redirectResponse = NextResponse.redirect(new URL(defaultDashboard, request.url));
+        return applySecurityHeaders(redirectResponse);
       }
     }
-    return supabaseResponse;
+    return applySecurityHeaders(supabaseResponse);
   }
 
   // All non-public routes require authentication
   if (!user) {
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
+    const redirectResponse = NextResponse.redirect(loginUrl);
+    return applySecurityHeaders(redirectResponse);
   }
 
   // Get user's role from profile
@@ -113,7 +132,8 @@ export async function middleware(request: NextRequest) {
 
   if (!profile?.role) {
     // User has no profile/role - redirect to login
-    return NextResponse.redirect(new URL("/login", request.url));
+    const redirectResponse = NextResponse.redirect(new URL("/login", request.url));
+    return applySecurityHeaders(redirectResponse);
   }
 
   const userRole = profile.role as UserRole;
@@ -126,15 +146,16 @@ export async function middleware(request: NextRequest) {
         const defaultDashboard = ROLE_DEFAULT_DASHBOARD[userRole];
         const redirectUrl = new URL(defaultDashboard, request.url);
         redirectUrl.searchParams.set("error", "unauthorized");
-        return NextResponse.redirect(redirectUrl);
+        const redirectResponse = NextResponse.redirect(redirectUrl);
+        return applySecurityHeaders(redirectResponse);
       }
       // User has permission - continue
-      return supabaseResponse;
+      return applySecurityHeaders(supabaseResponse);
     }
   }
 
   // For any other authenticated route, allow access
-  return supabaseResponse;
+  return applySecurityHeaders(supabaseResponse);
 }
 
 export const config = {

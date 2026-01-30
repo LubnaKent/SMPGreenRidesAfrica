@@ -8,6 +8,23 @@ import type {
   Handover,
   User,
 } from "@/types/database";
+import {
+  sanitizeSearchInput,
+  sanitizeUUID,
+  sanitizeUUIDArray,
+  sanitizeEnum,
+  sanitizeNumber,
+  sanitizeText,
+} from "@/lib/security/sanitize";
+
+// Valid enum values for sanitization
+const VALID_STATUSES: readonly DriverStatus[] = [
+  'sourced', 'screening', 'qualified', 'onboarding', 'handed_over', 'rejected'
+] as const;
+
+const VALID_SOURCES: readonly SourceChannel[] = [
+  'social_media', 'referral', 'roadshow', 'boda_stage', 'whatsapp', 'online_application', 'other'
+] as const;
 
 // ============================================
 // DRIVERS
@@ -27,26 +44,42 @@ export async function getDrivers(filters?: {
     .select("*")
     .order("created_at", { ascending: false });
 
+  // Sanitize and validate status filter
   if (filters?.status) {
-    query = query.eq("status", filters.status);
+    const sanitizedStatus = sanitizeEnum(filters.status, VALID_STATUSES);
+    if (sanitizedStatus) {
+      query = query.eq("status", sanitizedStatus);
+    }
   }
 
+  // Sanitize and validate source_channel filter
   if (filters?.source_channel) {
-    query = query.eq("source_channel", filters.source_channel);
+    const sanitizedSource = sanitizeEnum(filters.source_channel, VALID_SOURCES);
+    if (sanitizedSource) {
+      query = query.eq("source_channel", sanitizedSource);
+    }
   }
 
+  // Sanitize search input to prevent injection
   if (filters?.search) {
-    query = query.or(
-      `first_name.ilike.%${filters.search}%,last_name.ilike.%${filters.search}%,phone.ilike.%${filters.search}%`
-    );
+    const sanitizedSearch = sanitizeSearchInput(filters.search);
+    if (sanitizedSearch.length > 0) {
+      query = query.or(
+        `first_name.ilike.%${sanitizedSearch}%,last_name.ilike.%${sanitizedSearch}%,phone.ilike.%${sanitizedSearch}%`
+      );
+    }
   }
+
+  // Sanitize numeric values
+  const limit = sanitizeNumber(filters?.limit || 0, { min: 1, max: 100 }) || 10;
+  const offset = sanitizeNumber(filters?.offset || 0, { min: 0 }) || 0;
 
   if (filters?.limit) {
-    query = query.limit(filters.limit);
+    query = query.limit(limit);
   }
 
   if (filters?.offset) {
-    query = query.range(filters.offset, filters.offset + (filters.limit || 10) - 1);
+    query = query.range(offset, offset + limit - 1);
   }
 
   const { data, error } = await query;
@@ -56,12 +89,18 @@ export async function getDrivers(filters?: {
 }
 
 export async function getDriverById(id: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(id);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("drivers")
     .select("*")
-    .eq("id", id)
+    .eq("id", sanitizedId)
     .single();
 
   if (error) throw error;
@@ -87,12 +126,30 @@ export async function updateDriver(
   id: string,
   updates: Partial<Omit<Driver, "id" | "created_at" | "updated_at">>
 ) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(id);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
+  // Sanitize text fields in updates
+  const sanitizedUpdates = { ...updates };
+  if (sanitizedUpdates.first_name) {
+    sanitizedUpdates.first_name = sanitizeText(sanitizedUpdates.first_name, 100);
+  }
+  if (sanitizedUpdates.last_name) {
+    sanitizedUpdates.last_name = sanitizeText(sanitizedUpdates.last_name, 100);
+  }
+  if (sanitizedUpdates.notes) {
+    sanitizedUpdates.notes = sanitizeText(sanitizedUpdates.notes, 2000);
+  }
+
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("drivers")
-    .update(updates)
-    .eq("id", id)
+    .update(sanitizedUpdates)
+    .eq("id", sanitizedId)
     .select()
     .single();
 
@@ -101,13 +158,25 @@ export async function updateDriver(
 }
 
 export async function updateDriverStatus(id: string, status: DriverStatus, notes?: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(id);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
+  // Validate status enum
+  const sanitizedStatus = sanitizeEnum(status, VALID_STATUSES);
+  if (!sanitizedStatus) {
+    throw new Error("Invalid status value");
+  }
+
   const supabase = createClient();
 
   // Update driver status (trigger will log to status_history)
   const { data, error } = await supabase
     .from("drivers")
-    .update({ status })
-    .eq("id", id)
+    .update({ status: sanitizedStatus })
+    .eq("id", sanitizedId)
     .select()
     .single();
 
@@ -115,11 +184,12 @@ export async function updateDriverStatus(id: string, status: DriverStatus, notes
 
   // If notes provided, update the latest status history entry
   if (notes) {
+    const sanitizedNotes = sanitizeText(notes, 2000);
     await supabase
       .from("status_history")
-      .update({ notes })
-      .eq("driver_id", id)
-      .eq("to_status", status)
+      .update({ notes: sanitizedNotes })
+      .eq("driver_id", sanitizedId)
+      .eq("to_status", sanitizedStatus)
       .order("changed_at", { ascending: false })
       .limit(1);
   }
@@ -128,9 +198,15 @@ export async function updateDriverStatus(id: string, status: DriverStatus, notes
 }
 
 export async function deleteDriver(id: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(id);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
   const supabase = createClient();
 
-  const { error } = await supabase.from("drivers").delete().eq("id", id);
+  const { error } = await supabase.from("drivers").delete().eq("id", sanitizedId);
 
   if (error) throw error;
 }
@@ -182,12 +258,18 @@ export async function getDriverCountByStatus() {
 // ============================================
 
 export async function getDriverDocuments(driverId: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(driverId);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("driver_documents")
     .select("*")
-    .eq("driver_id", driverId)
+    .eq("driver_id", sanitizedId)
     .order("uploaded_at", { ascending: false });
 
   if (error) throw error;
@@ -199,11 +281,37 @@ export async function uploadDriverDocument(
   file: File,
   documentType: DriverDocument["document_type"]
 ) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(driverId);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
+  // Validate file type (allow only specific document types)
+  const allowedMimeTypes = [
+    'image/jpeg', 'image/png', 'image/webp',
+    'application/pdf'
+  ];
+  if (!allowedMimeTypes.includes(file.type)) {
+    throw new Error("Invalid file type. Only images and PDFs are allowed.");
+  }
+
+  // Validate file size (max 10MB)
+  const maxSize = 10 * 1024 * 1024;
+  if (file.size > maxSize) {
+    throw new Error("File too large. Maximum size is 10MB.");
+  }
+
   const supabase = createClient();
 
-  // Upload file to storage
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${driverId}/${documentType}-${Date.now()}.${fileExt}`;
+  // Sanitize file extension
+  const fileExt = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'bin';
+  const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'pdf'];
+  if (!allowedExtensions.includes(fileExt)) {
+    throw new Error("Invalid file extension");
+  }
+
+  const fileName = `${sanitizedId}/${documentType}-${Date.now()}.${fileExt}`;
 
   const { error: uploadError } = await supabase.storage
     .from("driver-documents")
@@ -216,14 +324,17 @@ export async function uploadDriverDocument(
     .from("driver-documents")
     .getPublicUrl(fileName);
 
+  // Sanitize file name for display
+  const sanitizedFileName = sanitizeText(file.name, 255);
+
   // Create document record
   const { data, error } = await supabase
     .from("driver_documents")
     .insert({
-      driver_id: driverId,
+      driver_id: sanitizedId,
       document_type: documentType,
       file_url: urlData.publicUrl,
-      file_name: file.name,
+      file_name: sanitizedFileName,
     })
     .select()
     .single();
@@ -233,6 +344,12 @@ export async function uploadDriverDocument(
 }
 
 export async function verifyDocument(documentId: string, verified: boolean) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(documentId);
+  if (!sanitizedId) {
+    throw new Error("Invalid document ID format");
+  }
+
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -241,7 +358,7 @@ export async function verifyDocument(documentId: string, verified: boolean) {
       verified,
       verified_at: verified ? new Date().toISOString() : null,
     })
-    .eq("id", documentId)
+    .eq("id", sanitizedId)
     .select()
     .single();
 
@@ -250,13 +367,19 @@ export async function verifyDocument(documentId: string, verified: boolean) {
 }
 
 export async function deleteDocument(documentId: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(documentId);
+  if (!sanitizedId) {
+    throw new Error("Invalid document ID format");
+  }
+
   const supabase = createClient();
 
   // Get the document first to get the file path
   const { data: doc, error: fetchError } = await supabase
     .from("driver_documents")
     .select("file_url")
-    .eq("id", documentId)
+    .eq("id", sanitizedId)
     .single();
 
   if (fetchError) throw fetchError;
@@ -265,9 +388,11 @@ export async function deleteDocument(documentId: string) {
   if (doc?.file_url) {
     const urlParts = doc.file_url.split("/driver-documents/");
     if (urlParts.length > 1) {
+      // Sanitize the path to prevent directory traversal
+      const filePath = urlParts[1].replace(/\.\./g, '');
       await supabase.storage
         .from("driver-documents")
-        .remove([urlParts[1]]);
+        .remove([filePath]);
     }
   }
 
@@ -275,7 +400,7 @@ export async function deleteDocument(documentId: string) {
   const { error } = await supabase
     .from("driver_documents")
     .delete()
-    .eq("id", documentId);
+    .eq("id", sanitizedId);
 
   if (error) throw error;
 }
@@ -285,12 +410,18 @@ export async function deleteDocument(documentId: string) {
 // ============================================
 
 export async function getStatusHistory(driverId: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(driverId);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("status_history")
     .select("*, changed_by_profile:profiles!status_history_changed_by_fkey(name)")
-    .eq("driver_id", driverId)
+    .eq("driver_id", sanitizedId)
     .order("changed_at", { ascending: false });
 
   if (error) throw error;
@@ -308,16 +439,33 @@ export async function saveScreeningResponse(
   response: string,
   scoreContribution: number
 ) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(driverId);
+  if (!sanitizedId) {
+    throw new Error("Invalid driver ID format");
+  }
+
+  // Sanitize text inputs
+  const sanitizedQuestionKey = sanitizeText(questionKey, 100);
+  const sanitizedQuestionText = sanitizeText(questionText, 500);
+  const sanitizedResponse = sanitizeText(response, 2000);
+
+  // Validate score contribution
+  const sanitizedScore = sanitizeNumber(scoreContribution, { min: 0, max: 100, allowFloat: true });
+  if (sanitizedScore === null) {
+    throw new Error("Invalid score contribution");
+  }
+
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("screening_responses")
     .insert({
-      driver_id: driverId,
-      question_key: questionKey,
-      question_text: questionText,
-      response,
-      score_contribution: scoreContribution,
+      driver_id: sanitizedId,
+      question_key: sanitizedQuestionKey,
+      question_text: sanitizedQuestionText,
+      response: sanitizedResponse,
+      score_contribution: sanitizedScore,
     })
     .select()
     .single();
@@ -326,14 +474,14 @@ export async function saveScreeningResponse(
 
   // Update driver's screening score
   const { data: scoreData } = await supabase.rpc("calculate_screening_score", {
-    p_driver_id: driverId,
+    p_driver_id: sanitizedId,
   });
 
   if (scoreData !== null) {
     await supabase
       .from("drivers")
       .update({ screening_score: scoreData })
-      .eq("id", driverId);
+      .eq("id", sanitizedId);
   }
 
   return data;
@@ -384,23 +532,33 @@ export async function createHandover(
 }
 
 export async function completeHandover(handoverId: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(handoverId);
+  if (!sanitizedId) {
+    throw new Error("Invalid handover ID format");
+  }
+
   const supabase = createClient();
 
   // Get handover to get driver IDs
   const { data: handover, error: fetchError } = await supabase
     .from("handovers")
     .select("driver_ids")
-    .eq("id", handoverId)
+    .eq("id", sanitizedId)
     .single();
 
   if (fetchError) throw fetchError;
 
   // Update all drivers to handed_over status
   if (handover?.driver_ids?.length) {
-    await supabase
-      .from("drivers")
-      .update({ status: "handed_over" })
-      .in("id", handover.driver_ids);
+    // Sanitize all driver IDs
+    const sanitizedDriverIds = sanitizeUUIDArray(handover.driver_ids);
+    if (sanitizedDriverIds.length > 0) {
+      await supabase
+        .from("drivers")
+        .update({ status: "handed_over" })
+        .in("id", sanitizedDriverIds);
+    }
   }
 
   // Update handover status
@@ -410,7 +568,7 @@ export async function completeHandover(handoverId: string) {
       status: "completed",
       completed_at: new Date().toISOString(),
     })
-    .eq("id", handoverId)
+    .eq("id", sanitizedId)
     .select()
     .single();
 
@@ -419,12 +577,18 @@ export async function completeHandover(handoverId: string) {
 }
 
 export async function cancelHandover(handoverId: string) {
+  // Validate UUID format
+  const sanitizedId = sanitizeUUID(handoverId);
+  if (!sanitizedId) {
+    throw new Error("Invalid handover ID format");
+  }
+
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("handovers")
     .update({ status: "cancelled" })
-    .eq("id", handoverId)
+    .eq("id", sanitizedId)
     .select()
     .single();
 
@@ -433,14 +597,16 @@ export async function cancelHandover(handoverId: string) {
 }
 
 export async function getDriversByIds(ids: string[]) {
-  if (ids.length === 0) return [];
+  // Sanitize all IDs
+  const sanitizedIds = sanitizeUUIDArray(ids);
+  if (sanitizedIds.length === 0) return [];
 
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("drivers")
     .select("id, first_name, last_name")
-    .in("id", ids);
+    .in("id", sanitizedIds);
 
   if (error) throw error;
   return data as Pick<Driver, "id" | "first_name" | "last_name">[];
