@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Filter, RefreshCw, Loader2 } from "lucide-react";
+import { Filter, RefreshCw } from "lucide-react";
 import { PipelineBoard } from "@/components/pipeline";
+import { SkeletonPipeline } from "@/components/ui/skeleton";
 import type { Driver, DriverStatus } from "@/types/database";
 import { getDrivers, updateDriverStatus, subscribeToDrivers, unsubscribeFromChannel } from "@/lib/supabase/database";
 import { useToast } from "@/components/ui/toast";
@@ -92,8 +93,12 @@ export default function PipelinePage() {
 
   if (loading) {
     return (
-      <div className="flex h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Pipeline</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Loading pipeline...</p>
+        </div>
+        <SkeletonPipeline />
       </div>
     );
   }
@@ -103,21 +108,21 @@ export default function PipelinePage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Pipeline</h1>
-          <p className="text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Pipeline</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             Drag and drop drivers between stages to update their status
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <button className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <button className="inline-flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">
             <Filter className="h-4 w-4" />
             Filter
           </button>
           <button
             onClick={handleRefresh}
             disabled={isRefreshing}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
           >
             <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
             Refresh
@@ -127,7 +132,7 @@ export default function PipelinePage() {
 
       {/* Error Message */}
       {error && (
-        <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600">
+        <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-600 dark:text-red-400">
           {error}
           <button
             onClick={loadDrivers}
@@ -141,21 +146,21 @@ export default function PipelinePage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {[
-          { label: "Sourced", count: drivers.filter((d) => d.status === "sourced").length, color: "bg-gray-100 text-gray-800" },
-          { label: "Screening", count: drivers.filter((d) => d.status === "screening").length, color: "bg-yellow-100 text-yellow-800" },
-          { label: "Qualified", count: drivers.filter((d) => d.status === "qualified").length, color: "bg-blue-100 text-blue-800" },
-          { label: "Onboarding", count: drivers.filter((d) => d.status === "onboarding").length, color: "bg-purple-100 text-purple-800" },
-          { label: "Handed Over", count: drivers.filter((d) => d.status === "handed_over").length, color: "bg-green-100 text-green-800" },
+          { label: "Sourced", count: drivers.filter((d) => d.status === "sourced").length, color: "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200" },
+          { label: "Screening", count: drivers.filter((d) => d.status === "screening").length, color: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300" },
+          { label: "Qualified", count: drivers.filter((d) => d.status === "qualified").length, color: "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300" },
+          { label: "Onboarding", count: drivers.filter((d) => d.status === "onboarding").length, color: "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300" },
+          { label: "Handed Over", count: drivers.filter((d) => d.status === "handed_over").length, color: "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300" },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="text-sm text-gray-500">{stat.label}</p>
-            <p className="mt-1 text-2xl font-bold text-gray-900">{stat.count}</p>
+          <div key={stat.label} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+            <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
+            <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">{stat.count}</p>
           </div>
         ))}
       </div>
 
       {/* Pipeline Board */}
-      <div className="rounded-lg border border-gray-200 bg-white p-4">
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
         <PipelineBoard
           drivers={drivers}
           onStatusChange={handleStatusChange}

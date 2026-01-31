@@ -40,8 +40,8 @@ export default function DashboardPage() {
     <div className="space-y-6">
       {/* Page Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           Overview of your driver acquisition pipeline
         </p>
       </div>
@@ -51,7 +51,7 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <div
             key={stat.name}
-            className="rounded-lg border border-gray-200 bg-white p-6"
+            className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6"
           >
             <div className="flex items-center gap-4">
               <div
@@ -60,11 +60,11 @@ export default function DashboardPage() {
                 <stat.icon className="h-6 w-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">{stat.name}</p>
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.name}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
               </div>
             </div>
-            <p className="mt-2 text-xs text-gray-500">{stat.change}</p>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">{stat.change}</p>
           </div>
         ))}
       </div>
@@ -72,11 +72,11 @@ export default function DashboardPage() {
       {/* Content Grid */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Pipeline Summary */}
-        <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <h2 className="text-lg font-semibold text-gray-900">
+        <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             Pipeline Summary
           </h2>
-          <p className="text-sm text-gray-500">Drivers by stage</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Drivers by stage</p>
 
           <div className="mt-4 space-y-3">
             {[
@@ -88,10 +88,10 @@ export default function DashboardPage() {
             ].map((item) => (
               <div key={item.stage} className="flex items-center gap-3">
                 <div className={`h-3 w-3 rounded-full ${item.color}`} />
-                <span className="flex-1 text-sm text-gray-600">
+                <span className="flex-1 text-sm text-gray-600 dark:text-gray-300">
                   {item.stage}
                 </span>
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-gray-900 dark:text-white">
                   {item.count}
                 </span>
               </div>
@@ -101,7 +101,7 @@ export default function DashboardPage() {
           <div className="mt-6">
             <a
               href="/dashboard/pipeline"
-              className="text-sm font-medium text-green-600 hover:text-green-700"
+              className="text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
             >
               View full pipeline →
             </a>
@@ -109,27 +109,27 @@ export default function DashboardPage() {
         </div>
 
         {/* Monthly Target */}
-        <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <h2 className="text-lg font-semibold text-gray-900">Monthly Target</h2>
-          <p className="text-sm text-gray-500">January 2026 progress</p>
+        <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Monthly Target</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">January 2026 progress</p>
 
           <div className="mt-4">
             <div className="flex items-end justify-between">
               <div>
-                <p className="text-4xl font-bold text-gray-900">0</p>
-                <p className="text-sm text-gray-500">of 40 drivers</p>
+                <p className="text-4xl font-bold text-gray-900 dark:text-white">0</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">of 40 drivers</p>
               </div>
-              <p className="text-lg font-medium text-gray-400">0%</p>
+              <p className="text-lg font-medium text-gray-400 dark:text-gray-500">0%</p>
             </div>
 
-            <div className="mt-4 h-3 w-full rounded-full bg-gray-200">
+            <div className="mt-4 h-3 w-full rounded-full bg-gray-200 dark:bg-gray-700">
               <div
                 className="h-3 rounded-full bg-green-500 transition-all"
                 style={{ width: "0%" }}
               />
             </div>
 
-            <div className="mt-4 flex justify-between text-xs text-gray-500">
+            <div className="mt-4 flex justify-between text-xs text-gray-500 dark:text-gray-400">
               <span>0 handed over</span>
               <span>40 target</span>
             </div>
@@ -138,7 +138,7 @@ export default function DashboardPage() {
           <div className="mt-6">
             <a
               href="/dashboard/analytics"
-              className="text-sm font-medium text-green-600 hover:text-green-700"
+              className="text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
             >
               View analytics →
             </a>
@@ -147,14 +147,14 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Activity */}
-      <div className="rounded-lg border border-gray-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-gray-900">Recent Drivers</h2>
-        <p className="text-sm text-gray-500">Latest additions to the pipeline</p>
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Drivers</h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400">Latest additions to the pipeline</p>
 
         {recentDrivers.length === 0 ? (
           <div className="mt-8 flex flex-col items-center justify-center py-8 text-center">
-            <Users className="h-12 w-12 text-gray-300" />
-            <p className="mt-2 text-sm text-gray-500">No drivers yet</p>
+            <Users className="h-12 w-12 text-gray-300 dark:text-gray-600" />
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">No drivers yet</p>
             <a
               href="/dashboard/drivers/new"
               className="mt-4 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
