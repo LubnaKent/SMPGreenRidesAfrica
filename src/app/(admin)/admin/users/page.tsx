@@ -15,6 +15,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useToast } from "@/components/ui/toast";
 import type { User, UserRole } from "@/types/database";
 import { ROLE_LABELS } from "@/hooks/use-auth";
 
@@ -29,6 +30,7 @@ const ROLE_COLORS: Record<UserRole, string> = {
 function UserManagementContent() {
   const searchParams = useSearchParams();
   const roleFilter = searchParams.get("role") as UserRole | null;
+  const { addToast } = useToast();
 
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -71,6 +73,7 @@ function UserManagementContent() {
   );
 
   const updateUserRole = async (userId: string, newRole: UserRole) => {
+    const user = users.find((u) => u.id === userId);
     const supabase = createClient();
     const { error } = await supabase
       .from("profiles")
@@ -79,8 +82,17 @@ function UserManagementContent() {
 
     if (error) {
       console.error("Error updating role:", error);
-      alert("Failed to update user role");
+      addToast({
+        type: "error",
+        title: "Failed to update role",
+        message: "Please try again",
+      });
     } else {
+      addToast({
+        type: "success",
+        title: "Role updated",
+        message: `${user?.name || "User"} is now ${ROLE_LABELS[newRole]}`,
+      });
       fetchUsers();
     }
   };
@@ -88,13 +100,23 @@ function UserManagementContent() {
   const deleteUser = async (userId: string) => {
     if (!confirm("Are you sure you want to delete this user?")) return;
 
+    const user = users.find((u) => u.id === userId);
     const supabase = createClient();
     const { error } = await supabase.from("profiles").delete().eq("id", userId);
 
     if (error) {
       console.error("Error deleting user:", error);
-      alert("Failed to delete user");
+      addToast({
+        type: "error",
+        title: "Failed to delete user",
+        message: "Please try again",
+      });
     } else {
+      addToast({
+        type: "success",
+        title: "User deleted",
+        message: `${user?.name || "User"} has been removed`,
+      });
       fetchUsers();
     }
   };

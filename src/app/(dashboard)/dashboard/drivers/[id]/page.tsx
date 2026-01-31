@@ -25,13 +25,16 @@ import {
   getStatusHistory,
   getDriverDocuments,
   updateDriverStatus,
+  updateDriver,
   uploadDriverDocument,
   verifyDocument,
   deleteDocument,
 } from "@/lib/supabase/database";
+import { X, Save } from "lucide-react";
 import { DocumentUploadModal, DocumentCard } from "@/components/documents";
 import { PermissionGate } from "@/components/auth";
 import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/components/ui/toast";
 
 const statusColors: Record<DriverStatus, string> = {
   sourced: "bg-gray-100 text-gray-800 border-gray-300",
@@ -57,6 +60,7 @@ export default function DriverDetailPage() {
   const router = useRouter();
   const driverId = params.id as string;
   const { hasPermission } = useAuth();
+  const { addToast } = useToast();
 
   const [driver, setDriver] = useState<Driver | null>(null);
   const [statusHistory, setStatusHistory] = useState<StatusHistory[]>([]);
@@ -66,6 +70,18 @@ export default function DriverDetailPage() {
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [activeTab, setActiveTab] = useState<"details" | "documents" | "history">("details");
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [editForm, setEditForm] = useState({
+    first_name: "",
+    last_name: "",
+    phone: "",
+    location: "",
+    national_id: "",
+    driving_permit_number: "",
+    source_channel: "boda_stage" as SourceChannel,
+    notes: "",
+  });
 
   useEffect(() => {
     async function fetchDriverData() {
@@ -98,6 +114,8 @@ export default function DriverDetailPage() {
   const handleStatusUpdate = async (newStatus: DriverStatus) => {
     if (!driver || newStatus === driver.status) return;
 
+    const stageName = PIPELINE_STAGES.find((s) => s.id === newStatus)?.label || newStatus;
+
     try {
       setUpdatingStatus(true);
       const updatedDriver = await updateDriverStatus(driver.id, newStatus);
@@ -106,29 +124,130 @@ export default function DriverDetailPage() {
       // Refresh status history
       const historyData = await getStatusHistory(driverId);
       setStatusHistory(historyData);
+
+      addToast({
+        type: "success",
+        title: "Status updated",
+        message: `${driver.first_name} moved to ${stageName}`,
+      });
     } catch (err) {
       console.error("Error updating status:", err);
-      alert("Failed to update driver status. Please try again.");
+      addToast({
+        type: "error",
+        title: "Failed to update status",
+        message: "Please try again",
+      });
     } finally {
       setUpdatingStatus(false);
     }
   };
 
   const handleDocumentUpload = async (file: File, documentType: DriverDocument["document_type"]) => {
-    const newDoc = await uploadDriverDocument(driverId, file, documentType);
-    setDocuments((prev) => [newDoc, ...prev]);
+    try {
+      const newDoc = await uploadDriverDocument(driverId, file, documentType);
+      setDocuments((prev) => [newDoc, ...prev]);
+      addToast({
+        type: "success",
+        title: "Document uploaded",
+        message: `${file.name} uploaded successfully`,
+      });
+    } catch (err) {
+      console.error("Error uploading document:", err);
+      addToast({
+        type: "error",
+        title: "Upload failed",
+        message: "Please try again",
+      });
+    }
   };
 
   const handleDocumentVerify = async (documentId: string, verified: boolean) => {
-    const updatedDoc = await verifyDocument(documentId, verified);
-    setDocuments((prev) =>
-      prev.map((doc) => (doc.id === documentId ? updatedDoc : doc))
-    );
+    try {
+      const updatedDoc = await verifyDocument(documentId, verified);
+      setDocuments((prev) =>
+        prev.map((doc) => (doc.id === documentId ? updatedDoc : doc))
+      );
+      addToast({
+        type: "success",
+        title: verified ? "Document verified" : "Verification removed",
+      });
+    } catch (err) {
+      console.error("Error verifying document:", err);
+      addToast({
+        type: "error",
+        title: "Verification failed",
+        message: "Please try again",
+      });
+    }
   };
 
   const handleDocumentDelete = async (documentId: string) => {
-    await deleteDocument(documentId);
-    setDocuments((prev) => prev.filter((doc) => doc.id !== documentId));
+    try {
+      await deleteDocument(documentId);
+      setDocuments((prev) => prev.filter((doc) => doc.id !== documentId));
+      addToast({
+        type: "success",
+        title: "Document deleted",
+      });
+    } catch (err) {
+      console.error("Error deleting document:", err);
+      addToast({
+        type: "error",
+        title: "Delete failed",
+        message: "Please try again",
+      });
+    }
+  };
+
+  const openEditModal = () => {
+    if (driver) {
+      setEditForm({
+        first_name: driver.first_name,
+        last_name: driver.last_name,
+        phone: driver.phone,
+        location: driver.location || "",
+        national_id: driver.national_id || "",
+        driving_permit_number: driver.driving_permit_number || "",
+        source_channel: driver.source_channel,
+        notes: driver.notes || "",
+      });
+      setShowEditModal(true);
+    }
+  };
+
+  const handleSaveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!driver) return;
+
+    setSaving(true);
+    try {
+      const updatedDriver = await updateDriver(driver.id, {
+        first_name: editForm.first_name,
+        last_name: editForm.last_name,
+        phone: editForm.phone,
+        location: editForm.location || null,
+        national_id: editForm.national_id || null,
+        driving_permit_number: editForm.driving_permit_number || null,
+        source_channel: editForm.source_channel,
+        notes: editForm.notes || null,
+      });
+      setDriver(updatedDriver);
+      setShowEditModal(false);
+      addToast({
+        type: "success",
+        title: "Driver updated",
+        message: "Changes saved successfully",
+      });
+    } catch (err) {
+      console.error("Error updating driver:", err);
+      addToast({
+        type: "error",
+        title: "Failed to save",
+        message: "Please try again",
+      });
+    } finally {
+      setSaving(false);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -219,7 +338,10 @@ export default function DriverDetailPage() {
               )}
           </PermissionGate>
           <PermissionGate permission="EDIT_DRIVER">
-            <button className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+            <button
+              onClick={openEditModal}
+              className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+            >
               <Edit2 className="h-4 w-4" />
               Edit
             </button>
@@ -426,6 +548,143 @@ export default function DriverDetailPage() {
             onClose={() => setShowUploadModal(false)}
             onUpload={handleDocumentUpload}
           />
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-lg rounded-xl bg-white dark:bg-gray-800 shadow-xl">
+            <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 p-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Edit Driver</h2>
+              <button
+                onClick={() => setShowEditModal(false)}
+                className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <form onSubmit={handleSaveEdit} className="p-4 space-y-4 max-h-[70vh] overflow-y-auto">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.first_name}
+                    onChange={(e) => setEditForm({ ...editForm, first_name: e.target.value })}
+                    required
+                    className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.last_name}
+                    onChange={(e) => setEditForm({ ...editForm, last_name: e.target.value })}
+                    required
+                    className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={editForm.phone}
+                  onChange={(e) => setEditForm({ ...editForm, phone: e.target.value })}
+                  required
+                  className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  value={editForm.location}
+                  onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
+                  placeholder="e.g., Kampala Central"
+                  className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    National ID
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.national_id}
+                    onChange={(e) => setEditForm({ ...editForm, national_id: e.target.value })}
+                    className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Driving Permit
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.driving_permit_number}
+                    onChange={(e) => setEditForm({ ...editForm, driving_permit_number: e.target.value })}
+                    className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Source Channel
+                </label>
+                <select
+                  value={editForm.source_channel}
+                  onChange={(e) => setEditForm({ ...editForm, source_channel: e.target.value as SourceChannel })}
+                  className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                >
+                  {SOURCE_CHANNELS.map((channel) => (
+                    <option key={channel.id} value={channel.id}>
+                      {channel.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Notes
+                </label>
+                <textarea
+                  value={editForm.notes}
+                  onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
+                  rows={3}
+                  className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
+                />
+              </div>
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+                >
+                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
 

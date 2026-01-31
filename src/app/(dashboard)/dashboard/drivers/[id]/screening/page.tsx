@@ -7,12 +7,14 @@ import { ArrowLeft, Loader2, AlertCircle } from "lucide-react";
 import { ScreeningQuestionnaire } from "@/components/screening";
 import { getDriverById, updateDriver, saveScreeningResponse, updateDriverStatus } from "@/lib/supabase/database";
 import { SCREENING_QUESTIONS, PASSING_SCORE } from "@/constants/screening";
+import { useToast } from "@/components/ui/toast";
 import type { Driver } from "@/types/database";
 
 export default function ScreeningPage() {
   const params = useParams();
   const router = useRouter();
   const driverId = params.id as string;
+  const { addToast } = useToast();
 
   const [driver, setDriver] = useState<Driver | null>(null);
   const [loading, setLoading] = useState(true);
@@ -38,31 +40,57 @@ export default function ScreeningPage() {
     score: number,
     responses: { questionId: string; value: string }[]
   ) => {
-    // Save each response
-    for (const response of responses) {
-      const question = SCREENING_QUESTIONS.find((q) => q.id === response.questionId);
-      if (!question) continue;
+    try {
+      // Save each response
+      for (const response of responses) {
+        const question = SCREENING_QUESTIONS.find((q) => q.id === response.questionId);
+        if (!question) continue;
 
-      const option = question.options?.find((o) => o.value === response.value);
-      const scoreContribution = option
-        ? Math.round((option.score * question.weight) / 100)
-        : 0;
+        const option = question.options?.find((o) => o.value === response.value);
+        const scoreContribution = option
+          ? Math.round((option.score * question.weight) / 100)
+          : 0;
 
-      await saveScreeningResponse(
-        driverId,
-        question.id,
-        question.question,
-        response.value,
-        scoreContribution
-      );
-    }
+        await saveScreeningResponse(
+          driverId,
+          question.id,
+          question.question,
+          response.value,
+          scoreContribution
+        );
+      }
 
-    // Update driver's screening score
-    await updateDriver(driverId, { screening_score: score });
+      // Update driver's screening score
+      await updateDriver(driverId, { screening_score: score });
 
-    // If passed, update status to qualified
-    if (score >= PASSING_SCORE && driver?.status === "screening") {
-      await updateDriverStatus(driverId, "qualified", "Passed screening questionnaire");
+      // If passed, update status to qualified
+      if (score >= PASSING_SCORE && driver?.status === "screening") {
+        await updateDriverStatus(driverId, "qualified", "Passed screening questionnaire");
+        addToast({
+          type: "success",
+          title: "Screening complete",
+          message: `${driver.first_name} passed with ${score}% and is now qualified`,
+        });
+      } else if (score >= PASSING_SCORE) {
+        addToast({
+          type: "success",
+          title: "Screening complete",
+          message: `Score: ${score}% - Passed!`,
+        });
+      } else {
+        addToast({
+          type: "warning",
+          title: "Screening complete",
+          message: `Score: ${score}% - Below passing threshold (${PASSING_SCORE}%)`,
+        });
+      }
+    } catch (err) {
+      console.error("Error saving screening:", err);
+      addToast({
+        type: "error",
+        title: "Failed to save screening",
+        message: "Please try again",
+      });
     }
   };
 

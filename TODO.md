@@ -100,7 +100,7 @@
 
 - [x] Add loading states and skeletons
 - [x] Implement error boundaries
-- [ ] Add toast notifications
+- [x] Add toast notifications
 - [x] Test mobile responsiveness
 - [x] Add empty states for lists
 - [x] Performance optimization
@@ -125,6 +125,13 @@
 - [x] Screening questionnaire system with scoring
 - [x] Role-based access control (smp_admin, smp_agent, partner)
 - [x] Export/reporting features (CSV export for drivers and summary)
+- [x] Edit driver modal with full form
+- [x] Pipeline filtering (search, source channel)
+- [x] Forgot password page with Supabase auth
+- [x] Live dashboard stats connected to real data
+- [x] Dashboard visual overhaul with gradients and animations
+- [x] Empty state component with illustrations
+- [x] Dark mode support throughout
 
 ---
 
