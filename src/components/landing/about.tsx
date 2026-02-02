@@ -13,12 +13,12 @@ const values = [
   {
     icon: Target,
     title: "Our Mission",
-    description: "We ignite careers in sustainable transportation — recruiting, training, and deploying the drivers who will power Africa's green future.",
+    description: "We build the workforce that moves Africa forward — sustainably.",
   },
   {
     icon: Eye,
     title: "Our Vision",
-    description: "An Africa where mobility is green, drivers are empowered, and every journey matters.",
+    description: "A greener Africa, powered by empowered drivers.",
   },
   {
     icon: Award,

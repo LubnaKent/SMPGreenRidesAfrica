@@ -47,7 +47,7 @@ export function Footer() {
               Power the Green Revolution.
             </p>
             <p className="mt-3 text-gray-400 leading-relaxed max-w-sm">
-              We ignite careers in sustainable transportation — recruiting, training, and deploying the drivers who will power Africa&apos;s green future.
+              We build the workforce that moves Africa forward — sustainably. A greener Africa, powered by empowered drivers.
             </p>
 
             {/* Social Links */}
