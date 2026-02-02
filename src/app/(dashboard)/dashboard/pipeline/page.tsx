@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Filter, RefreshCw, Search, X, Check } from "lucide-react";
+import { Filter, RefreshCw, Search, X, Check, Users, ClipboardCheck, Award, Rocket, CheckCircle2 } from "lucide-react";
 import { PipelineBoard } from "@/components/pipeline";
 import { SkeletonPipeline } from "@/components/ui/skeleton";
 import type { Driver, DriverStatus, SourceChannel } from "@/types/database";
@@ -265,15 +265,33 @@ export default function PipelinePage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {[
-          { label: "Sourced", count: filteredDrivers.filter((d) => d.status === "sourced").length, color: "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200" },
-          { label: "Screening", count: filteredDrivers.filter((d) => d.status === "screening").length, color: "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300" },
-          { label: "Qualified", count: filteredDrivers.filter((d) => d.status === "qualified").length, color: "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300" },
-          { label: "Onboarding", count: filteredDrivers.filter((d) => d.status === "onboarding").length, color: "bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300" },
-          { label: "Handed Over", count: filteredDrivers.filter((d) => d.status === "handed_over").length, color: "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300" },
+          { label: "Sourced", count: filteredDrivers.filter((d) => d.status === "sourced").length, icon: Users, iconBg: "bg-gray-100 dark:bg-gray-700", iconColor: "text-gray-600 dark:text-gray-300" },
+          { label: "Screening", count: filteredDrivers.filter((d) => d.status === "screening").length, icon: ClipboardCheck, iconBg: "bg-yellow-100 dark:bg-yellow-900/30", iconColor: "text-yellow-600 dark:text-yellow-400" },
+          { label: "Qualified", count: filteredDrivers.filter((d) => d.status === "qualified").length, icon: Award, iconBg: "bg-blue-100 dark:bg-blue-900/30", iconColor: "text-blue-600 dark:text-blue-400" },
+          { label: "Onboarding", count: filteredDrivers.filter((d) => d.status === "onboarding").length, icon: Rocket, iconBg: "bg-purple-100 dark:bg-purple-900/30", iconColor: "text-purple-600 dark:text-purple-400" },
+          { label: "Handed Over", count: filteredDrivers.filter((d) => d.status === "handed_over").length, icon: CheckCircle2, iconBg: "bg-green-100 dark:bg-green-900/30", iconColor: "text-green-600 dark:text-green-400" },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 transition-all hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600">
-            <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
-            <p className="mt-1 text-2xl font-bold text-gray-900 dark:text-white">{stat.count}</p>
+          <div
+            key={stat.label}
+            className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 transition-all duration-200 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600 hover:-translate-y-0.5"
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.label}</p>
+                <p className="mt-1 text-3xl font-bold text-gray-900 dark:text-white">{stat.count}</p>
+              </div>
+              <div className={`rounded-lg p-2 ${stat.iconBg}`}>
+                <stat.icon className={`h-5 w-5 ${stat.iconColor}`} />
+              </div>
+            </div>
+            {/* Decorative gradient */}
+            <div className="absolute -bottom-8 -right-8 h-24 w-24 rounded-full opacity-10 group-hover:opacity-20 transition-opacity" style={{
+              background: stat.iconColor.includes("green") ? "radial-gradient(circle, #22c55e 0%, transparent 70%)" :
+                stat.iconColor.includes("purple") ? "radial-gradient(circle, #a855f7 0%, transparent 70%)" :
+                stat.iconColor.includes("blue") ? "radial-gradient(circle, #3b82f6 0%, transparent 70%)" :
+                stat.iconColor.includes("yellow") ? "radial-gradient(circle, #eab308 0%, transparent 70%)" :
+                "radial-gradient(circle, #6b7280 0%, transparent 70%)"
+            }} />
           </div>
         ))}
       </div>

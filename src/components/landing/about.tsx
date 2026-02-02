@@ -13,12 +13,12 @@ const values = [
   {
     icon: Target,
     title: "Our Mission",
-    description: "To accelerate the adoption of green transportation in Africa by connecting trained, qualified drivers with e-mobility partners.",
+    description: "We ignite careers in sustainable transportation — recruiting, training, and deploying the drivers who will power Africa's green future.",
   },
   {
     icon: Eye,
     title: "Our Vision",
-    description: "A sustainable Africa where clean, efficient mobility is accessible to everyone through a network of skilled drivers.",
+    description: "An Africa where mobility is green, drivers are empowered, and every journey matters.",
   },
   {
     icon: Award,

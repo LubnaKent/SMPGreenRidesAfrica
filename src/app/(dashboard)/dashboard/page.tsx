@@ -16,6 +16,8 @@ import {
   Target,
   Calendar,
 } from "lucide-react";
+import { AnimatedNumber } from "@/components/ui/animated-number";
+import { AnimatedProgress } from "@/components/ui/animated-progress";
 import { getDrivers } from "@/lib/supabase/database";
 import { useAuth } from "@/hooks/use-auth";
 import { SkeletonStats } from "@/components/ui/skeleton";
@@ -136,7 +138,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Welcome Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600 p-6 text-white">
+      <div className="animate-fade-in-up relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600 p-6 text-white">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIwOS0xLjc5MS00LTQtNHMtNCAxLjc5MS00IDQgMS43OTEgNCA0IDQgNC0xLjc5MSA0LTR6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
         <div className="relative">
           <div className="flex items-center justify-between">
@@ -166,27 +168,30 @@ export default function DashboardPage() {
         {stats.map((stat, index) => (
           <div
             key={stat.name}
-            className="group relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-all hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600"
-            style={{ animationDelay: `${index * 100}ms` }}
+            className="animate-on-load animate-fade-in-up group relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-gray-200/50 dark:hover:shadow-gray-900/50 hover:border-gray-300 dark:hover:border-gray-600 hover:-translate-y-1 cursor-default"
+            style={{ animationDelay: `${150 + index * 100}ms` }}
           >
-            <div className="flex items-start justify-between">
-              <div className={`rounded-lg p-2.5 ${stat.bgColor}`}>
-                <div className={`rounded-md bg-gradient-to-br ${stat.color} p-2`}>
-                  <stat.icon className="h-5 w-5 text-white" />
+            {/* Subtle gradient overlay on hover */}
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-gray-50/50 dark:to-gray-700/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            <div className="relative flex items-start justify-between">
+              <div className={`rounded-lg p-2.5 ${stat.bgColor} transition-transform duration-300 group-hover:scale-110`}>
+                <div className={`rounded-md bg-gradient-to-br ${stat.color} p-2 shadow-lg`}>
+                  <stat.icon className="h-5 w-5 text-white transition-transform duration-300 group-hover:rotate-6" />
                 </div>
               </div>
               {stat.trend === "up" && (
-                <span className="flex items-center gap-1 text-xs font-medium text-green-600 dark:text-green-400">
+                <span className="flex items-center gap-1 text-xs font-medium text-green-600 dark:text-green-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                   <ArrowUpRight className="h-3 w-3" />
                 </span>
               )}
             </div>
-            <div className="mt-4">
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <div className="relative mt-4">
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 transition-colors duration-300 group-hover:text-gray-600 dark:group-hover:text-gray-300">
                 {stat.name}
               </p>
               <p className="mt-1 text-3xl font-bold text-gray-900 dark:text-white">
-                {stat.value}
+                <AnimatedNumber value={stat.value} duration={1200} delay={index * 150} />
               </p>
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {stat.change}
@@ -199,7 +204,7 @@ export default function DashboardPage() {
       {/* Content Grid */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Pipeline Summary */}
-        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <div className="animate-on-load animate-fade-in-up group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600" style={{ animationDelay: '550ms' }}>
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -207,11 +212,11 @@ export default function DashboardPage() {
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">Drivers by stage</p>
             </div>
-            <Zap className="h-5 w-5 text-amber-500" />
+            <Zap className="h-5 w-5 text-amber-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
           </div>
 
           <div className="mt-6 space-y-4">
-            {pipelineStats.map((item) => {
+            {pipelineStats.map((item, idx) => {
               const percentage = totalDrivers > 0 ? (item.count / totalDrivers) * 100 : 0;
               return (
                 <div key={item.stage}>
@@ -223,15 +228,15 @@ export default function DashboardPage() {
                       </span>
                     </div>
                     <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                      {item.count}
+                      <AnimatedNumber value={item.count} duration={1000} delay={400 + idx * 100} />
                     </span>
                   </div>
-                  <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-700">
-                    <div
-                      className={`h-2 rounded-full ${item.color} transition-all duration-500`}
-                      style={{ width: `${percentage}%` }}
-                    />
-                  </div>
+                  <AnimatedProgress
+                    value={percentage}
+                    duration={1200}
+                    delay={500 + idx * 100}
+                    barClassName={item.color}
+                  />
                 </div>
               );
             })}
@@ -247,7 +252,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Monthly Target */}
-        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <div className="animate-on-load animate-fade-in-up group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600" style={{ animationDelay: '650ms' }}>
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Monthly Target</h2>
@@ -255,14 +260,14 @@ export default function DashboardPage() {
                 {currentMonth} {now.getFullYear()} progress
               </p>
             </div>
-            <Target className="h-5 w-5 text-green-500" />
+            <Target className="h-5 w-5 text-green-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
           </div>
 
           <div className="mt-6">
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-5xl font-bold text-gray-900 dark:text-white">
-                  {handedOverThisMonth}
+                  <AnimatedNumber value={handedOverThisMonth} duration={1500} delay={600} />
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   of {monthTarget} drivers
@@ -270,34 +275,41 @@ export default function DashboardPage() {
               </div>
               <div className="text-right">
                 <p className={`text-2xl font-bold ${targetProgress >= 100 ? 'text-green-600' : targetProgress >= 50 ? 'text-amber-600' : 'text-gray-400'}`}>
-                  {targetProgress}%
+                  <AnimatedNumber value={targetProgress} duration={1500} delay={800} suffix="%" />
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">complete</p>
               </div>
             </div>
 
-            <div className="mt-6 h-4 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
-              <div
-                className={`h-4 rounded-full transition-all duration-700 ${
-                  targetProgress >= 100 ? 'bg-gradient-to-r from-green-500 to-emerald-500' :
-                  targetProgress >= 50 ? 'bg-gradient-to-r from-amber-500 to-yellow-500' :
-                  'bg-gradient-to-r from-gray-400 to-gray-500'
-                }`}
-                style={{ width: `${Math.min(targetProgress, 100)}%` }}
-              />
-            </div>
+            <AnimatedProgress
+              value={targetProgress}
+              duration={1500}
+              delay={900}
+              className="mt-6 h-4"
+              barClassName={
+                targetProgress >= 100 ? 'bg-gradient-to-r from-green-500 to-emerald-500' :
+                targetProgress >= 50 ? 'bg-gradient-to-r from-amber-500 to-yellow-500' :
+                'bg-gradient-to-r from-gray-400 to-gray-500'
+              }
+            />
 
             <div className="mt-4 grid grid-cols-3 gap-4 text-center">
               <div className="rounded-lg bg-gray-50 dark:bg-gray-700/50 p-3">
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">{handedOverThisMonth}</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <AnimatedNumber value={handedOverThisMonth} duration={1000} delay={1000} />
+                </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Handed Over</p>
               </div>
               <div className="rounded-lg bg-gray-50 dark:bg-gray-700/50 p-3">
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">{monthTarget - handedOverThisMonth}</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <AnimatedNumber value={Math.max(0, monthTarget - handedOverThisMonth)} duration={1000} delay={1100} />
+                </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Remaining</p>
               </div>
               <div className="rounded-lg bg-gray-50 dark:bg-gray-700/50 p-3">
-                <p className="text-lg font-semibold text-gray-900 dark:text-white">{now.getDate()}</p>
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <AnimatedNumber value={now.getDate()} duration={800} delay={1200} />
+                </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Days In</p>
               </div>
             </div>
@@ -314,13 +326,13 @@ export default function DashboardPage() {
       </div>
 
       {/* Recent Drivers */}
-      <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+      <div className="animate-on-load animate-fade-in-up group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600" style={{ animationDelay: '750ms' }}>
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Drivers</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">Latest additions to the pipeline</p>
           </div>
-          <Calendar className="h-5 w-5 text-blue-500" />
+          <Calendar className="h-5 w-5 text-blue-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
         </div>
 
         {recentDrivers.length === 0 ? (

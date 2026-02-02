@@ -51,7 +51,7 @@ export function Hero() {
             </h1>
 
             <p className="mt-8 text-lg sm:text-xl text-emerald-100/80 leading-relaxed max-w-xl">
-              Join Africa&apos;s fastest-growing eco-mobility network. Get trained, get certified, and start earning with sustainable transportation.
+              Join Africa&apos;s fastest-growing eco-mobility network. Get trained, get certified, and start earning — because every journey matters.
             </p>
 
             {/* CTA Buttons */}

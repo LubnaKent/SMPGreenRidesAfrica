@@ -43,8 +43,11 @@ export function Footer() {
                 <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Africa</span>
               </div>
             </Link>
-            <p className="mt-6 text-gray-400 leading-relaxed max-w-sm">
-              Empowering sustainable mobility across Africa through strategic driver acquisition and green transportation solutions.
+            <p className="mt-4 text-emerald-400 font-semibold text-sm">
+              Power the Green Revolution.
+            </p>
+            <p className="mt-3 text-gray-400 leading-relaxed max-w-sm">
+              We ignite careers in sustainable transportation — recruiting, training, and deploying the drivers who will power Africa&apos;s green future.
             </p>
 
             {/* Social Links */}
