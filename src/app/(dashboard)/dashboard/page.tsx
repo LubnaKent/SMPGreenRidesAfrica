@@ -21,6 +21,7 @@ import { AnimatedProgress } from "@/components/ui/animated-progress";
 import { getDrivers } from "@/lib/supabase/database";
 import { useAuth } from "@/hooks/use-auth";
 import { SkeletonStats } from "@/components/ui/skeleton";
+import { useTranslations } from "next-intl";
 import type { Driver, DriverStatus } from "@/types/database";
 
 // Monthly targets for 2026
@@ -38,6 +39,9 @@ export default function DashboardPage() {
   const { user, profile } = useAuth();
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations("dashboard");
+  const pipeline = useTranslations("pipeline.stages");
+  const analytics = useTranslations("analytics.months");
 
   useEffect(() => {
     loadDrivers();
@@ -75,47 +79,47 @@ export default function DashboardPage() {
 
   // Pipeline summary
   const pipelineStats: { stage: string; status: DriverStatus; count: number; color: string }[] = [
-    { stage: "Sourced", status: "sourced", count: drivers.filter((d) => d.status === "sourced").length, color: "bg-gray-400" },
-    { stage: "Screening", status: "screening", count: drivers.filter((d) => d.status === "screening").length, color: "bg-yellow-400" },
-    { stage: "Qualified", status: "qualified", count: drivers.filter((d) => d.status === "qualified").length, color: "bg-blue-400" },
-    { stage: "Onboarding", status: "onboarding", count: drivers.filter((d) => d.status === "onboarding").length, color: "bg-purple-400" },
-    { stage: "Handed Over", status: "handed_over", count: drivers.filter((d) => d.status === "handed_over").length, color: "bg-green-400" },
+    { stage: pipeline("sourced"), status: "sourced", count: drivers.filter((d) => d.status === "sourced").length, color: "bg-gray-400" },
+    { stage: pipeline("screening"), status: "screening", count: drivers.filter((d) => d.status === "screening").length, color: "bg-yellow-400" },
+    { stage: pipeline("qualified"), status: "qualified", count: drivers.filter((d) => d.status === "qualified").length, color: "bg-blue-400" },
+    { stage: pipeline("onboarding"), status: "onboarding", count: drivers.filter((d) => d.status === "onboarding").length, color: "bg-purple-400" },
+    { stage: pipeline("handedOver"), status: "handed_over", count: drivers.filter((d) => d.status === "handed_over").length, color: "bg-green-400" },
   ];
 
   const recentDrivers = drivers.slice(0, 5);
 
   const stats = [
     {
-      name: "Total Drivers",
+      name: t("stats.totalDrivers"),
       value: totalDrivers,
-      change: `+${driversThisMonth.length} this month`,
+      change: t("stats.thisMonth", { count: driversThisMonth.length }),
       trend: driversThisMonth.length > 0 ? "up" : "neutral",
       icon: Users,
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50 dark:bg-blue-900/20",
     },
     {
-      name: "Qualified",
+      name: t("stats.qualified"),
       value: qualifiedCount,
-      change: `${conversionRate}% conversion`,
+      change: t("stats.conversion", { rate: conversionRate }),
       trend: conversionRate > 50 ? "up" : "neutral",
       icon: UserCheck,
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-50 dark:bg-green-900/20",
     },
     {
-      name: "In Pipeline",
+      name: t("stats.inPipeline"),
       value: inPipeline,
-      change: "Active candidates",
+      change: t("stats.activeCandidates"),
       trend: "neutral",
       icon: Clock,
       color: "from-amber-500 to-amber-600",
       bgColor: "bg-amber-50 dark:bg-amber-900/20",
     },
     {
-      name: "Handed Over",
+      name: t("stats.handedOver"),
       value: handedOver,
-      change: `${handedOverThisMonth} this month`,
+      change: t("stats.handedOverThisMonth", { count: handedOverThisMonth }),
       trend: handedOverThisMonth > 0 ? "up" : "neutral",
       icon: TrendingUp,
       color: "from-purple-500 to-purple-600",
@@ -144,10 +148,10 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">
-                Welcome back, {profile?.name?.split(" ")[0] || "Partner"}!
+                {t("welcome", { name: profile?.name?.split(" ")[0] || "Partner" })}
               </h1>
               <p className="mt-1 text-green-100">
-                Here&apos;s what&apos;s happening with your driver pipeline today.
+                {t("subtitle")}
               </p>
             </div>
             <div className="hidden sm:flex items-center gap-3">
@@ -156,7 +160,7 @@ export default function DashboardPage() {
                 className="inline-flex items-center gap-2 rounded-lg bg-white/20 backdrop-blur-sm px-4 py-2 text-sm font-medium hover:bg-white/30 transition-colors"
               >
                 <Plus className="h-4 w-4" />
-                Add Driver
+                {t("addDriver")}
               </Link>
             </div>
           </div>
@@ -208,9 +212,9 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Pipeline Summary
+                {t("pipeline.title")}
               </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Drivers by stage</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t("pipeline.subtitle")}</p>
             </div>
             <Zap className="h-5 w-5 text-amber-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
           </div>
@@ -246,7 +250,7 @@ export default function DashboardPage() {
             href="/dashboard/pipeline"
             className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
           >
-            View full pipeline
+            {t("pipeline.viewFull")}
             <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
@@ -255,9 +259,9 @@ export default function DashboardPage() {
         <div className="animate-on-load animate-fade-in-up group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600" style={{ animationDelay: '650ms' }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Monthly Target</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t("targets.title")}</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">
-                {currentMonth} {now.getFullYear()} progress
+                {t("targets.subtitle", { month: analytics(currentMonth), year: now.getFullYear() })}
               </p>
             </div>
             <Target className="h-5 w-5 text-green-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
@@ -270,14 +274,14 @@ export default function DashboardPage() {
                   <AnimatedNumber value={handedOverThisMonth} duration={1500} delay={600} />
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  of {monthTarget} drivers
+                  {t("targets.complete").replace("complete", `of ${monthTarget} drivers`)}
                 </p>
               </div>
               <div className="text-right">
                 <p className={`text-2xl font-bold ${targetProgress >= 100 ? 'text-green-600' : targetProgress >= 50 ? 'text-amber-600' : 'text-gray-400'}`}>
                   <AnimatedNumber value={targetProgress} duration={1500} delay={800} suffix="%" />
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">complete</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t("targets.complete")}</p>
               </div>
             </div>
 
@@ -298,19 +302,19 @@ export default function DashboardPage() {
                 <p className="text-lg font-semibold text-gray-900 dark:text-white">
                   <AnimatedNumber value={handedOverThisMonth} duration={1000} delay={1000} />
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Handed Over</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t("stats.handedOver")}</p>
               </div>
               <div className="rounded-lg bg-gray-50 dark:bg-gray-700/50 p-3">
                 <p className="text-lg font-semibold text-gray-900 dark:text-white">
                   <AnimatedNumber value={Math.max(0, monthTarget - handedOverThisMonth)} duration={1000} delay={1100} />
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Remaining</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t("targets.remaining")}</p>
               </div>
               <div className="rounded-lg bg-gray-50 dark:bg-gray-700/50 p-3">
                 <p className="text-lg font-semibold text-gray-900 dark:text-white">
                   <AnimatedNumber value={now.getDate()} duration={800} delay={1200} />
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">Days In</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{t("targets.daysIn")}</p>
               </div>
             </div>
           </div>
@@ -319,7 +323,7 @@ export default function DashboardPage() {
             href="/dashboard/analytics"
             className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300"
           >
-            View analytics
+            {t("targets.viewAnalytics")}
             <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
@@ -329,8 +333,8 @@ export default function DashboardPage() {
       <div className="animate-on-load animate-fade-in-up group rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 transition-all duration-300 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-600" style={{ animationDelay: '750ms' }}>
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Drivers</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Latest additions to the pipeline</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t("recent.title")}</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t("recent.subtitle")}</p>
           </div>
           <Calendar className="h-5 w-5 text-blue-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
         </div>
@@ -340,16 +344,16 @@ export default function DashboardPage() {
             <div className="rounded-full bg-gray-100 dark:bg-gray-700 p-4">
               <Users className="h-8 w-8 text-gray-400 dark:text-gray-500" />
             </div>
-            <p className="mt-4 text-sm font-medium text-gray-900 dark:text-white">No drivers yet</p>
+            <p className="mt-4 text-sm font-medium text-gray-900 dark:text-white">{t("recent.empty")}</p>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Get started by adding your first driver to the pipeline
+              {t("recent.emptyDescription")}
             </p>
             <Link
               href="/dashboard/drivers/new"
               className="mt-4 inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors"
             >
               <Plus className="h-4 w-4" />
-              Add First Driver
+              {t("recent.addFirst")}
             </Link>
           </div>
         ) : (
@@ -390,7 +394,7 @@ export default function DashboardPage() {
               href="/dashboard/drivers"
               className="flex items-center justify-center gap-1 rounded-lg border border-dashed border-gray-200 dark:border-gray-700 p-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
             >
-              View all drivers
+              {t("recent.viewAll")}
               <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
