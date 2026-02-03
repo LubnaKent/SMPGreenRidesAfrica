@@ -12,6 +12,7 @@ import { exportDriversToCSV } from "@/lib/export";
 import { PermissionGate } from "@/components/auth";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/components/ui/toast";
+import { useTranslations } from "next-intl";
 
 const statusColors: Record<DriverStatus, string> = {
   sourced: "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200",
@@ -22,17 +23,21 @@ const statusColors: Record<DriverStatus, string> = {
   rejected: "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300",
 };
 
-const sourceLabels: Record<SourceChannel, string> = {
-  social_media: "Social Media",
-  referral: "Referral",
-  roadshow: "Roadshow",
-  boda_stage: "Boda Stage",
-  whatsapp: "WhatsApp",
-  online_application: "Online Application",
-  other: "Other",
-};
-
 export default function DriversPage() {
+  const t = useTranslations("drivers");
+  const pipeline = useTranslations("pipeline");
+  const common = useTranslations("common");
+  const errors = useTranslations("errors");
+
+  const sourceLabels: Record<SourceChannel, string> = {
+    social_media: t("sources.socialMedia"),
+    referral: t("sources.referral"),
+    roadshow: t("sources.roadshow"),
+    boda_stage: t("sources.bodaStage"),
+    whatsapp: t("sources.whatsapp"),
+    online_application: t("sources.onlineApplication"),
+    other: t("sources.other"),
+  };
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -105,8 +110,8 @@ export default function DriversPage() {
 
       addToast({
         type: "success",
-        title: "Status updated",
-        message: `${selectedIds.size} driver${selectedIds.size !== 1 ? "s" : ""} moved to ${PIPELINE_STAGES.find((s) => s.id === newStatus)?.label}`,
+        title: pipeline("statusUpdated"),
+        message: pipeline("movedTo", { count: selectedIds.size, stage: PIPELINE_STAGES.find((s) => s.id === newStatus)?.label || newStatus }),
       });
 
       clearSelection();
@@ -114,8 +119,8 @@ export default function DriversPage() {
       console.error("Error updating drivers:", err);
       addToast({
         type: "error",
-        title: "Update failed",
-        message: "Failed to update some drivers. Please try again.",
+        title: pipeline("updateFailed"),
+        message: pipeline("updateFailedDescription"),
       });
     } finally {
       setBulkActionLoading(false);
@@ -134,7 +139,7 @@ export default function DriversPage() {
       setDrivers(data);
     } catch (err) {
       console.error("Error loading drivers:", err);
-      setError("Failed to load drivers. Please check your Supabase connection.");
+      setError(errors("loadDrivers"));
     } finally {
       setLoading(false);
     }
@@ -177,8 +182,8 @@ export default function DriversPage() {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Drivers</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Loading drivers...</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("title")}</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{common("loading")}</p>
           </div>
         </div>
         <SkeletonTable rows={6} />
@@ -191,9 +196,9 @@ export default function DriversPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Drivers</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("title")}</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {filteredDrivers.length} driver{filteredDrivers.length !== 1 ? "s" : ""} in total
+            {t("count", { count: filteredDrivers.length })}
           </p>
         </div>
         <div className="flex gap-2">
@@ -204,7 +209,7 @@ export default function DriversPage() {
               className="inline-flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Download className="h-4 w-4" />
-              Export CSV
+              {t("exportCsv")}
             </button>
           </PermissionGate>
           <PermissionGate permission="CREATE_DRIVER">
@@ -213,7 +218,7 @@ export default function DriversPage() {
               className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
             >
               <Plus className="h-4 w-4" />
-              Add Driver
+              {t("new.submit").replace("Save Driver", "Add Driver")}
             </Link>
           </PermissionGate>
         </div>
@@ -240,7 +245,7 @@ export default function DriversPage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by name or phone..."
+            placeholder={t("searchPlaceholder")}
             className="h-10 w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 pl-10 pr-4 text-sm text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:border-green-500 dark:focus:border-green-400 focus:outline-none focus:ring-1 focus:ring-green-500 dark:focus:ring-green-400"
           />
         </div>
@@ -254,7 +259,7 @@ export default function DriversPage() {
           )}
         >
           <Filter className="h-4 w-4" />
-          Filters
+          {common("filters")}
           {activeFilterCount > 0 && (
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-xs text-white">
               {activeFilterCount}
@@ -266,10 +271,10 @@ export default function DriversPage() {
       {/* Active Filter Chips */}
       {activeFilterCount > 0 && (
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Active filters:</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t("activeFilters")}</span>
           {statusFilter !== "all" && (
             <span className="inline-flex items-center gap-1 rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-medium text-green-800 dark:text-green-300">
-              Status: {PIPELINE_STAGES.find((s) => s.id === statusFilter)?.label}
+              {t("status")}: {PIPELINE_STAGES.find((s) => s.id === statusFilter)?.label}
               <button
                 onClick={() => setStatusFilter("all")}
                 className="ml-1 rounded-full hover:bg-green-200 dark:hover:bg-green-800 p-0.5"
@@ -280,7 +285,7 @@ export default function DriversPage() {
           )}
           {sourceFilter !== "all" && (
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 dark:bg-blue-900/30 px-3 py-1 text-xs font-medium text-blue-800 dark:text-blue-300">
-              Source: {SOURCE_CHANNELS.find((s) => s.id === sourceFilter)?.label}
+              {t("source")}: {SOURCE_CHANNELS.find((s) => s.id === sourceFilter)?.label}
               <button
                 onClick={() => setSourceFilter("all")}
                 className="ml-1 rounded-full hover:bg-blue-200 dark:hover:bg-blue-800 p-0.5"
@@ -291,7 +296,7 @@ export default function DriversPage() {
           )}
           {dateFrom && (
             <span className="inline-flex items-center gap-1 rounded-full bg-purple-100 dark:bg-purple-900/30 px-3 py-1 text-xs font-medium text-purple-800 dark:text-purple-300">
-              From: {new Date(dateFrom).toLocaleDateString()}
+              {t("from")}: {new Date(dateFrom).toLocaleDateString()}
               <button
                 onClick={() => setDateFrom("")}
                 className="ml-1 rounded-full hover:bg-purple-200 dark:hover:bg-purple-800 p-0.5"
@@ -315,7 +320,7 @@ export default function DriversPage() {
             onClick={clearAllFilters}
             className="text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400"
           >
-            Clear all
+            {common("clearAll")}
           </button>
         </div>
       )}
@@ -326,7 +331,7 @@ export default function DriversPage() {
           {/* Status Filter */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
-              Status
+              {t("status")}
             </label>
             <div className="flex flex-wrap gap-2">
               <button
@@ -338,7 +343,7 @@ export default function DriversPage() {
                     : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 )}
               >
-                All
+                {common("all")}
               </button>
               {PIPELINE_STAGES.map((stage) => (
                 <button
@@ -360,7 +365,7 @@ export default function DriversPage() {
           {/* Source Channel Filter */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
-              Source Channel
+              {t("sourceChannel")}
             </label>
             <div className="flex flex-wrap gap-2">
               <button
@@ -372,7 +377,7 @@ export default function DriversPage() {
                     : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 )}
               >
-                All
+                {common("all")}
               </button>
               {SOURCE_CHANNELS.map((channel) => (
                 <button
@@ -394,7 +399,7 @@ export default function DriversPage() {
           {/* Date Range Filter */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
-              Date Added
+              {t("dateAdded")}
             </label>
             <div className="flex flex-wrap items-center gap-3">
               <div className="flex items-center gap-2">
@@ -404,10 +409,10 @@ export default function DriversPage() {
                   value={dateFrom}
                   onChange={(e) => setDateFrom(e.target.value)}
                   className="h-9 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-gray-100 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                  placeholder="From"
+                  placeholder={t("from")}
                 />
               </div>
-              <span className="text-gray-400">to</span>
+              <span className="text-gray-400">{common("to")}</span>
               <div className="flex items-center gap-2">
                 <input
                   type="date"
@@ -428,8 +433,8 @@ export default function DriversPage() {
           <div className="p-12 text-center">
             <p className="text-gray-500 dark:text-gray-400">
               {searchQuery || statusFilter !== "all"
-                ? "No drivers match your filters"
-                : "No drivers found. Add your first driver to get started."}
+                ? t("empty.filtered")
+                : t("empty.noDrivers")}
             </p>
             {!searchQuery && statusFilter === "all" && (
               <Link
@@ -437,7 +442,7 @@ export default function DriversPage() {
                 className="mt-4 inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
               >
                 <Plus className="h-4 w-4" />
-                Add First Driver
+                {t("new.submit")}
               </Link>
             )}
           </div>
@@ -467,22 +472,22 @@ export default function DriversPage() {
                     </button>
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Driver
+                    {t("table.driver")}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Contact
+                    {t("table.contact")}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Source
+                    {t("table.source")}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Status
+                    {t("table.status")}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Added
+                    {t("table.added")}
                   </th>
                   <th className="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Actions
+                    {t("table.actions")}
                   </th>
                 </tr>
               </thead>
@@ -569,7 +574,7 @@ export default function DriversPage() {
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
           <div className="flex items-center gap-3 rounded-xl bg-gray-900 dark:bg-gray-800 px-4 py-3 shadow-2xl ring-1 ring-white/10">
             <span className="text-sm font-medium text-white">
-              {selectedIds.size} selected
+              {t("bulk.selected", { count: selectedIds.size })}
             </span>
             <div className="h-4 w-px bg-gray-600" />
 
@@ -583,11 +588,11 @@ export default function DriversPage() {
                 {bulkActionLoading ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Updating...
+                    {common("updating")}
                   </>
                 ) : (
                   <>
-                    Change Status
+                    {t("bulk.changeStatus")}
                     <ChevronDown className="h-4 w-4" />
                   </>
                 )}
