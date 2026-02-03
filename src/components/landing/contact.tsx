@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle, Clock, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function Contact() {
+  const t = useTranslations("contact");
+  const common = useTranslations("common");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -48,25 +51,25 @@ export function Contact() {
   const contactMethods = [
     {
       icon: Mail,
-      title: "Email Us",
-      subtitle: "We reply within 24 hours",
+      title: t("methods.email.title"),
+      subtitle: t("methods.email.description"),
       value: "info@smpgreenrides.africa",
       href: "mailto:info@smpgreenrides.africa",
       color: "from-emerald-500 to-teal-600",
     },
     {
       icon: Phone,
-      title: "Call Us",
-      subtitle: "Mon-Fri, 8am-6pm EAT",
+      title: t("methods.phone.title"),
+      subtitle: t("methods.phone.description"),
       value: "+256 700 000 000",
       href: "tel:+256700000000",
       color: "from-blue-500 to-indigo-600",
     },
     {
       icon: MapPin,
-      title: "Visit Us",
-      subtitle: "Come say hello",
-      value: "Kampala, Uganda",
+      title: t("methods.visit.title"),
+      subtitle: t("methods.visit.description"),
+      value: t("methods.visit.address"),
       href: null,
       color: "from-violet-500 to-purple-600",
     },
@@ -82,16 +85,16 @@ export function Contact() {
         {/* Header */}
         <div className="max-w-2xl">
           <span className="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full mb-4">
-            Get in Touch
+            {t("sectionLabel")}
           </span>
           <h2 className="text-4xl sm:text-5xl font-black text-gray-900 leading-tight">
-            Let&apos;s Start a
+            {t("title").split("Conversation")[0]}
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
               Conversation
             </span>
           </h2>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-            Have questions about our services or want to become a partner? We&apos;d love to hear from you.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -128,24 +131,24 @@ export function Contact() {
               className="flex items-center justify-center gap-3 p-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-green-500/25 transition-all group"
             >
               <MessageCircle className="h-5 w-5 group-hover:scale-110 transition-transform" />
-              Chat on WhatsApp
+              {t("whatsapp")}
             </a>
 
             {/* Quick stats */}
             <div className="p-6 bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl">
-              <p className="text-emerald-400 text-sm font-bold uppercase tracking-wider mb-4">Why Contact Us?</p>
+              <p className="text-emerald-400 text-sm font-bold uppercase tracking-wider mb-4">{t("whyContact.title")}</p>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-white">
                   <Clock className="h-5 w-5 text-emerald-400" />
-                  <span className="text-sm">Average response time: 4 hours</span>
+                  <span className="text-sm">{t("whyContact.responseTime")}</span>
                 </div>
                 <div className="flex items-center gap-3 text-white">
                   <Users className="h-5 w-5 text-emerald-400" />
-                  <span className="text-sm">Dedicated support team</span>
+                  <span className="text-sm">{t("whyContact.dedicatedTeam")}</span>
                 </div>
                 <div className="flex items-center gap-3 text-white">
                   <CheckCircle className="h-5 w-5 text-emerald-400" />
-                  <span className="text-sm">98% satisfaction rate</span>
+                  <span className="text-sm">{t("whyContact.satisfaction")}</span>
                 </div>
               </div>
             </div>
@@ -160,17 +163,17 @@ export function Contact() {
                     <CheckCircle className="h-10 w-10 text-emerald-600" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900">
-                    Message Sent!
+                    {t("form.success.title")}
                   </h3>
                   <p className="mt-3 text-gray-600 max-w-sm">
-                    Thank you for reaching out. We&apos;ll get back to you within 24 hours.
+                    {t("form.success.description")}
                   </p>
                   <button
                     type="button"
                     onClick={() => setSuccess(false)}
                     className="mt-8 px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
                   >
-                    Send another message
+                    {t("form.success.sendAnother")}
                   </button>
                 </div>
               ) : (
@@ -187,7 +190,7 @@ export function Contact() {
                         htmlFor="name"
                         className="block text-sm font-bold text-gray-700 mb-2"
                       >
-                        Full Name
+                        {t("form.fullName")}
                       </label>
                       <input
                         id="name"
@@ -197,7 +200,7 @@ export function Contact() {
                         value={formData.name}
                         onChange={handleChange}
                         className="w-full h-14 px-5 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none transition-colors"
-                        placeholder="John Doe"
+                        placeholder={t("form.placeholders.name")}
                       />
                     </div>
                     <div>
@@ -205,7 +208,7 @@ export function Contact() {
                         htmlFor="email"
                         className="block text-sm font-bold text-gray-700 mb-2"
                       >
-                        Email Address
+                        {t("form.email")}
                       </label>
                       <input
                         id="email"
@@ -215,7 +218,7 @@ export function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         className="w-full h-14 px-5 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none transition-colors"
-                        placeholder="john@example.com"
+                        placeholder={t("form.placeholders.email")}
                       />
                     </div>
                   </div>
@@ -225,7 +228,7 @@ export function Contact() {
                       htmlFor="subject"
                       className="block text-sm font-bold text-gray-700 mb-2"
                     >
-                      Subject
+                      {t("form.subject")}
                     </label>
                     <select
                       id="subject"
@@ -235,11 +238,11 @@ export function Contact() {
                       onChange={handleChange}
                       className="w-full h-14 px-5 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none bg-white transition-colors"
                     >
-                      <option value="">Select a subject</option>
-                      <option value="partnership">Partnership Inquiry</option>
-                      <option value="driver">Driver Application</option>
-                      <option value="general">General Question</option>
-                      <option value="support">Support</option>
+                      <option value="">{t("form.subjects.select")}</option>
+                      <option value="partnership">{t("form.subjects.partnership")}</option>
+                      <option value="driver">{t("form.subjects.driver")}</option>
+                      <option value="general">{t("form.subjects.general")}</option>
+                      <option value="support">{t("form.subjects.support")}</option>
                     </select>
                   </div>
 
@@ -248,7 +251,7 @@ export function Contact() {
                       htmlFor="message"
                       className="block text-sm font-bold text-gray-700 mb-2"
                     >
-                      Message
+                      {t("form.message")}
                     </label>
                     <textarea
                       id="message"
@@ -258,7 +261,7 @@ export function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-base focus:border-emerald-500 focus:ring-0 focus:outline-none resize-none transition-colors"
-                      placeholder="Tell us how we can help..."
+                      placeholder={t("form.placeholders.message")}
                     />
                   </div>
 
@@ -268,10 +271,10 @@ export function Contact() {
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     {loading ? (
-                      "Sending..."
+                      common("sending")
                     ) : (
                       <>
-                        Send Message
+                        {t("form.submit")}
                         <Send className="h-5 w-5" />
                       </>
                     )}

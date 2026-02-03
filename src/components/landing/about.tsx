@@ -1,38 +1,40 @@
 "use client";
 
 import { Target, Eye, Award, Globe, TrendingUp, Users, MapPin, Sparkles } from "lucide-react";
-
-const stats = [
-  { value: "2,500+", label: "Active Drivers", icon: Users, color: "from-emerald-500 to-green-600" },
-  { value: "50+", label: "Partner Companies", icon: TrendingUp, color: "from-blue-500 to-indigo-600" },
-  { value: "5", label: "African Cities", icon: MapPin, color: "from-violet-500 to-purple-600" },
-  { value: "98%", label: "Success Rate", icon: Sparkles, color: "from-amber-500 to-orange-600" },
-];
-
-const values = [
-  {
-    icon: Target,
-    title: "Our Mission",
-    description: "We build the workforce that moves Africa forward — sustainably.",
-  },
-  {
-    icon: Eye,
-    title: "Our Vision",
-    description: "A greener Africa, powered by empowered drivers.",
-  },
-  {
-    icon: Award,
-    title: "Our Values",
-    description: "Integrity, sustainability, and excellence drive everything we do. We believe in creating lasting impact through quality partnerships.",
-  },
-  {
-    icon: Globe,
-    title: "Our Reach",
-    description: "Operating across major African cities, we're building the continent's largest network of green mobility professionals.",
-  },
-];
+import { useTranslations } from "next-intl";
 
 export function About() {
+  const t = useTranslations("about");
+
+  const stats = [
+    { value: "2,500+", label: t("stats.activeDrivers"), icon: Users, color: "from-emerald-500 to-green-600" },
+    { value: "50+", label: t("stats.partnerCompanies"), icon: TrendingUp, color: "from-blue-500 to-indigo-600" },
+    { value: "5", label: t("stats.africanCities"), icon: MapPin, color: "from-violet-500 to-purple-600" },
+    { value: "98%", label: t("stats.successRate"), icon: Sparkles, color: "from-amber-500 to-orange-600" },
+  ];
+
+  const values = [
+    {
+      icon: Target,
+      title: t("mission.title"),
+      description: t("mission.description"),
+    },
+    {
+      icon: Eye,
+      title: t("vision.title"),
+      description: t("vision.description"),
+    },
+    {
+      icon: Award,
+      title: t("values.title"),
+      description: t("values.description"),
+    },
+    {
+      icon: Globe,
+      title: t("reach.title"),
+      description: t("reach.description"),
+    },
+  ];
   return (
     <section id="about" className="py-24 lg:py-32 bg-white relative">
       {/* Decorative elements */}
@@ -44,10 +46,10 @@ export function About() {
         <div className="grid lg:grid-cols-2 gap-12 items-end">
           <div>
             <span className="inline-block px-4 py-1.5 bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 text-sm font-bold rounded-full mb-4">
-              Our Story
+              {t("sectionLabel")}
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
-              Building Africa&apos;s
+              {t("title").split("Green Future")[0]}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
                 Green Future
               </span>
@@ -55,7 +57,7 @@ export function About() {
           </div>
           <div className="lg:pb-2">
             <p className="text-lg text-gray-600 leading-relaxed">
-              SMP Green Rides Africa is a strategic driver acquisition company dedicated to building the workforce that powers Africa&apos;s green mobility revolution. We connect passionate individuals with sustainable transportation opportunities.
+              {t("description")}
             </p>
           </div>
         </div>
@@ -83,7 +85,7 @@ export function About() {
         {/* Values - Staggered cards */}
         <div className="mt-24">
           <div className="text-center mb-12">
-            <h3 className="text-2xl font-bold text-gray-900">What Drives Us</h3>
+            <h3 className="text-2xl font-bold text-gray-900">{t("whatDrivesUs")}</h3>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
@@ -120,20 +122,20 @@ export function About() {
           <div className="lg:col-span-2 bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900 p-8 lg:p-12 flex items-center justify-center">
             <div className="text-center">
               <div className="text-7xl lg:text-8xl mb-4">🤝</div>
-              <p className="text-emerald-400 font-bold text-lg">Strategic Partnerships</p>
+              <p className="text-emerald-400 font-bold text-lg">{t("partnerships.title")}</p>
             </div>
           </div>
 
           {/* Right side - Content */}
           <div className="lg:col-span-3 bg-gray-900 p-8 lg:p-12 flex flex-col justify-center">
             <h3 className="text-3xl lg:text-4xl font-black text-white">
-              Partner with Us
+              {t("partnerships.partnerWithUs")}
             </h3>
             <p className="mt-4 text-gray-400 text-lg leading-relaxed">
-              Are you a fleet operator or e-mobility company looking for qualified drivers? We provide trained, vetted professionals ready to join your team.
+              {t("partnerships.description")}
             </p>
             <div className="mt-6 flex flex-wrap gap-4">
-              {["Pre-screened drivers", "Trained professionals", "Ongoing support"].map((item) => (
+              {[t("partnerships.benefits.preScreened"), t("partnerships.benefits.trained"), t("partnerships.benefits.support")].map((item) => (
                 <div key={item} className="flex items-center gap-2 text-emerald-400">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   <span className="text-sm font-medium">{item}</span>
@@ -145,7 +147,7 @@ export function About() {
                 href="#contact"
                 className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-lg rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
               >
-                Become a Partner
+                {t("partnerships.cta")}
               </a>
             </div>
           </div>

@@ -1,45 +1,7 @@
 "use client";
 
 import { Users, Handshake, Leaf, Truck, GraduationCap, Shield, ArrowUpRight } from "lucide-react";
-
-const services = [
-  {
-    icon: Users,
-    title: "Driver Acquisition",
-    description: "Strategic sourcing and vetting of qualified drivers from diverse backgrounds across Africa.",
-    accent: "emerald",
-  },
-  {
-    icon: GraduationCap,
-    title: "Certification Programs",
-    description: "Industry-recognized training covering safety, customer service, and e-vehicle operation.",
-    accent: "blue",
-  },
-  {
-    icon: Handshake,
-    title: "Fleet Partnerships",
-    description: "Direct connections with leading mobility companies seeking trained professionals.",
-    accent: "violet",
-  },
-  {
-    icon: Leaf,
-    title: "Sustainability Focus",
-    description: "Building a workforce dedicated to electric and eco-friendly transportation solutions.",
-    accent: "teal",
-  },
-  {
-    icon: Truck,
-    title: "Logistics Training",
-    description: "Specialized programs for last-mile delivery and e-commerce logistics operations.",
-    accent: "amber",
-  },
-  {
-    icon: Shield,
-    title: "Quality Standards",
-    description: "Rigorous screening ensuring drivers meet the highest professional standards.",
-    accent: "rose",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const accentStyles: Record<string, { bg: string; text: string; border: string }> = {
   emerald: { bg: "bg-emerald-500", text: "text-emerald-600", border: "border-emerald-200" },
@@ -51,6 +13,46 @@ const accentStyles: Record<string, { bg: string; text: string; border: string }>
 };
 
 export function Services() {
+  const t = useTranslations("services");
+
+  const services = [
+    {
+      icon: Users,
+      title: t("items.acquisition.title"),
+      description: t("items.acquisition.description"),
+      accent: "emerald",
+    },
+    {
+      icon: GraduationCap,
+      title: t("items.certification.title"),
+      description: t("items.certification.description"),
+      accent: "blue",
+    },
+    {
+      icon: Handshake,
+      title: t("items.partnerships.title"),
+      description: t("items.partnerships.description"),
+      accent: "violet",
+    },
+    {
+      icon: Leaf,
+      title: t("items.sustainability.title"),
+      description: t("items.sustainability.description"),
+      accent: "teal",
+    },
+    {
+      icon: Truck,
+      title: t("items.logistics.title"),
+      description: t("items.logistics.description"),
+      accent: "amber",
+    },
+    {
+      icon: Shield,
+      title: t("items.quality.title"),
+      description: t("items.quality.description"),
+      accent: "rose",
+    },
+  ];
   return (
     <section id="services" className="py-24 lg:py-32 bg-gray-50 relative overflow-hidden">
       {/* Background decoration */}
@@ -61,14 +63,14 @@ export function Services() {
         {/* Header */}
         <div className="max-w-2xl">
           <span className="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 text-sm font-bold rounded-full mb-4">
-            What We Do
+            {t("sectionLabel")}
           </span>
           <h2 className="text-4xl sm:text-5xl font-black text-gray-900 leading-tight">
-            End-to-End Driver
+            {t("title").split("Solutions")[0]}
             <span className="block text-emerald-600">Solutions</span>
           </h2>
           <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-            From recruitment to deployment, we handle every step of building your mobility workforce.
+            {t("subtitle")}
           </p>
         </div>
 
@@ -109,13 +111,13 @@ export function Services() {
         <div className="mt-20 text-center">
           <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-2 bg-white rounded-2xl shadow-lg border border-gray-100">
             <p className="px-4 text-gray-600">
-              Ready to scale your fleet with qualified drivers?
+              {t("cta.question")}
             </p>
             <a
               href="#contact"
               className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
             >
-              Partner With Us
+              {t("cta.button")}
             </a>
           </div>
         </div>

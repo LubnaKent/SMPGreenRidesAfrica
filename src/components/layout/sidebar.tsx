@@ -16,29 +16,33 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
-
-const navigation = [
-  { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Pipeline", href: "/dashboard/pipeline", icon: Kanban },
-  { name: "Drivers", href: "/dashboard/drivers", icon: Users },
-  { name: "Handovers", href: "/dashboard/handovers", icon: CalendarCheck },
-  { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-];
-
-const adminNavigation = [
-  { name: "User Management", href: "/admin/users", icon: UserCog },
-  { name: "Audit Logs", href: "/admin/audit", icon: Shield },
-];
-
-const secondaryNavigation = [
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
-];
+import { useTranslations } from "next-intl";
 
 export function Sidebar() {
   const pathname = usePathname();
   const { role, hasPermission } = useAuth();
+  const t = useTranslations("sidebar");
+  const brand = useTranslations("brand");
+  const nav = useTranslations("nav");
 
   const isAdmin = role === "smp_admin";
+
+  const navigation = [
+    { name: t("overview"), href: "/dashboard", icon: LayoutDashboard },
+    { name: t("pipeline"), href: "/dashboard/pipeline", icon: Kanban },
+    { name: t("drivers"), href: "/dashboard/drivers", icon: Users },
+    { name: t("handovers"), href: "/dashboard/handovers", icon: CalendarCheck },
+    { name: t("analytics"), href: "/dashboard/analytics", icon: BarChart3 },
+  ];
+
+  const adminNavigation = [
+    { name: t("userManagement"), href: "/admin/users", icon: UserCog },
+    { name: t("auditLogs"), href: "/admin/audit", icon: Shield },
+  ];
+
+  const secondaryNavigation = [
+    { name: t("settings"), href: "/dashboard/settings", icon: Settings },
+  ];
 
   return (
     <div className="flex h-full w-64 flex-col bg-gray-900 dark:bg-gray-950">
@@ -48,8 +52,8 @@ export function Sidebar() {
           <Leaf className="h-5 w-5 text-white" />
         </div>
         <div className="flex flex-col">
-          <span className="text-sm font-bold text-white">SMP Green Rides</span>
-          <span className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">Africa</span>
+          <span className="text-sm font-bold text-white">{brand("name")}</span>
+          <span className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider">{brand("tagline")}</span>
         </div>
       </div>
 
@@ -57,7 +61,7 @@ export function Sidebar() {
       <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto">
         <div className="space-y-1">
           <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-            Main
+            {t("main")}
           </p>
           {navigation.map((item) => {
             const isActive = pathname === item.href ||
@@ -87,7 +91,7 @@ export function Sidebar() {
         {isAdmin && (
           <div className="space-y-1 pt-4">
             <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-              Admin
+              {t("admin")}
             </p>
             {adminNavigation.map((item) => {
               const isActive = pathname.startsWith(item.href);
@@ -136,14 +140,14 @@ export function Sidebar() {
           className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-400 transition-all hover:bg-red-500/10 hover:text-red-400 mt-1"
         >
           <LogOut className="h-5 w-5" />
-          Sign Out
+          {nav("signOut")}
         </Link>
       </div>
 
       {/* Version/Branding */}
       <div className="px-6 py-3 border-t border-gray-800 dark:border-gray-800/50">
         <p className="text-[10px] text-gray-600">
-          v1.0.0 • © 2026 SMP Group
+          {t("version")} • © {t("copyright")}
         </p>
       </div>
     </div>

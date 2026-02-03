@@ -5,9 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bike, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
   const router = useRouter();
+  const t = useTranslations("auth.login");
+  const nav = useTranslations("nav");
+  const brand = useTranslations("brand");
+  const errors = useTranslations("errors");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -53,7 +58,7 @@ export default function LoginPage() {
       router.push("/dashboard");
       router.refresh();
     } catch {
-      setError("An unexpected error occurred");
+      setError(errors("unexpected"));
     } finally {
       setLoading(false);
     }
@@ -67,7 +72,7 @@ export default function LoginPage() {
         className="absolute top-6 left-6 flex items-center gap-2 text-sm text-gray-600 hover:text-green-600 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to Home
+        {nav("backToHome")}
       </Link>
 
       <div className="w-full max-w-md">
@@ -77,16 +82,16 @@ export default function LoginPage() {
             <Bike className="h-7 w-7 text-white" />
           </div>
           <h1 className="mt-4 text-2xl font-bold text-gray-900">
-            SMP Green Rides
+            {brand("name")}
           </h1>
-          <p className="text-sm text-gray-500">Partner Dashboard</p>
+          <p className="text-sm text-gray-500">{brand("partnerDashboard")}</p>
         </div>
 
         {/* Login Form */}
         <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900">Welcome back</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{t("title")}</h2>
           <p className="mt-1 text-sm text-gray-500">
-            Sign in to your account to continue
+            {t("subtitle")}
           </p>
 
           <form onSubmit={handleLogin} className="mt-6 space-y-4">
@@ -101,7 +106,7 @@ export default function LoginPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email address
+                {t("email")}
               </label>
               <input
                 id="email"
@@ -110,7 +115,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="mt-1 h-11 w-full rounded-lg border border-gray-200 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                placeholder="you@example.com"
+                placeholder={t("emailPlaceholder")}
               />
             </div>
 
@@ -119,7 +124,7 @@ export default function LoginPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-                Password
+                {t("password")}
               </label>
               <div className="relative mt-1">
                 <input
@@ -129,7 +134,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="h-11 w-full rounded-lg border border-gray-200 px-3 pr-10 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                  placeholder="Enter your password"
+                  placeholder={t("passwordPlaceholder")}
                 />
                 <button
                   type="button"
@@ -151,13 +156,13 @@ export default function LoginPage() {
                   type="checkbox"
                   className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
                 />
-                <span className="text-sm text-gray-600">Remember me</span>
+                <span className="text-sm text-gray-600">{t("rememberMe")}</span>
               </label>
               <Link
                 href="/forgot-password"
                 className="text-sm font-medium text-green-600 hover:text-green-700"
               >
-                Forgot password?
+                {t("forgotPassword")}
               </Link>
             </div>
 
@@ -166,19 +171,13 @@ export default function LoginPage() {
               disabled={loading}
               className="h-11 w-full rounded-lg bg-green-600 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? t("submitting") : t("submit")}
             </button>
           </form>
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-500">
-          Don&apos;t have an account?{" "}
-          <Link
-            href="/register"
-            className="font-medium text-green-600 hover:text-green-700"
-          >
-            Contact your admin
-          </Link>
+          {t("noAccount")}
         </p>
       </div>
     </div>
