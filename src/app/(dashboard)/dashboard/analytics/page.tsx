@@ -18,12 +18,36 @@ import { getAnalyticsData, getDrivers } from "@/lib/supabase/database";
 import { PIPELINE_STAGES, SOURCE_CHANNELS, MONTHLY_TARGETS_2026, CPA_RATE_UGX } from "@/constants";
 import { exportDriversToCSV, generateDriverSummary, exportSummaryReport, exportAnalyticsPDF } from "@/lib/export";
 import { PermissionGate } from "@/components/auth";
-import type { Driver } from "@/types/database";
+import type { Driver, SourceChannel } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 const FUNNEL_COLORS = ["#9CA3AF", "#FCD34D", "#60A5FA", "#A78BFA", "#34D399"];
 const SOURCE_COLORS = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#6B7280"];
 
 export default function AnalyticsPage() {
+  const t = useTranslations("analytics");
+  const pipeline = useTranslations("pipeline.stages");
+  const months = useTranslations("analytics.months");
+  const sources = useTranslations("drivers.sources");
+
+  // Source and stage labels with translations
+  const SOURCE_CHANNEL_LABELS: Record<SourceChannel, string> = {
+    social_media: sources("socialMedia"),
+    referral: sources("referral"),
+    roadshow: sources("roadshow"),
+    boda_stage: sources("bodaStage"),
+    whatsapp: sources("whatsapp"),
+    online_application: sources("onlineApplication"),
+    other: sources("other"),
+  };
+
+  const STAGE_LABELS: Record<string, string> = {
+    sourced: pipeline("sourced"),
+    screening: pipeline("screening"),
+    qualified: pipeline("qualified"),
+    onboarding: pipeline("onboarding"),
+    handed_over: pipeline("handedOver"),
+  };
   const [loading, setLoading] = useState(true);
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [data, setData] = useState<{
@@ -78,24 +102,24 @@ export default function AnalyticsPage() {
 
   // Transform data for charts
   const funnelChartData = PIPELINE_STAGES.filter(s => s.id !== "rejected").map((stage, index) => ({
-    name: stage.label,
+    name: STAGE_LABELS[stage.id] || stage.label,
     value: data?.funnelData[stage.id] || 0,
     fill: FUNNEL_COLORS[index],
   }));
 
   const sourceChartData = SOURCE_CHANNELS.map((source, index) => ({
-    name: source.label,
+    name: SOURCE_CHANNEL_LABELS[source.id as SourceChannel] || source.label,
     value: data?.sourceData[source.id] || 0,
     fill: SOURCE_COLORS[index],
   })).filter(item => item.value > 0);
 
   const monthlyTableData = [
-    { month: "February", key: "february", target: MONTHLY_TARGETS_2026.february },
-    { month: "March", key: "march", target: MONTHLY_TARGETS_2026.march },
-    { month: "April", key: "april", target: MONTHLY_TARGETS_2026.april },
-    { month: "May", key: "may", target: MONTHLY_TARGETS_2026.may },
-    { month: "June", key: "june", target: MONTHLY_TARGETS_2026.june },
-    { month: "July", key: "july", target: MONTHLY_TARGETS_2026.july },
+    { month: months("february"), key: "february", target: MONTHLY_TARGETS_2026.february },
+    { month: months("march"), key: "march", target: MONTHLY_TARGETS_2026.march },
+    { month: months("april"), key: "april", target: MONTHLY_TARGETS_2026.april },
+    { month: months("may"), key: "may", target: MONTHLY_TARGETS_2026.may },
+    { month: months("june"), key: "june", target: MONTHLY_TARGETS_2026.june },
+    { month: months("july"), key: "july", target: MONTHLY_TARGETS_2026.july },
   ];
 
   const totalTarget = Object.values(MONTHLY_TARGETS_2026).reduce((a, b) => a + b, 0);
@@ -111,9 +135,9 @@ export default function AnalyticsPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Analytics</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <p className="text-sm text-gray-500">
-            Track performance metrics and acquisition data
+            {t("subtitle")}
           </p>
         </div>
         <PermissionGate permission="EXPORT_DATA">
@@ -124,7 +148,7 @@ export default function AnalyticsPage() {
               className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <FileText className="h-4 w-4" />
-              Export PDF
+              {t("export.pdf")}
             </button>
             <button
               onClick={handleExportSummary}
@@ -132,7 +156,7 @@ export default function AnalyticsPage() {
               className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Download className="h-4 w-4" />
-              Export CSV
+              {t("export.csv")}
             </button>
             <button
               onClick={handleExportDrivers}
@@ -140,7 +164,7 @@ export default function AnalyticsPage() {
               className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Download className="h-4 w-4" />
-              Export Drivers
+              {t("export.drivers")}
             </button>
           </div>
         </PermissionGate>
@@ -154,11 +178,11 @@ export default function AnalyticsPage() {
               <DollarSign className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Cost per Acquisition</p>
+              <p className="text-sm text-gray-500">{t("kpi.costPerAcquisition")}</p>
               <p className="text-2xl font-bold text-gray-900">
                 UGX {CPA_RATE_UGX.toLocaleString()}
               </p>
-              <p className="text-xs text-gray-400">Per qualified driver</p>
+              <p className="text-xs text-gray-400">{t("kpi.perQualified")}</p>
             </div>
           </div>
         </div>
@@ -169,11 +193,11 @@ export default function AnalyticsPage() {
               <Clock className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Total Drivers</p>
+              <p className="text-sm text-gray-500">{t("kpi.totalDrivers")}</p>
               <p className="text-2xl font-bold text-gray-900">
                 {data?.totalDrivers || 0}
               </p>
-              <p className="text-xs text-gray-400">In pipeline</p>
+              <p className="text-xs text-gray-400">{t("kpi.inPipeline")}</p>
             </div>
           </div>
         </div>
@@ -184,11 +208,11 @@ export default function AnalyticsPage() {
               <TrendingUp className="h-5 w-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Conversion Rate</p>
+              <p className="text-sm text-gray-500">{t("kpi.conversionRate")}</p>
               <p className="text-2xl font-bold text-gray-900">
                 {data?.conversionRate.toFixed(1) || 0}%
               </p>
-              <p className="text-xs text-gray-400">Sourced to handed over</p>
+              <p className="text-xs text-gray-400">{t("kpi.sourcedToHandedOver")}</p>
             </div>
           </div>
         </div>
@@ -199,11 +223,11 @@ export default function AnalyticsPage() {
               <Target className="h-5 w-5 text-orange-600" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">This Month</p>
+              <p className="text-sm text-gray-500">{t("kpi.thisMonth")}</p>
               <p className="text-2xl font-bold text-gray-900">
                 {currentActual} / {currentTarget}
               </p>
-              <p className="text-xs text-gray-400">Drivers handed over</p>
+              <p className="text-xs text-gray-400">{t("kpi.driversHandedOver")}</p>
             </div>
           </div>
         </div>
@@ -213,12 +237,12 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Acquisition Funnel */}
         <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <h2 className="text-lg font-semibold text-gray-900">Acquisition Funnel</h2>
-          <p className="text-sm text-gray-500">Drivers at each pipeline stage</p>
+          <h2 className="text-lg font-semibold text-gray-900">{t("funnel.title")}</h2>
+          <p className="text-sm text-gray-500">{t("funnel.subtitle")}</p>
           <div className="mt-4 h-72">
             {funnelChartData.every(d => d.value === 0) ? (
               <div className="flex h-full items-center justify-center text-gray-400">
-                <p className="text-sm">No data yet. Add drivers to see the funnel.</p>
+                <p className="text-sm">{t("funnel.empty")}</p>
               </div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
@@ -251,12 +275,12 @@ export default function AnalyticsPage() {
 
         {/* Source Performance */}
         <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <h2 className="text-lg font-semibold text-gray-900">Source Performance</h2>
-          <p className="text-sm text-gray-500">Drivers by acquisition channel</p>
+          <h2 className="text-lg font-semibold text-gray-900">{t("sources.title")}</h2>
+          <p className="text-sm text-gray-500">{t("sources.subtitle")}</p>
           <div className="mt-4 h-72">
             {sourceChartData.length === 0 ? (
               <div className="flex h-full items-center justify-center text-gray-400">
-                <p className="text-sm">No data yet. Add drivers to see source breakdown.</p>
+                <p className="text-sm">{t("sources.empty")}</p>
               </div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
@@ -295,16 +319,16 @@ export default function AnalyticsPage() {
 
       {/* Monthly Progress */}
       <div className="rounded-lg border border-gray-200 bg-white p-6">
-        <h2 className="text-lg font-semibold text-gray-900">Monthly Targets (2026)</h2>
-        <p className="text-sm text-gray-500">Track progress against acquisition targets</p>
+        <h2 className="text-lg font-semibold text-gray-900">{t("targets.title")}</h2>
+        <p className="text-sm text-gray-500">{t("targets.subtitle")}</p>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="pb-3 text-left font-medium text-gray-500">Month</th>
-                <th className="pb-3 text-right font-medium text-gray-500">Target</th>
-                <th className="pb-3 text-right font-medium text-gray-500">Actual</th>
-                <th className="pb-3 text-right font-medium text-gray-500">Progress</th>
+                <th className="pb-3 text-left font-medium text-gray-500">{t("targets.month")}</th>
+                <th className="pb-3 text-right font-medium text-gray-500">{t("targets.target")}</th>
+                <th className="pb-3 text-right font-medium text-gray-500">{t("targets.actual")}</th>
+                <th className="pb-3 text-right font-medium text-gray-500">{t("targets.progress")}</th>
               </tr>
             </thead>
             <tbody>
@@ -343,7 +367,7 @@ export default function AnalyticsPage() {
             </tbody>
             <tfoot>
               <tr className="font-medium">
-                <td className="pt-3 text-gray-900">Total</td>
+                <td className="pt-3 text-gray-900">{t("targets.total")}</td>
                 <td className="pt-3 text-right text-gray-900">{totalTarget}</td>
                 <td className="pt-3 text-right text-gray-900">{totalActual}</td>
                 <td className="pt-3 text-right">
