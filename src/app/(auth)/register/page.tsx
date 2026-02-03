@@ -5,9 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bike, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const t = useTranslations("auth.register");
+  const nav = useTranslations("nav");
+  const brand = useTranslations("brand");
+  const errors = useTranslations("errors");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,12 +32,12 @@ export default function RegisterPage() {
     setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("errors.passwordMismatch"));
       return;
     }
 
     if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
+      setError(t("errors.passwordLength"));
       return;
     }
 
@@ -77,7 +82,7 @@ export default function RegisterPage() {
       // Redirect to verification message or dashboard
       router.push("/login?message=Check your email to confirm your account");
     } catch {
-      setError("An unexpected error occurred");
+      setError(errors("unexpected"));
     } finally {
       setLoading(false);
     }
@@ -91,7 +96,7 @@ export default function RegisterPage() {
         className="absolute top-6 left-6 flex items-center gap-2 text-sm text-gray-600 hover:text-green-600 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to Home
+        {nav("backToHome")}
       </Link>
 
       <div className="w-full max-w-md">
@@ -101,16 +106,16 @@ export default function RegisterPage() {
             <Bike className="h-7 w-7 text-white" />
           </div>
           <h1 className="mt-4 text-2xl font-bold text-gray-900">
-            SMP Green Rides
+            {brand("name")}
           </h1>
-          <p className="text-sm text-gray-500">Partner Dashboard</p>
+          <p className="text-sm text-gray-500">{brand("partnerDashboard")}</p>
         </div>
 
         {/* Register Form */}
         <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900">Create account</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{t("title")}</h2>
           <p className="mt-1 text-sm text-gray-500">
-            Join the SMP team to manage drivers
+            {t("subtitle")}
           </p>
 
           <form onSubmit={handleRegister} className="mt-6 space-y-4">
@@ -125,7 +130,7 @@ export default function RegisterPage() {
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
               >
-                Full name
+                {t("fullName")}
               </label>
               <input
                 id="name"
@@ -135,7 +140,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 required
                 className="mt-1 h-11 w-full rounded-lg border border-gray-200 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                placeholder="Enter your full name"
+                placeholder={t("fullNamePlaceholder")}
               />
             </div>
 
@@ -144,7 +149,7 @@ export default function RegisterPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email address
+                {t("email")}
               </label>
               <input
                 id="email"
@@ -154,7 +159,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 required
                 className="mt-1 h-11 w-full rounded-lg border border-gray-200 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                placeholder="you@example.com"
+                placeholder={t("emailPlaceholder")}
               />
             </div>
 
@@ -163,7 +168,7 @@ export default function RegisterPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
-                Password
+                {t("password")}
               </label>
               <div className="relative mt-1">
                 <input
@@ -174,7 +179,7 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   required
                   className="h-11 w-full rounded-lg border border-gray-200 px-3 pr-10 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                  placeholder="Create a password"
+                  placeholder={t("passwordPlaceholder")}
                 />
                 <button
                   type="button"
@@ -189,7 +194,7 @@ export default function RegisterPage() {
                 </button>
               </div>
               <p className="mt-1 text-xs text-gray-500">
-                Must be at least 8 characters
+                {t("passwordHint")}
               </p>
             </div>
 
@@ -198,7 +203,7 @@ export default function RegisterPage() {
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-700"
               >
-                Confirm password
+                {t("confirmPassword")}
               </label>
               <input
                 id="confirmPassword"
@@ -208,7 +213,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 required
                 className="mt-1 h-11 w-full rounded-lg border border-gray-200 px-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                placeholder="Confirm your password"
+                placeholder={t("confirmPasswordPlaceholder")}
               />
             </div>
 
@@ -217,18 +222,18 @@ export default function RegisterPage() {
               disabled={loading}
               className="h-11 w-full rounded-lg bg-green-600 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {loading ? "Creating account..." : "Create account"}
+              {loading ? t("submitting") : t("submit")}
             </button>
           </form>
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-500">
-          Already have an account?{" "}
+          {t("hasAccount").split("Sign in")[0]}
           <Link
             href="/login"
             className="font-medium text-green-600 hover:text-green-700"
           >
-            Sign in
+            {nav("signIn")}
           </Link>
         </p>
       </div>

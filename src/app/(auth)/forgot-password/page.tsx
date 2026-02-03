@@ -4,8 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { Bike, ArrowLeft, Mail, CheckCircle } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 export default function ForgotPasswordPage() {
+  const t = useTranslations("auth.forgotPassword");
+  const errors = useTranslations("errors");
+  const common = useTranslations("common");
+  const nav = useTranslations("nav");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -29,7 +34,7 @@ export default function ForgotPasswordPage() {
 
       setSuccess(true);
     } catch {
-      setError("An unexpected error occurred");
+      setError(errors("unexpected"));
     } finally {
       setLoading(false);
     }
@@ -42,18 +47,17 @@ export default function ForgotPasswordPage() {
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
-          <h1 className="mt-6 text-2xl font-bold text-gray-900">Check your email</h1>
+          <h1 className="mt-6 text-2xl font-bold text-gray-900">{t("success.title")}</h1>
           <p className="mt-2 text-gray-600">
-            We&apos;ve sent a password reset link to{" "}
-            <span className="font-medium">{email}</span>
+            {t("success.description", { email })}
           </p>
           <p className="mt-4 text-sm text-gray-500">
-            Didn&apos;t receive the email? Check your spam folder or{" "}
+            {t("success.hint").split("try again")[0]}
             <button
               onClick={() => setSuccess(false)}
               className="font-medium text-green-600 hover:text-green-700"
             >
-              try again
+              {common("tryAgain").toLowerCase()}
             </button>
           </p>
           <Link
@@ -61,7 +65,7 @@ export default function ForgotPasswordPage() {
             className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-green-600 hover:text-green-700"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to login
+            {t("success.backToLogin")}
           </Link>
         </div>
       </div>
@@ -76,7 +80,7 @@ export default function ForgotPasswordPage() {
         className="absolute top-6 left-6 flex items-center gap-2 text-sm text-gray-600 hover:text-green-600 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to Login
+        {t("backToLogin")}
       </Link>
 
       <div className="w-full max-w-md">
@@ -86,10 +90,10 @@ export default function ForgotPasswordPage() {
             <Bike className="h-7 w-7 text-white" />
           </div>
           <h1 className="mt-4 text-2xl font-bold text-gray-900">
-            Forgot password?
+            {t("title")}
           </h1>
           <p className="mt-2 text-center text-sm text-gray-500">
-            No worries, we&apos;ll send you reset instructions
+            {t("subtitle")}
           </p>
         </div>
 
@@ -107,7 +111,7 @@ export default function ForgotPasswordPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email address
+                {t("email")}
               </label>
               <div className="relative mt-1">
                 <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
@@ -118,7 +122,7 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="h-11 w-full rounded-lg border border-gray-200 pl-10 pr-3 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
-                  placeholder="Enter your email"
+                  placeholder={t("emailPlaceholder")}
                 />
               </div>
             </div>
@@ -128,18 +132,18 @@ export default function ForgotPasswordPage() {
               disabled={loading}
               className="h-11 w-full rounded-lg bg-green-600 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
             >
-              {loading ? "Sending..." : "Reset password"}
+              {loading ? common("sending") : t("submit")}
             </button>
           </form>
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-500">
-          Remember your password?{" "}
+          {t("rememberPassword")}{" "}
           <Link
             href="/login"
             className="font-medium text-green-600 hover:text-green-700"
           >
-            Sign in
+            {nav("signIn")}
           </Link>
         </p>
       </div>

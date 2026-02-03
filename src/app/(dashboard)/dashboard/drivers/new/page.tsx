@@ -8,6 +8,7 @@ import { SOURCE_CHANNELS } from "@/constants";
 import type { SourceChannel } from "@/types/database";
 import { createDriver } from "@/lib/supabase/database";
 import { useToast } from "@/components/ui/toast";
+import { useTranslations } from "next-intl";
 
 interface FormData {
   first_name: string;
@@ -49,50 +50,62 @@ const initialFormData: FormData = {
   notes: "",
 };
 
-// Validation functions
-const validateFirstName = (value: string): string | undefined => {
-  if (!value.trim()) return "First name is required";
-  if (value.trim().length < 2) return "First name must be at least 2 characters";
-  if (!/^[a-zA-Z\s'-]+$/.test(value)) return "First name contains invalid characters";
-  return undefined;
-};
-
-const validateLastName = (value: string): string | undefined => {
-  if (!value.trim()) return "Last name is required";
-  if (value.trim().length < 2) return "Last name must be at least 2 characters";
-  if (!/^[a-zA-Z\s'-]+$/.test(value)) return "Last name contains invalid characters";
-  return undefined;
-};
-
-const validatePhone = (value: string): string | undefined => {
-  if (!value.trim()) return "Phone number is required";
-  const cleaned = value.replace(/\s/g, "");
-  // Support both +256 and 0 prefix formats for Uganda
-  const phoneRegex = /^(\+?256|0)[0-9]{9}$/;
-  if (!phoneRegex.test(cleaned)) {
-    return "Enter a valid Ugandan phone number (e.g., +256701234567 or 0701234567)";
-  }
-  return undefined;
-};
-
-const validateNationalId = (value: string): string | undefined => {
-  if (!value.trim()) return undefined; // Optional field
-  // Uganda National ID format: CM + 13 alphanumeric characters
-  if (!/^[A-Z]{2}[0-9A-Z]{13}$/i.test(value.replace(/\s/g, ""))) {
-    return "Invalid National ID format (e.g., CM12345678ABCDE)";
-  }
-  return undefined;
-};
-
-const validateDrivingPermit = (value: string): string | undefined => {
-  if (!value.trim()) return undefined; // Optional field
-  if (value.trim().length < 6) return "Driving permit must be at least 6 characters";
-  return undefined;
-};
-
 export default function NewDriverPage() {
   const router = useRouter();
   const { addToast } = useToast();
+  const t = useTranslations("drivers.new");
+  const common = useTranslations("common");
+  const sources = useTranslations("drivers.sources");
+
+  // Validation functions using translations
+  const validateFirstName = (value: string): string | undefined => {
+    if (!value.trim()) return t("validation.firstNameRequired");
+    if (value.trim().length < 2) return t("validation.firstNameMin");
+    if (!/^[a-zA-Z\s'-]+$/.test(value)) return t("validation.firstNameInvalid");
+    return undefined;
+  };
+
+  const validateLastName = (value: string): string | undefined => {
+    if (!value.trim()) return t("validation.lastNameRequired");
+    if (value.trim().length < 2) return t("validation.lastNameMin");
+    if (!/^[a-zA-Z\s'-]+$/.test(value)) return t("validation.lastNameInvalid");
+    return undefined;
+  };
+
+  const validatePhone = (value: string): string | undefined => {
+    if (!value.trim()) return t("validation.phoneRequired");
+    const cleaned = value.replace(/\s/g, "");
+    const phoneRegex = /^(\+?256|0)[0-9]{9}$/;
+    if (!phoneRegex.test(cleaned)) {
+      return t("validation.phoneInvalid");
+    }
+    return undefined;
+  };
+
+  const validateNationalId = (value: string): string | undefined => {
+    if (!value.trim()) return undefined;
+    if (!/^[A-Z]{2}[0-9A-Z]{13}$/i.test(value.replace(/\s/g, ""))) {
+      return t("validation.nationalIdInvalid");
+    }
+    return undefined;
+  };
+
+  const validateDrivingPermit = (value: string): string | undefined => {
+    if (!value.trim()) return undefined;
+    if (value.trim().length < 6) return t("validation.drivingPermitMin");
+    return undefined;
+  };
+
+  // Source channel labels with translations
+  const SOURCE_CHANNEL_LABELS: Record<SourceChannel, string> = {
+    social_media: sources("socialMedia"),
+    referral: sources("referral"),
+    roadshow: sources("roadshow"),
+    boda_stage: sources("bodaStage"),
+    whatsapp: sources("whatsapp"),
+    online_application: sources("onlineApplication"),
+    other: sources("other"),
+  };
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -180,9 +193,9 @@ export default function NewDriverPage() {
     setFieldErrors(errors);
 
     // Check if there are any errors
-    const hasErrors = Object.values(errors).some((error) => error !== undefined);
+    const hasErrors = Object.values(errors).some((err) => err !== undefined);
     if (hasErrors) {
-      setError("Please fix the errors below before submitting");
+      setError(t("validation.fixErrors"));
       // Focus the first field with an error
       const firstErrorField = Object.keys(errors).find(
         (key) => errors[key as keyof FieldErrors]
@@ -214,19 +227,19 @@ export default function NewDriverPage() {
 
       addToast({
         type: "success",
-        title: "Driver added successfully",
-        message: `${formData.first_name} ${formData.last_name} has been added to the pipeline`,
+        title: t("success.title"),
+        message: t("success.description", { name: `${formData.first_name} ${formData.last_name}` }),
       });
 
       // Redirect to drivers list
       router.push("/dashboard/drivers");
     } catch (err) {
       console.error("Error creating driver:", err);
-      setError("Failed to save driver. Please try again.");
+      setError(common("error"));
       addToast({
         type: "error",
-        title: "Failed to add driver",
-        message: "Please try again",
+        title: common("error"),
+        message: common("tryAgain"),
       });
     } finally {
       setLoading(false);
@@ -244,9 +257,9 @@ export default function NewDriverPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Add New Driver</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("title")}</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Enter driver information to add them to the pipeline
+            {t("subtitle")}
           </p>
         </div>
       </div>
@@ -263,9 +276,9 @@ export default function NewDriverPage() {
         {/* Personal Information */}
         <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Personal Information
+            {t("personal.title")}
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Basic driver details</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t("personal.subtitle")}</p>
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
@@ -273,7 +286,7 @@ export default function NewDriverPage() {
                 htmlFor="first_name"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                First Name <span className="text-red-500">*</span>
+                {t("fields.firstName")} <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <input
@@ -285,7 +298,7 @@ export default function NewDriverPage() {
                   onBlur={handleBlur}
                   required
                   className={getInputClassName("first_name", true)}
-                  placeholder="Enter first name"
+                  placeholder={t("fields.firstNamePlaceholder")}
                 />
                 {isFieldValid("first_name") && (
                   <CheckCircle2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-green-500" />
@@ -306,7 +319,7 @@ export default function NewDriverPage() {
                 htmlFor="last_name"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Last Name <span className="text-red-500">*</span>
+                {t("fields.lastName")} <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <input
@@ -318,7 +331,7 @@ export default function NewDriverPage() {
                   onBlur={handleBlur}
                   required
                   className={getInputClassName("last_name", true)}
-                  placeholder="Enter last name"
+                  placeholder={t("fields.lastNamePlaceholder")}
                 />
                 {isFieldValid("last_name") && (
                   <CheckCircle2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-green-500" />
@@ -339,7 +352,7 @@ export default function NewDriverPage() {
                 htmlFor="phone"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Phone Number <span className="text-red-500">*</span>
+                {t("fields.phone")} <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <input
@@ -351,7 +364,7 @@ export default function NewDriverPage() {
                   onBlur={handleBlur}
                   required
                   className={getInputClassName("phone", true)}
-                  placeholder="+256701234567"
+                  placeholder={t("fields.phonePlaceholder")}
                 />
                 {isFieldValid("phone") && (
                   <CheckCircle2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-green-500" />
@@ -372,7 +385,7 @@ export default function NewDriverPage() {
                 htmlFor="location"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Location / Zone
+                {t("fields.location")}
               </label>
               <input
                 type="text"
@@ -381,7 +394,7 @@ export default function NewDriverPage() {
                 value={formData.location}
                 onChange={handleChange}
                 className="mt-1 h-10 w-full rounded-lg border border-gray-200 dark:border-gray-600 px-3 text-sm transition-colors focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
-                placeholder="e.g., Kampala Central, Ntinda"
+                placeholder={t("fields.locationPlaceholder")}
               />
             </div>
           </div>
@@ -389,8 +402,8 @@ export default function NewDriverPage() {
 
         {/* Documents */}
         <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Documents</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Driver identification documents</p>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t("documents.title")}</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t("documents.subtitle")}</p>
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
@@ -398,7 +411,7 @@ export default function NewDriverPage() {
                 htmlFor="national_id"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                National ID Number
+                {t("fields.nationalId")}
               </label>
               <div className="relative">
                 <input
@@ -409,7 +422,7 @@ export default function NewDriverPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={getInputClassName("national_id", false)}
-                  placeholder="CM12345678ABCDE"
+                  placeholder={t("fields.nationalIdPlaceholder")}
                 />
                 {touched.national_id && !fieldErrors.national_id && formData.national_id.trim() && (
                   <CheckCircle2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-green-500" />
@@ -430,7 +443,7 @@ export default function NewDriverPage() {
                 htmlFor="driving_permit_number"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Driving Permit Number
+                {t("fields.drivingPermit")}
               </label>
               <div className="relative">
                 <input
@@ -441,7 +454,7 @@ export default function NewDriverPage() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={getInputClassName("driving_permit_number", false)}
-                  placeholder="DL12345678"
+                  placeholder={t("fields.drivingPermitPlaceholder")}
                 />
                 {touched.driving_permit_number && !fieldErrors.driving_permit_number && formData.driving_permit_number.trim() && (
                   <CheckCircle2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-green-500" />
@@ -462,9 +475,9 @@ export default function NewDriverPage() {
         {/* Source Information */}
         <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Source Information
+            {t("sourceInfo.title")}
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">How was this driver acquired</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t("sourceInfo.subtitle")}</p>
 
           <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
@@ -472,7 +485,7 @@ export default function NewDriverPage() {
                 htmlFor="source_channel"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Source Channel <span className="text-red-500">*</span>
+                {common("sourceChannel")} <span className="text-red-500">*</span>
               </label>
               <select
                 id="source_channel"
@@ -483,7 +496,7 @@ export default function NewDriverPage() {
               >
                 {SOURCE_CHANNELS.map((channel) => (
                   <option key={channel.id} value={channel.id}>
-                    {channel.label}
+                    {SOURCE_CHANNEL_LABELS[channel.id as SourceChannel]}
                   </option>
                 ))}
               </select>
@@ -494,7 +507,7 @@ export default function NewDriverPage() {
                 htmlFor="notes"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Notes
+                {t("fields.notes")}
               </label>
               <textarea
                 id="notes"
@@ -503,7 +516,7 @@ export default function NewDriverPage() {
                 onChange={handleChange}
                 rows={3}
                 className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 px-3 py-2 text-sm transition-colors focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
-                placeholder="Any additional notes about this driver..."
+                placeholder={t("fields.notesPlaceholder")}
               />
             </div>
           </div>
@@ -515,7 +528,7 @@ export default function NewDriverPage() {
             href="/dashboard/drivers"
             className="rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
           >
-            Cancel
+            {common("cancel")}
           </Link>
           <button
             type="submit"
@@ -525,12 +538,12 @@ export default function NewDriverPage() {
             {loading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Saving...
+                {common("saving")}
               </>
             ) : (
               <>
                 <Save className="h-4 w-4" />
-                Save Driver
+                {t("submit")}
               </>
             )}
           </button>

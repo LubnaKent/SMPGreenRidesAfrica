@@ -26,7 +26,9 @@
     "to": "okutuuka",
     "of": "ku",
     "or": "oba",
-    "and": "ne"
+    "and": "ne",
+    "tryAgain": "Nnyonnyola ddala ogeleme",
+    "sourceChannel": "Ensibuko y'Okufuna"
   },
   "nav": {
     "home": "Awaka",
@@ -228,6 +230,7 @@
       "emailPlaceholder": "Yingiza email yo",
       "submit": "Zawo akabonero",
       "backToLogin": "Dda ku Kuyingira",
+      "rememberPassword": "Ojjukira akabonero ko?",
       "success": {
         "title": "Kebera email yo",
         "description": "Tutumidde link y'okuzawo akabonero eri {email}",

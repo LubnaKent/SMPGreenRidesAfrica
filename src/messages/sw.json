@@ -26,7 +26,9 @@
     "to": "hadi",
     "of": "ya",
     "or": "au",
-    "and": "na"
+    "and": "na",
+    "tryAgain": "Tafadhali jaribu tena",
+    "sourceChannel": "Chanzo cha Kupata"
   },
   "nav": {
     "home": "Nyumbani",
@@ -228,6 +230,7 @@
       "emailPlaceholder": "Ingiza barua pepe yako",
       "submit": "Weka upya nenosiri",
       "backToLogin": "Rudi kwenye Kuingia",
+      "rememberPassword": "Unakumbuka nenosiri lako?",
       "success": {
         "title": "Angalia barua pepe yako",
         "description": "Tumetuma kiungo cha kuweka upya nenosiri kwa {email}",

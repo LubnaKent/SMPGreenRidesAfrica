@@ -26,7 +26,9 @@
     "to": "to",
     "of": "of",
     "or": "or",
-    "and": "and"
+    "and": "and",
+    "tryAgain": "Please try again",
+    "sourceChannel": "Source Channel"
   },
   "nav": {
     "home": "Home",
@@ -228,6 +230,7 @@
       "emailPlaceholder": "Enter your email",
       "submit": "Reset password",
       "backToLogin": "Back to Login",
+      "rememberPassword": "Remember your password?",
       "success": {
         "title": "Check your email",
         "description": "We've sent a password reset link to {email}",
