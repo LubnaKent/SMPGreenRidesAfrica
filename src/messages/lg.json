@@ -1,0 +1,459 @@
+{
+  "common": {
+    "loading": "Kitereeze...",
+    "error": "Waliwo ensobi etasuubirwa",
+    "success": "Kituukiridde",
+    "cancel": "Sazaamu",
+    "save": "Tereka",
+    "delete": "Sazaamu",
+    "edit": "Kyusa",
+    "view": "Laba",
+    "search": "Noonya",
+    "filter": "Longoosa",
+    "filters": "Ebyokulongoosa",
+    "clearAll": "Jjamu byonna",
+    "all": "Byonna",
+    "actions": "Ebikolwa",
+    "back": "Dda emabega",
+    "next": "Ekiddako",
+    "previous": "Ekyayita",
+    "submit": "Weereza",
+    "sending": "Kitumibwa...",
+    "saving": "Kiterekebwa...",
+    "updating": "Kikyusibwa...",
+    "required": "Kyetaagisa",
+    "optional": "Ky'okwagala",
+    "to": "okutuuka",
+    "of": "ku",
+    "or": "oba",
+    "and": "ne"
+  },
+  "nav": {
+    "home": "Awaka",
+    "about": "Ebikwata ku",
+    "services": "Obuweereza",
+    "process": "Enkola",
+    "contact": "Tuukirira",
+    "signIn": "Yingira",
+    "signOut": "Fuluma",
+    "becomeDriver": "Funa Ddereeva",
+    "joinNow": "Yingira Kati",
+    "backToHome": "Dda Awaka"
+  },
+  "brand": {
+    "name": "SMP Green Rides",
+    "fullName": "SMP Green Rides Africa",
+    "tagline": "Afrika",
+    "partnerDashboard": "Dashiboodi y'Omukwatanyizi"
+  },
+  "hero": {
+    "badge": "Kati Tuwandiikisa Baddereeva mu Bibuga 5",
+    "title": "Kulembera Enkyukakyuka ey'Obutonde ku Nnamuziga Bbiri",
+    "subtitle": "Yingira mu mukutu gw'entambula eya bulijjo ogukula ennyo mu Afrika. Tendekebwa, weebwe ekiwandiiko, otandike okufuna - kubanga buli lugendo lusaana.",
+    "cta": "Tandika Olugendo Lwo",
+    "partnerLogin": "Okuyingira kw'Omukwatanyizi",
+    "scrollToExplore": "Seenda okunoonya",
+    "stats": {
+      "drivers": "2,500+",
+      "driversLabel": "Baddereeva Abalina Ebiwandiiko",
+      "partners": "50+",
+      "partnersLabel": "Bakwatanyizi b'Emmotoka",
+      "successRate": "98%",
+      "successRateLabel": "Omugero gw'Okuwangula"
+    }
+  },
+  "about": {
+    "sectionLabel": "Emboozi Yaffe",
+    "title": "Okuzimba Ebiseera eby'Obutonde bya Afrika",
+    "description": "SMP Green Rides Africa kye kkampuni y'enkola ey'okufuna baddereeva eyeewaddeyo okuzimba abakolera abakuza enkyukakyuka y'entambula eya bulijjo mu Afrika. Tukwataganya abantu abalina essanyu n'amakisa g'entambula enterevu.",
+    "stats": {
+      "activeDrivers": "Baddereeva Abakola",
+      "partnerCompanies": "Kkampuni Bakwatanyizi",
+      "africanCities": "Bibuga bya Afrika",
+      "successRate": "Omugero gw'Okuwangula"
+    },
+    "whatDrivesUs": "Ekitusindiikirira",
+    "mission": {
+      "title": "Ekigendererwa Kyaffe",
+      "description": "Tuzimba abakolera abasindiikirira Afrika okukulaakulana - mu ngeri enterevu."
+    },
+    "vision": {
+      "title": "Okwolesebwa Kwaffe",
+      "description": "Afrika eya bulijjo ennyo, esindiikirirwa baddereeva abalina amaanyi."
+    },
+    "values": {
+      "title": "Emize Gyaffe",
+      "description": "Obwesimbu, obunterevu, n'okukola obulungi bisindiikirira buli kye tukola. Tukkiriza mu kutondawo enkyukakyuka eyinza okumala ebbanga ng'okozesa obukwatanyizi obw'omutindo."
+    },
+    "reach": {
+      "title": "Okutuuka Kwaffe",
+      "description": "Ng'okola mu bibuga ebinene eby'Afrika, tuzimba omukutu omunene ennyo ku kizikiza gw'abakugu b'entambula eya bulijjo."
+    },
+    "partnerships": {
+      "title": "Obukwatanyizi obw'Enkola",
+      "partnerWithUs": "Kwatana Naffe",
+      "description": "Oli omukulembeze w'emmotoka oba kkampuni ya e-mobility enoonya baddereeva abalina obukugu? Tuwa abakugu abatendekeddwa, abaseeseddwa abeetegefu okwegatta ne ttiimu yo.",
+      "benefits": {
+        "preScreened": "Baddereeva abaseeseddwa edda",
+        "trained": "Abakugu abatendekeddwa",
+        "support": "Obuyambi obugendera mu maaso"
+      },
+      "cta": "Funa Omukwatanyizi"
+    }
+  },
+  "services": {
+    "sectionLabel": "Kye Tukola",
+    "title": "By'okuddamu Baddereeva Okuva Entandikwa Okutuuka Enkomerero",
+    "subtitle": "Okuva ku kupeesa okutuuka ku kutumibwa, tukwata buli ddaala ly'okuzimba abakolera bo ab'entambula.",
+    "items": {
+      "acquisition": {
+        "title": "Okufuna Baddereeva",
+        "description": "Okunoonya n'okusesema baddereeva abalina obukugu okuva mu nsangwa ez'enjawulo mu Afrika yonna."
+      },
+      "certification": {
+        "title": "Pulogulaamu z'Ebiwandiiko",
+        "description": "Okutendeka okukkirizibwa mu mulimu okukwata ku bwereere, obuweereza bw'abakasi, n'okuvuga emmotoka za simu."
+      },
+      "partnerships": {
+        "title": "Obukwatanyizi bw'Emmotoka",
+        "description": "Enkwatagana butereevu ne kkampuni ez'entambula ezinene ezinoonya abakugu abatendekeddwa."
+      },
+      "sustainability": {
+        "title": "Okwefumiitiriza ku Bunterevu",
+        "description": "Okuzimba abakolera abeewaddeyo eri by'okuddamu by'entambula eza simu n'ez'ensi."
+      },
+      "logistics": {
+        "title": "Okutendeka kw'Entwala",
+        "description": "Pulogulaamu ez'enjawulo ez'okutwala okw'ebbanga ddene n'emirimu gy'okugula ku yintaneeti."
+      },
+      "quality": {
+        "title": "Omutindo gw'Okukola",
+        "description": "Okusesema okw'amaanyi okukakasa nti baddereeva bakituukiriza omutindo ogusinga ennyo ogw'obukugu."
+      }
+    },
+    "cta": {
+      "question": "Wetegese okwongera emmotoka zo ne baddereeva abalina obukugu?",
+      "button": "Kwatana Naffe"
+    }
+  },
+  "contact": {
+    "sectionLabel": "Tuukirira",
+    "title": "Ka Tutandike Okwogerako",
+    "subtitle": "Olina ebibuuzo ku buweereza bwaffe oba oyagala okufuuka omukwatanyizi? Twandyagadde okuwulira okuva gy'oli.",
+    "methods": {
+      "email": {
+        "title": "Tutumire Email",
+        "description": "Tuziramu mu ssaawa 24"
+      },
+      "phone": {
+        "title": "Tukubire Essimu",
+        "description": "Bbalaza-Lwakutaano, 8am-6pm EAT"
+      },
+      "visit": {
+        "title": "Tujjire",
+        "description": "Jjangu otulamusire",
+        "address": "Kampala, Uganda"
+      }
+    },
+    "whyContact": {
+      "title": "Lwaki Otuukirire?",
+      "responseTime": "Obudde bw'okuziramu bwa waakiri: essaawa 4",
+      "dedicatedTeam": "Ttiimu ey'obuyambi eyeewaddeyo",
+      "satisfaction": "98% omugero gw'okusanyuka"
+    },
+    "whatsapp": "Yogera ku WhatsApp",
+    "form": {
+      "fullName": "Erinnya Lyonna",
+      "email": "Email",
+      "subject": "Omutwe",
+      "message": "Obubaka",
+      "placeholders": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "message": "Tubuulire nga tuyinza tutya okukuyamba..."
+      },
+      "subjects": {
+        "select": "Londa omutwe",
+        "partnership": "Ebibuuzo by'Obukwatanyizi",
+        "driver": "Okwesimira kw'Oddereeva",
+        "general": "Ekibuuzo eky'Abuva n'Abuva",
+        "support": "Obuyambi"
+      },
+      "success": {
+        "title": "Obubaka Butumiddwa!",
+        "description": "Weebale okukwatagana naffe. Tujja kukuziramu mu ssaawa 24.",
+        "sendAnother": "Tuma obubaka obulala"
+      },
+      "submit": "Tuma Obubaka"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Tukwanukudde",
+      "subtitle": "Yingira mu akawunti yo okweyongera",
+      "email": "Email",
+      "emailPlaceholder": "ggwe@ekyokulabirako.com",
+      "password": "Akabonero k'okuyingira",
+      "passwordPlaceholder": "Yingiza akabonero ko",
+      "rememberMe": "Nkijjukire",
+      "forgotPassword": "Weerabidde akabonero?",
+      "submit": "Yingira",
+      "submitting": "Kiyingira...",
+      "noAccount": "Tolina akawunti? Tuukirira omukubirizi wo"
+    },
+    "register": {
+      "title": "Tandika akawunti",
+      "subtitle": "Yingira mu ttiimu ya SMP okuddukanya baddereeva",
+      "fullName": "Erinnya lyonna",
+      "fullNamePlaceholder": "Yingiza erinnya lyo lyonna",
+      "email": "Email",
+      "emailPlaceholder": "ggwe@ekyokulabirako.com",
+      "password": "Akabonero k'okuyingira",
+      "passwordPlaceholder": "Teekawo akabonero",
+      "passwordHint": "Kirina okuba ennukuta 8 oba okusinga",
+      "confirmPassword": "Kakasa akabonero",
+      "confirmPasswordPlaceholder": "Kakasa akabonero ko",
+      "submit": "Tandika akawunti",
+      "submitting": "Kitandikibwa akawunti...",
+      "hasAccount": "Olina akawunti dda? Yingira",
+      "errors": {
+        "passwordMismatch": "Ebibonero tebikwatagana",
+        "passwordLength": "Akabonero kirina okuba ennukuta 8 oba okusinga"
+      }
+    },
+    "forgotPassword": {
+      "title": "Weerabidde akabonero?",
+      "subtitle": "Teweeraliikirira, tujja kukutumira ebiragiro eby'okuzawo",
+      "email": "Email",
+      "emailPlaceholder": "Yingiza email yo",
+      "submit": "Zawo akabonero",
+      "backToLogin": "Dda ku Kuyingira",
+      "success": {
+        "title": "Kebera email yo",
+        "description": "Tutumidde link y'okuzawo akabonero eri {email}",
+        "hint": "Tofunye email? Kebera folda ya spam oba gezaako nate",
+        "backToLogin": "Dda ku kuyingira"
+      }
+    }
+  },
+  "dashboard": {
+    "welcome": "Tukwanukudde, {name}!",
+    "subtitle": "Bino bye bituuka mu nkola yo ey'abaddereeva leero.",
+    "addDriver": "Ggatako Ddereeva",
+    "stats": {
+      "totalDrivers": "Baddereeva Bonna",
+      "thisMonth": "+{count} omwezi guno",
+      "qualified": "Abalina Obukugu",
+      "conversion": "{rate}% enkyukakyuka",
+      "inPipeline": "Mu Nkola",
+      "activeCandidates": "Abasimbi abakola",
+      "handedOver": "Abagabiddwa",
+      "handedOverThisMonth": "{count} omwezi guno"
+    },
+    "pipeline": {
+      "title": "Enfunze y'Enkola",
+      "subtitle": "Baddereeva ku ddaala lyonna",
+      "viewFull": "Laba enkola yonna",
+      "dragDrop": "Sika era osiibule baddereeva wakati w'amadaala okukyusa embeera zaabwe",
+      "loading": "Kitereeza enkola...",
+      "refresh": "Ggya bupya",
+      "showing": "Kiragira {shown} ku {total} baddereeva:",
+      "searchPlaceholder": "Erinnya, essimu, ekifo...",
+      "sourceChannel": "Ensibuko"
+    },
+    "targets": {
+      "title": "Ekigendererwa ky'Omwezi",
+      "subtitle": "Enkulaakulana ya {month} {year}",
+      "complete": "kweweddeko",
+      "remaining": "Ebisigaddewo",
+      "daysIn": "Ennaku Munda",
+      "viewAnalytics": "Laba okusengula"
+    },
+    "recent": {
+      "title": "Baddereeva Abapya",
+      "subtitle": "Ebigattiddwa emabegawo mu nkola",
+      "empty": "Tewali baddereeva kaakati",
+      "emptyDescription": "Tandika n'okugattako ddereeva wo owasooka mu nkola",
+      "addFirst": "Gattako Ddereeva Owasooka",
+      "viewAll": "Laba baddereeva bonna"
+    }
+  },
+  "drivers": {
+    "title": "Baddereeva",
+    "count": "{count} ddereeva/baddereeva mu buwanvu",
+    "exportCsv": "Fulumya CSV",
+    "searchPlaceholder": "Noonya n'erinnya oba essimu...",
+    "activeFilters": "Ebyokulongoosa ebikola:",
+    "status": "Embeera",
+    "source": "Ensibuko",
+    "sourceChannel": "Ensibuko",
+    "dateAdded": "Ennaku Eyagattibwako",
+    "from": "Okuva",
+    "table": {
+      "driver": "Ddereeva",
+      "contact": "Endagiriro",
+      "source": "Ensibuko",
+      "status": "Embeera",
+      "added": "Yagattibwa",
+      "actions": "Ebikolwa"
+    },
+    "empty": {
+      "filtered": "Tewali baddereeva bakwatagana n'ebyokulongoosa byo",
+      "noDrivers": "Tewali baddereeva bazuddwa. Gattako ddereeva wo owasooka okutandika."
+    },
+    "bulk": {
+      "selected": "{count} balondeddwa",
+      "changeStatus": "Kyusa Embeera"
+    },
+    "sources": {
+      "socialMedia": "Emikutu gy'Abantu",
+      "referral": "Okusabira",
+      "roadshow": "Ebiragiro by'Oluguudo",
+      "bodaStage": "Sitegi ya Boda",
+      "whatsapp": "WhatsApp",
+      "onlineApplication": "Okwesimira ku Yintaneeti",
+      "other": "Ekirala"
+    },
+    "new": {
+      "title": "Ggatako Ddereeva Omupya",
+      "subtitle": "Yingiza ebikwata ku ddereeva okubagattako mu nkola",
+      "personal": {
+        "title": "Ebikwata ku Muntu",
+        "subtitle": "Ebikwata ku ddereeva ebisookerwako"
+      },
+      "documents": {
+        "title": "Ebiwandiiko",
+        "subtitle": "Ebiwandiiko by'okukakasa ddereeva"
+      },
+      "sourceInfo": {
+        "title": "Ebikwata ku Nsibuko",
+        "subtitle": "Ddereeva ono yafunibwa atya"
+      },
+      "fields": {
+        "firstName": "Erinnya Ery'Olubereberye",
+        "firstNamePlaceholder": "Yingiza erinnya ery'olubereberye",
+        "lastName": "Erinnya Ery'Enkomerero",
+        "lastNamePlaceholder": "Yingiza erinnya ery'enkomerero",
+        "phone": "Ennamba y'Essimu",
+        "phonePlaceholder": "+256701234567",
+        "location": "Ekifo / Essaza",
+        "locationPlaceholder": "okug., Kampala Central, Ntinda",
+        "nationalId": "Ennamba ya ID y'Eggwanga",
+        "nationalIdPlaceholder": "CM12345678ABCDE",
+        "drivingPermit": "Ennamba y'Olukusa lw'Okuvuga",
+        "drivingPermitPlaceholder": "DL12345678",
+        "notes": "Ebiwandiiko",
+        "notesPlaceholder": "Ebiwandiiko ebirala ebikwata ku ddereeva ono..."
+      },
+      "validation": {
+        "firstNameRequired": "Erinnya ery'olubereberye lyetaagibwa",
+        "firstNameMin": "Erinnya ery'olubereberye lirina okuba ennukuta 2 oba okusinga",
+        "firstNameInvalid": "Erinnya ery'olubereberye lirina ennukuta ezitakkirizibwa",
+        "lastNameRequired": "Erinnya ery'enkomerero lyetaagibwa",
+        "lastNameMin": "Erinnya ery'enkomerero lirina okuba ennukuta 2 oba okusinga",
+        "lastNameInvalid": "Erinnya ery'enkomerero lirina ennukuta ezitakkirizibwa",
+        "phoneRequired": "Ennamba y'essimu yetaagibwa",
+        "phoneInvalid": "Yingiza ennamba y'essimu ya Uganda etuufu (okug., +256701234567 oba 0701234567)",
+        "nationalIdInvalid": "Enkola ya ID y'Eggwanga etali tuufu (okug., CM12345678ABCDE)",
+        "drivingPermitMin": "Olukusa lw'okuvuga lurina okuba ennukuta 6 oba okusinga",
+        "fixErrors": "Nsaba olongoose ensobi zino wansi ng'otonaweereza"
+      },
+      "submit": "Tereka Ddereeva",
+      "success": {
+        "title": "Ddereeva agattiddwa bulungi",
+        "description": "{name} agattiddwa mu nkola"
+      }
+    }
+  },
+  "pipeline": {
+    "stages": {
+      "sourced": "Bazuddwa",
+      "screening": "Basengulwa",
+      "qualified": "Balina Obukugu",
+      "onboarding": "Bayingizibwa",
+      "handedOver": "Bagabiddwa"
+    },
+    "statusUpdated": "Embeera ekyusiddwa",
+    "movedTo": "Baddereeva {count} basindikiddwa eri {stage}",
+    "updateFailed": "Okukyusa kusazeewo",
+    "updateFailedDescription": "Kusazeewo okukyusa baddereeva abamu. Nsaba ogezaako nate."
+  },
+  "analytics": {
+    "title": "Okusengula",
+    "subtitle": "Goberera ebipimo by'okukola n'ebikwata ku kufuna",
+    "export": {
+      "pdf": "Fulumya PDF",
+      "csv": "Fulumya CSV",
+      "drivers": "Fulumya Baddereeva"
+    },
+    "kpi": {
+      "costPerAcquisition": "Bbeeyi y'Okufuna",
+      "perQualified": "Ku ddereeva alina obukugu",
+      "totalDrivers": "Baddereeva Bonna",
+      "inPipeline": "Mu nkola",
+      "conversionRate": "Omugero gw'Enkyukakyuka",
+      "sourcedToHandedOver": "Okuva okuzuulibwa okutuuka okugabibwa",
+      "thisMonth": "Omwezi Guno",
+      "driversHandedOver": "Baddereeva abagabiddwa"
+    },
+    "funnel": {
+      "title": "Funeli y'Okufuna",
+      "subtitle": "Baddereeva ku ddaala lyonna ery'enkola",
+      "empty": "Tewali data kaakati. Ggatako baddereeva okulaba funeli."
+    },
+    "sources": {
+      "title": "Okukola kw'Ensibuko",
+      "subtitle": "Baddereeva olw'enkola y'okufuna",
+      "empty": "Tewali data kaakati. Ggatako baddereeva okulaba okwawulamu kw'ensibuko."
+    },
+    "targets": {
+      "title": "Ebigendererwa bya Buli Mwezi (2026)",
+      "subtitle": "Goberera enkulaakulana ku bigendererwa by'okufuna",
+      "month": "Omwezi",
+      "target": "Ekigendererwa",
+      "actual": "Ekya Mazima",
+      "progress": "Enkulaakulana",
+      "total": "Omuwendo"
+    },
+    "months": {
+      "january": "Gatonnya",
+      "february": "Mukutulansonga",
+      "march": "Mwezi Gwesatu",
+      "april": "Mwezi Gwakuna",
+      "may": "Mwezi Gwataano",
+      "june": "Mwezi Gwekuna",
+      "july": "Mwezi Gwamusanvu",
+      "august": "Mwezi Gwomunaana",
+      "september": "Mwezi Gwemwenda",
+      "october": "Mwezi Gwekkumi",
+      "november": "Mwezi Gwekkuminoogumu",
+      "december": "Mwezi Gwekkuminebiri"
+    }
+  },
+  "sidebar": {
+    "main": "Ekikulu",
+    "overview": "Enfunze",
+    "pipeline": "Enkola",
+    "drivers": "Baddereeva",
+    "handovers": "Okugaba",
+    "analytics": "Okusengula",
+    "admin": "Obukubirizi",
+    "userManagement": "Okuddukanya Abakozesa",
+    "auditLogs": "Ebiwandiiko by'Okukebera",
+    "settings": "Eby'okuteekawo",
+    "version": "v1.0.0",
+    "copyright": "2026 SMP Group"
+  },
+  "errors": {
+    "unexpected": "Waliwo ensobi etasuubirwa",
+    "loadDrivers": "Kusazeewo okutereeza baddereeva. Nsaba okebere enkwatagana yo ne Supabase.",
+    "loadPipeline": "Kusazeewo okutereeza enkola. Nsaba okebere enkwatagana yo ne Supabase."
+  },
+  "metadata": {
+    "title": "SMP Green Rides Africa",
+    "description": "Akakiiko k'okufuna baddereeva ku ntambula enterevu mu Afrika. Yingira mu nkyukakyuka eya bulijjo ku nnamuziga bbiri.",
+    "ogTitle": "SMP Green Rides Africa - Akakiiko k'Okufuna Baddereeva",
+    "ogDescription": "Yingira mu mukutu gw'entambula eya bulijjo ogukula ennyo mu Afrika. Tendekebwa, funa ekiwandiiko, era otandike okufuna ng'entambula enterevu.",
+    "twitterDescription": "Akakiiko k'okufuna baddereeva ku ntambula enterevu mu Afrika"
+  }
+}

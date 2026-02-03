@@ -3,18 +3,22 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, Leaf } from "lucide-react";
-
-const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Services", href: "#services" },
-  { name: "Process", href: "#how-it-works" },
-  { name: "Contact", href: "#contact" },
-];
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const t = useTranslations("nav");
+  const brand = useTranslations("brand");
+
+  const navLinks = [
+    { name: t("home"), href: "#home" },
+    { name: t("about"), href: "#about" },
+    { name: t("services"), href: "#services" },
+    { name: t("process"), href: "#how-it-works" },
+    { name: t("contact"), href: "#contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,12 +56,12 @@ export function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className={`text-lg font-black transition-colors ${scrolled ? "text-gray-900" : "text-white"}`}>
-                SMP Green Rides
+                {brand("name")}
               </span>
               <span className={`text-[10px] font-bold uppercase tracking-widest -mt-0.5 ${
                 scrolled ? "text-emerald-600" : "text-emerald-300"
               }`}>
-                Africa
+                {brand("tagline")}
               </span>
             </div>
           </Link>
@@ -82,6 +86,7 @@ export function Navbar() {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden lg:flex items-center gap-3">
+            <LanguageSwitcher />
             <Link
               href="/login"
               className={`px-5 py-2.5 text-sm font-bold rounded-xl transition-all ${
@@ -90,7 +95,7 @@ export function Navbar() {
                   : "text-white hover:bg-white/10"
               }`}
             >
-              Sign In
+              {t("signIn")}
             </Link>
             <Link
               href="/register"
@@ -100,7 +105,7 @@ export function Navbar() {
                   : "bg-white text-emerald-900 hover:bg-emerald-50"
               }`}
             >
-              Become a Driver
+              {t("becomeDriver")}
             </Link>
           </div>
 
@@ -136,18 +141,21 @@ export function Navbar() {
               </a>
             ))}
             <hr className="my-4 border-gray-100" />
+            <div className="flex justify-center mb-4">
+              <LanguageSwitcher />
+            </div>
             <div className="grid grid-cols-2 gap-3 pt-2">
               <Link
                 href="/login"
                 className="py-3 text-center text-base font-bold text-gray-700 border-2 border-gray-200 rounded-xl hover:border-emerald-500 hover:text-emerald-600 transition-colors"
               >
-                Sign In
+                {t("signIn")}
               </Link>
               <Link
                 href="/register"
                 className="py-3 text-center text-base font-bold text-white bg-gradient-to-r from-emerald-600 to-green-600 rounded-xl"
               >
-                Join Now
+                {t("joinNow")}
               </Link>
             </div>
           </div>

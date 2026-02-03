@@ -1,0 +1,459 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An unexpected error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "filters": "Filters",
+    "clearAll": "Clear all",
+    "all": "All",
+    "actions": "Actions",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "sending": "Sending...",
+    "saving": "Saving...",
+    "updating": "Updating...",
+    "required": "Required",
+    "optional": "Optional",
+    "to": "to",
+    "of": "of",
+    "or": "or",
+    "and": "and"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "process": "Process",
+    "contact": "Contact",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "becomeDriver": "Become a Driver",
+    "joinNow": "Join Now",
+    "backToHome": "Back to Home"
+  },
+  "brand": {
+    "name": "SMP Green Rides",
+    "fullName": "SMP Green Rides Africa",
+    "tagline": "Africa",
+    "partnerDashboard": "Partner Dashboard"
+  },
+  "hero": {
+    "badge": "Now Onboarding Drivers in 5 Cities",
+    "title": "Power the Green Revolution on Two Wheels",
+    "subtitle": "Join Africa's fastest-growing eco-mobility network. Get trained, get certified, and start earning — because every journey matters.",
+    "cta": "Start Your Journey",
+    "partnerLogin": "Partner Login",
+    "scrollToExplore": "Scroll to explore",
+    "stats": {
+      "drivers": "2,500+",
+      "driversLabel": "Certified Drivers",
+      "partners": "50+",
+      "partnersLabel": "Fleet Partners",
+      "successRate": "98%",
+      "successRateLabel": "Success Rate"
+    }
+  },
+  "about": {
+    "sectionLabel": "Our Story",
+    "title": "Building Africa's Green Future",
+    "description": "SMP Green Rides Africa is a strategic driver acquisition company dedicated to building the workforce that powers Africa's green mobility revolution. We connect passionate individuals with sustainable transportation opportunities.",
+    "stats": {
+      "activeDrivers": "Active Drivers",
+      "partnerCompanies": "Partner Companies",
+      "africanCities": "African Cities",
+      "successRate": "Success Rate"
+    },
+    "whatDrivesUs": "What Drives Us",
+    "mission": {
+      "title": "Our Mission",
+      "description": "We build the workforce that moves Africa forward — sustainably."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "A greener Africa, powered by empowered drivers."
+    },
+    "values": {
+      "title": "Our Values",
+      "description": "Integrity, sustainability, and excellence drive everything we do. We believe in creating lasting impact through quality partnerships."
+    },
+    "reach": {
+      "title": "Our Reach",
+      "description": "Operating across major African cities, we're building the continent's largest network of green mobility professionals."
+    },
+    "partnerships": {
+      "title": "Strategic Partnerships",
+      "partnerWithUs": "Partner with Us",
+      "description": "Are you a fleet operator or e-mobility company looking for qualified drivers? We provide trained, vetted professionals ready to join your team.",
+      "benefits": {
+        "preScreened": "Pre-screened drivers",
+        "trained": "Trained professionals",
+        "support": "Ongoing support"
+      },
+      "cta": "Become a Partner"
+    }
+  },
+  "services": {
+    "sectionLabel": "What We Do",
+    "title": "End-to-End Driver Solutions",
+    "subtitle": "From recruitment to deployment, we handle every step of building your mobility workforce.",
+    "items": {
+      "acquisition": {
+        "title": "Driver Acquisition",
+        "description": "Strategic sourcing and vetting of qualified drivers from diverse backgrounds across Africa."
+      },
+      "certification": {
+        "title": "Certification Programs",
+        "description": "Industry-recognized training covering safety, customer service, and e-vehicle operation."
+      },
+      "partnerships": {
+        "title": "Fleet Partnerships",
+        "description": "Direct connections with leading mobility companies seeking trained professionals."
+      },
+      "sustainability": {
+        "title": "Sustainability Focus",
+        "description": "Building a workforce dedicated to electric and eco-friendly transportation solutions."
+      },
+      "logistics": {
+        "title": "Logistics Training",
+        "description": "Specialized programs for last-mile delivery and e-commerce logistics operations."
+      },
+      "quality": {
+        "title": "Quality Standards",
+        "description": "Rigorous screening ensuring drivers meet the highest professional standards."
+      }
+    },
+    "cta": {
+      "question": "Ready to scale your fleet with qualified drivers?",
+      "button": "Partner With Us"
+    }
+  },
+  "contact": {
+    "sectionLabel": "Get in Touch",
+    "title": "Let's Start a Conversation",
+    "subtitle": "Have questions about our services or want to become a partner? We'd love to hear from you.",
+    "methods": {
+      "email": {
+        "title": "Email Us",
+        "description": "We reply within 24 hours"
+      },
+      "phone": {
+        "title": "Call Us",
+        "description": "Mon-Fri, 8am-6pm EAT"
+      },
+      "visit": {
+        "title": "Visit Us",
+        "description": "Come say hello",
+        "address": "Kampala, Uganda"
+      }
+    },
+    "whyContact": {
+      "title": "Why Contact Us?",
+      "responseTime": "Average response time: 4 hours",
+      "dedicatedTeam": "Dedicated support team",
+      "satisfaction": "98% satisfaction rate"
+    },
+    "whatsapp": "Chat on WhatsApp",
+    "form": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "subject": "Subject",
+      "message": "Message",
+      "placeholders": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "message": "Tell us how we can help..."
+      },
+      "subjects": {
+        "select": "Select a subject",
+        "partnership": "Partnership Inquiry",
+        "driver": "Driver Application",
+        "general": "General Question",
+        "support": "Support"
+      },
+      "success": {
+        "title": "Message Sent!",
+        "description": "Thank you for reaching out. We'll get back to you within 24 hours.",
+        "sendAnother": "Send another message"
+      },
+      "submit": "Send Message"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account to continue",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "noAccount": "Don't have an account? Contact your admin"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Join the SMP team to manage drivers",
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Enter your full name",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Create a password",
+      "passwordHint": "Must be at least 8 characters",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "submit": "Create account",
+      "submitting": "Creating account...",
+      "hasAccount": "Already have an account? Sign in",
+      "errors": {
+        "passwordMismatch": "Passwords do not match",
+        "passwordLength": "Password must be at least 8 characters"
+      }
+    },
+    "forgotPassword": {
+      "title": "Forgot password?",
+      "subtitle": "No worries, we'll send you reset instructions",
+      "email": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "submit": "Reset password",
+      "backToLogin": "Back to Login",
+      "success": {
+        "title": "Check your email",
+        "description": "We've sent a password reset link to {email}",
+        "hint": "Didn't receive the email? Check your spam folder or try again",
+        "backToLogin": "Back to login"
+      }
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}!",
+    "subtitle": "Here's what's happening with your driver pipeline today.",
+    "addDriver": "Add Driver",
+    "stats": {
+      "totalDrivers": "Total Drivers",
+      "thisMonth": "+{count} this month",
+      "qualified": "Qualified",
+      "conversion": "{rate}% conversion",
+      "inPipeline": "In Pipeline",
+      "activeCandidates": "Active candidates",
+      "handedOver": "Handed Over",
+      "handedOverThisMonth": "{count} this month"
+    },
+    "pipeline": {
+      "title": "Pipeline Summary",
+      "subtitle": "Drivers by stage",
+      "viewFull": "View full pipeline",
+      "dragDrop": "Drag and drop drivers between stages to update their status",
+      "loading": "Loading pipeline...",
+      "refresh": "Refresh",
+      "showing": "Showing {shown} of {total} drivers:",
+      "searchPlaceholder": "Name, phone, location...",
+      "sourceChannel": "Source Channel"
+    },
+    "targets": {
+      "title": "Monthly Target",
+      "subtitle": "{month} {year} progress",
+      "complete": "complete",
+      "remaining": "Remaining",
+      "daysIn": "Days In",
+      "viewAnalytics": "View analytics"
+    },
+    "recent": {
+      "title": "Recent Drivers",
+      "subtitle": "Latest additions to the pipeline",
+      "empty": "No drivers yet",
+      "emptyDescription": "Get started by adding your first driver to the pipeline",
+      "addFirst": "Add First Driver",
+      "viewAll": "View all drivers"
+    }
+  },
+  "drivers": {
+    "title": "Drivers",
+    "count": "{count} driver(s) in total",
+    "exportCsv": "Export CSV",
+    "searchPlaceholder": "Search by name or phone...",
+    "activeFilters": "Active filters:",
+    "status": "Status",
+    "source": "Source",
+    "sourceChannel": "Source Channel",
+    "dateAdded": "Date Added",
+    "from": "From",
+    "table": {
+      "driver": "Driver",
+      "contact": "Contact",
+      "source": "Source",
+      "status": "Status",
+      "added": "Added",
+      "actions": "Actions"
+    },
+    "empty": {
+      "filtered": "No drivers match your filters",
+      "noDrivers": "No drivers found. Add your first driver to get started."
+    },
+    "bulk": {
+      "selected": "{count} selected",
+      "changeStatus": "Change Status"
+    },
+    "sources": {
+      "socialMedia": "Social Media",
+      "referral": "Referral",
+      "roadshow": "Roadshow",
+      "bodaStage": "Boda Stage",
+      "whatsapp": "WhatsApp",
+      "onlineApplication": "Online Application",
+      "other": "Other"
+    },
+    "new": {
+      "title": "Add New Driver",
+      "subtitle": "Enter driver information to add them to the pipeline",
+      "personal": {
+        "title": "Personal Information",
+        "subtitle": "Basic driver details"
+      },
+      "documents": {
+        "title": "Documents",
+        "subtitle": "Driver identification documents"
+      },
+      "sourceInfo": {
+        "title": "Source Information",
+        "subtitle": "How was this driver acquired"
+      },
+      "fields": {
+        "firstName": "First Name",
+        "firstNamePlaceholder": "Enter first name",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Enter last name",
+        "phone": "Phone Number",
+        "phonePlaceholder": "+256701234567",
+        "location": "Location / Zone",
+        "locationPlaceholder": "e.g., Kampala Central, Ntinda",
+        "nationalId": "National ID Number",
+        "nationalIdPlaceholder": "CM12345678ABCDE",
+        "drivingPermit": "Driving Permit Number",
+        "drivingPermitPlaceholder": "DL12345678",
+        "notes": "Notes",
+        "notesPlaceholder": "Any additional notes about this driver..."
+      },
+      "validation": {
+        "firstNameRequired": "First name is required",
+        "firstNameMin": "First name must be at least 2 characters",
+        "firstNameInvalid": "First name contains invalid characters",
+        "lastNameRequired": "Last name is required",
+        "lastNameMin": "Last name must be at least 2 characters",
+        "lastNameInvalid": "Last name contains invalid characters",
+        "phoneRequired": "Phone number is required",
+        "phoneInvalid": "Enter a valid Ugandan phone number (e.g., +256701234567 or 0701234567)",
+        "nationalIdInvalid": "Invalid National ID format (e.g., CM12345678ABCDE)",
+        "drivingPermitMin": "Driving permit must be at least 6 characters",
+        "fixErrors": "Please fix the errors below before submitting"
+      },
+      "submit": "Save Driver",
+      "success": {
+        "title": "Driver added successfully",
+        "description": "{name} has been added to the pipeline"
+      }
+    }
+  },
+  "pipeline": {
+    "stages": {
+      "sourced": "Sourced",
+      "screening": "Screening",
+      "qualified": "Qualified",
+      "onboarding": "Onboarding",
+      "handedOver": "Handed Over"
+    },
+    "statusUpdated": "Status updated",
+    "movedTo": "{count} driver(s) moved to {stage}",
+    "updateFailed": "Update failed",
+    "updateFailedDescription": "Failed to update some drivers. Please try again."
+  },
+  "analytics": {
+    "title": "Analytics",
+    "subtitle": "Track performance metrics and acquisition data",
+    "export": {
+      "pdf": "Export PDF",
+      "csv": "Export CSV",
+      "drivers": "Export Drivers"
+    },
+    "kpi": {
+      "costPerAcquisition": "Cost per Acquisition",
+      "perQualified": "Per qualified driver",
+      "totalDrivers": "Total Drivers",
+      "inPipeline": "In pipeline",
+      "conversionRate": "Conversion Rate",
+      "sourcedToHandedOver": "Sourced to handed over",
+      "thisMonth": "This Month",
+      "driversHandedOver": "Drivers handed over"
+    },
+    "funnel": {
+      "title": "Acquisition Funnel",
+      "subtitle": "Drivers at each pipeline stage",
+      "empty": "No data yet. Add drivers to see the funnel."
+    },
+    "sources": {
+      "title": "Source Performance",
+      "subtitle": "Drivers by acquisition channel",
+      "empty": "No data yet. Add drivers to see source breakdown."
+    },
+    "targets": {
+      "title": "Monthly Targets (2026)",
+      "subtitle": "Track progress against acquisition targets",
+      "month": "Month",
+      "target": "Target",
+      "actual": "Actual",
+      "progress": "Progress",
+      "total": "Total"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
+  },
+  "sidebar": {
+    "main": "Main",
+    "overview": "Overview",
+    "pipeline": "Pipeline",
+    "drivers": "Drivers",
+    "handovers": "Handovers",
+    "analytics": "Analytics",
+    "admin": "Admin",
+    "userManagement": "User Management",
+    "auditLogs": "Audit Logs",
+    "settings": "Settings",
+    "version": "v1.0.0",
+    "copyright": "2026 SMP Group"
+  },
+  "errors": {
+    "unexpected": "An unexpected error occurred",
+    "loadDrivers": "Failed to load drivers. Please check your Supabase connection.",
+    "loadPipeline": "Failed to load pipeline. Please check your Supabase connection."
+  },
+  "metadata": {
+    "title": "SMP Green Rides Africa",
+    "description": "Driver acquisition platform for sustainable mobility in Africa. Join the green revolution on two wheels.",
+    "ogTitle": "SMP Green Rides Africa - Driver Acquisition Platform",
+    "ogDescription": "Join Africa's fastest-growing eco-mobility network. Get trained, certified, and start earning with sustainable transportation.",
+    "twitterDescription": "Driver acquisition platform for sustainable mobility in Africa"
+  }
+}

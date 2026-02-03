@@ -1,0 +1,459 @@
+{
+  "common": {
+    "loading": "Inapakia...",
+    "error": "Hitilafu isiyotarajiwa imetokea",
+    "success": "Imefanikiwa",
+    "cancel": "Ghairi",
+    "save": "Hifadhi",
+    "delete": "Futa",
+    "edit": "Hariri",
+    "view": "Angalia",
+    "search": "Tafuta",
+    "filter": "Chuja",
+    "filters": "Vichujio",
+    "clearAll": "Futa vyote",
+    "all": "Zote",
+    "actions": "Vitendo",
+    "back": "Rudi",
+    "next": "Ifuatayo",
+    "previous": "Iliyopita",
+    "submit": "Wasilisha",
+    "sending": "Inatuma...",
+    "saving": "Inahifadhi...",
+    "updating": "Inasasisha...",
+    "required": "Inahitajika",
+    "optional": "Hiari",
+    "to": "hadi",
+    "of": "ya",
+    "or": "au",
+    "and": "na"
+  },
+  "nav": {
+    "home": "Nyumbani",
+    "about": "Kuhusu",
+    "services": "Huduma",
+    "process": "Mchakato",
+    "contact": "Wasiliana",
+    "signIn": "Ingia",
+    "signOut": "Ondoka",
+    "becomeDriver": "Kuwa Dereva",
+    "joinNow": "Jiunge Sasa",
+    "backToHome": "Rudi Nyumbani"
+  },
+  "brand": {
+    "name": "SMP Green Rides",
+    "fullName": "SMP Green Rides Africa",
+    "tagline": "Afrika",
+    "partnerDashboard": "Dashibodi ya Mshirika"
+  },
+  "hero": {
+    "badge": "Sasa Tunaandikisha Madereva katika Miji 5",
+    "title": "Endesha Mapinduzi ya Kijani kwa Magurudumu Mawili",
+    "subtitle": "Jiunge na mtandao wa usafiri wa kijani unaokua kwa kasi zaidi Afrika. Pata mafunzo, pata cheti, na anza kupata pesa — kwa sababu kila safari ni muhimu.",
+    "cta": "Anza Safari Yako",
+    "partnerLogin": "Kuingia kwa Mshirika",
+    "scrollToExplore": "Sogeza kuchunguza",
+    "stats": {
+      "drivers": "2,500+",
+      "driversLabel": "Madereva Wenye Vyeti",
+      "partners": "50+",
+      "partnersLabel": "Washirika wa Magari",
+      "successRate": "98%",
+      "successRateLabel": "Kiwango cha Mafanikio"
+    }
+  },
+  "about": {
+    "sectionLabel": "Hadithi Yetu",
+    "title": "Kujenga Mustakabali wa Kijani wa Afrika",
+    "description": "SMP Green Rides Africa ni kampuni ya kimkakati ya kupata madereva inayojitolea kujenga wafanyakazi wanaoendesha mapinduzi ya usafiri wa kijani Afrika. Tunaunganisha watu wenye shauku na fursa za usafiri endelevu.",
+    "stats": {
+      "activeDrivers": "Madereva Hai",
+      "partnerCompanies": "Makampuni Washirika",
+      "africanCities": "Miji ya Afrika",
+      "successRate": "Kiwango cha Mafanikio"
+    },
+    "whatDrivesUs": "Kinachotusukuma",
+    "mission": {
+      "title": "Dhamira Yetu",
+      "description": "Tunajenga wafanyakazi wanaosogeza Afrika mbele — kwa njia endelevu."
+    },
+    "vision": {
+      "title": "Maono Yetu",
+      "description": "Afrika ya kijani zaidi, inayoendeshwa na madereva wenye nguvu."
+    },
+    "values": {
+      "title": "Maadili Yetu",
+      "description": "Uaminifu, uendelevu, na ubora vinaongoza kila tunalofanya. Tunaamini katika kuunda athari ya kudumu kupitia ushirikiano wa ubora."
+    },
+    "reach": {
+      "title": "Kufikia Kwetu",
+      "description": "Tunafanya kazi katika miji mikubwa ya Afrika, tunajenga mtandao mkubwa zaidi wa wataalamu wa usafiri wa kijani barani."
+    },
+    "partnerships": {
+      "title": "Ushirikiano wa Kimkakati",
+      "partnerWithUs": "Shirikiana Nasi",
+      "description": "Je, wewe ni mwendeshaji wa magari au kampuni ya e-mobility inayotafuta madereva wenye sifa? Tunatoa wataalamu waliofunzwa, waliochunguzwa tayari kujiunga na timu yako.",
+      "benefits": {
+        "preScreened": "Madereva waliochunguzwa awali",
+        "trained": "Wataalamu waliofunzwa",
+        "support": "Msaada unaoendelea"
+      },
+      "cta": "Kuwa Mshirika"
+    }
+  },
+  "services": {
+    "sectionLabel": "Tunachofanya",
+    "title": "Suluhisho Kamili za Dereva",
+    "subtitle": "Kutoka kuajiri hadi kupeleka, tunashughulikia kila hatua ya kujenga wafanyakazi wako wa usafiri.",
+    "items": {
+      "acquisition": {
+        "title": "Kupata Madereva",
+        "description": "Kutafuta na kuchunguza madereva wenye sifa kutoka asili mbalimbali kote Afrika."
+      },
+      "certification": {
+        "title": "Programu za Vyeti",
+        "description": "Mafunzo yanayotambuliwa na sekta yanayoshughulikia usalama, huduma kwa wateja, na uendeshaji wa magari ya umeme."
+      },
+      "partnerships": {
+        "title": "Ushirikiano wa Magari",
+        "description": "Uhusiano wa moja kwa moja na makampuni makubwa ya usafiri yanayotafuta wataalamu waliofunzwa."
+      },
+      "sustainability": {
+        "title": "Kuzingatia Uendelevu",
+        "description": "Kujenga wafanyakazi waliojitolea kwa suluhisho za usafiri wa umeme na rafiki wa mazingira."
+      },
+      "logistics": {
+        "title": "Mafunzo ya Usafirishaji",
+        "description": "Programu maalum za utoaji wa maili ya mwisho na shughuli za usafirishaji wa e-commerce."
+      },
+      "quality": {
+        "title": "Viwango vya Ubora",
+        "description": "Uchunguzi mkali unaohakikisha madereva wanakidhi viwango vya juu vya kitaaluma."
+      }
+    },
+    "cta": {
+      "question": "Je, uko tayari kupanua magari yako na madereva wenye sifa?",
+      "button": "Shirikiana Nasi"
+    }
+  },
+  "contact": {
+    "sectionLabel": "Wasiliana Nasi",
+    "title": "Tuanze Mazungumzo",
+    "subtitle": "Una maswali kuhusu huduma zetu au unataka kuwa mshirika? Tungependa kusikia kutoka kwako.",
+    "methods": {
+      "email": {
+        "title": "Tutumie Barua Pepe",
+        "description": "Tunajibu ndani ya saa 24"
+      },
+      "phone": {
+        "title": "Tupigie Simu",
+        "description": "Jumatatu-Ijumaa, 8am-6pm EAT"
+      },
+      "visit": {
+        "title": "Tutembelee",
+        "description": "Njoo useme habari",
+        "address": "Kampala, Uganda"
+      }
+    },
+    "whyContact": {
+      "title": "Kwa Nini Uwasiliane Nasi?",
+      "responseTime": "Wastani wa muda wa kujibu: saa 4",
+      "dedicatedTeam": "Timu ya msaada iliyojitolea",
+      "satisfaction": "98% kiwango cha kuridhika"
+    },
+    "whatsapp": "Ongea kwenye WhatsApp",
+    "form": {
+      "fullName": "Jina Kamili",
+      "email": "Anwani ya Barua Pepe",
+      "subject": "Mada",
+      "message": "Ujumbe",
+      "placeholders": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "message": "Tuambie jinsi tunavyoweza kusaidia..."
+      },
+      "subjects": {
+        "select": "Chagua mada",
+        "partnership": "Maswali ya Ushirikiano",
+        "driver": "Maombi ya Dereva",
+        "general": "Swali la Kawaida",
+        "support": "Msaada"
+      },
+      "success": {
+        "title": "Ujumbe Umetumwa!",
+        "description": "Asante kwa kuwasiliana nasi. Tutakujibu ndani ya saa 24.",
+        "sendAnother": "Tuma ujumbe mwingine"
+      },
+      "submit": "Tuma Ujumbe"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Karibu tena",
+      "subtitle": "Ingia kwenye akaunti yako kuendelea",
+      "email": "Anwani ya barua pepe",
+      "emailPlaceholder": "wewe@mfano.com",
+      "password": "Nenosiri",
+      "passwordPlaceholder": "Ingiza nenosiri lako",
+      "rememberMe": "Nikumbuke",
+      "forgotPassword": "Umesahau nenosiri?",
+      "submit": "Ingia",
+      "submitting": "Inaingia...",
+      "noAccount": "Huna akaunti? Wasiliana na msimamizi wako"
+    },
+    "register": {
+      "title": "Fungua akaunti",
+      "subtitle": "Jiunge na timu ya SMP kusimamia madereva",
+      "fullName": "Jina kamili",
+      "fullNamePlaceholder": "Ingiza jina lako kamili",
+      "email": "Anwani ya barua pepe",
+      "emailPlaceholder": "wewe@mfano.com",
+      "password": "Nenosiri",
+      "passwordPlaceholder": "Tengeneza nenosiri",
+      "passwordHint": "Lazima iwe herufi 8 au zaidi",
+      "confirmPassword": "Thibitisha nenosiri",
+      "confirmPasswordPlaceholder": "Thibitisha nenosiri lako",
+      "submit": "Fungua akaunti",
+      "submitting": "Inafungua akaunti...",
+      "hasAccount": "Una akaunti tayari? Ingia",
+      "errors": {
+        "passwordMismatch": "Nenosiri hazifanani",
+        "passwordLength": "Nenosiri lazima iwe herufi 8 au zaidi"
+      }
+    },
+    "forgotPassword": {
+      "title": "Umesahau nenosiri?",
+      "subtitle": "Usijali, tutakutumia maelekezo ya kuweka upya",
+      "email": "Anwani ya barua pepe",
+      "emailPlaceholder": "Ingiza barua pepe yako",
+      "submit": "Weka upya nenosiri",
+      "backToLogin": "Rudi kwenye Kuingia",
+      "success": {
+        "title": "Angalia barua pepe yako",
+        "description": "Tumetuma kiungo cha kuweka upya nenosiri kwa {email}",
+        "hint": "Hukupokea barua pepe? Angalia folda ya spam au jaribu tena",
+        "backToLogin": "Rudi kwenye kuingia"
+      }
+    }
+  },
+  "dashboard": {
+    "welcome": "Karibu tena, {name}!",
+    "subtitle": "Hivi ndivyo vinavyoendelea na mfumo wako wa madereva leo.",
+    "addDriver": "Ongeza Dereva",
+    "stats": {
+      "totalDrivers": "Jumla ya Madereva",
+      "thisMonth": "+{count} mwezi huu",
+      "qualified": "Wenye Sifa",
+      "conversion": "{rate}% ubadilishaji",
+      "inPipeline": "Katika Mfumo",
+      "activeCandidates": "Wagombea hai",
+      "handedOver": "Wamekabidhiwa",
+      "handedOverThisMonth": "{count} mwezi huu"
+    },
+    "pipeline": {
+      "title": "Muhtasari wa Mfumo",
+      "subtitle": "Madereva kwa hatua",
+      "viewFull": "Angalia mfumo kamili",
+      "dragDrop": "Buruta na udondoshe madereva kati ya hatua kubadilisha hali yao",
+      "loading": "Inapakia mfumo...",
+      "refresh": "Onyesha upya",
+      "showing": "Inaonyesha {shown} kati ya {total} madereva:",
+      "searchPlaceholder": "Jina, simu, eneo...",
+      "sourceChannel": "Chanzo"
+    },
+    "targets": {
+      "title": "Lengo la Mwezi",
+      "subtitle": "Maendeleo ya {month} {year}",
+      "complete": "kamili",
+      "remaining": "Iliyobaki",
+      "daysIn": "Siku Ndani",
+      "viewAnalytics": "Angalia uchambuzi"
+    },
+    "recent": {
+      "title": "Madereva wa Hivi Karibuni",
+      "subtitle": "Nyongeza za hivi karibuni kwenye mfumo",
+      "empty": "Hakuna madereva bado",
+      "emptyDescription": "Anza kwa kuongeza dereva wako wa kwanza kwenye mfumo",
+      "addFirst": "Ongeza Dereva wa Kwanza",
+      "viewAll": "Angalia madereva wote"
+    }
+  },
+  "drivers": {
+    "title": "Madereva",
+    "count": "{count} dereva/madereva kwa jumla",
+    "exportCsv": "Hamisha CSV",
+    "searchPlaceholder": "Tafuta kwa jina au simu...",
+    "activeFilters": "Vichujio hai:",
+    "status": "Hali",
+    "source": "Chanzo",
+    "sourceChannel": "Chanzo",
+    "dateAdded": "Tarehe Iliyoongezwa",
+    "from": "Kutoka",
+    "table": {
+      "driver": "Dereva",
+      "contact": "Mawasiliano",
+      "source": "Chanzo",
+      "status": "Hali",
+      "added": "Imeongezwa",
+      "actions": "Vitendo"
+    },
+    "empty": {
+      "filtered": "Hakuna madereva wanaolingana na vichujio vyako",
+      "noDrivers": "Hakuna madereva waliopatikana. Ongeza dereva wako wa kwanza kuanza."
+    },
+    "bulk": {
+      "selected": "{count} wamechaguliwa",
+      "changeStatus": "Badilisha Hali"
+    },
+    "sources": {
+      "socialMedia": "Mitandao ya Kijamii",
+      "referral": "Rufaa",
+      "roadshow": "Maonyesho ya Barabarani",
+      "bodaStage": "Kituo cha Boda",
+      "whatsapp": "WhatsApp",
+      "onlineApplication": "Maombi ya Mtandaoni",
+      "other": "Nyingine"
+    },
+    "new": {
+      "title": "Ongeza Dereva Mpya",
+      "subtitle": "Ingiza taarifa za dereva kuwaongeza kwenye mfumo",
+      "personal": {
+        "title": "Taarifa za Kibinafsi",
+        "subtitle": "Maelezo ya msingi ya dereva"
+      },
+      "documents": {
+        "title": "Nyaraka",
+        "subtitle": "Nyaraka za utambulisho wa dereva"
+      },
+      "sourceInfo": {
+        "title": "Taarifa za Chanzo",
+        "subtitle": "Dereva huyu alipatikanaje"
+      },
+      "fields": {
+        "firstName": "Jina la Kwanza",
+        "firstNamePlaceholder": "Ingiza jina la kwanza",
+        "lastName": "Jina la Mwisho",
+        "lastNamePlaceholder": "Ingiza jina la mwisho",
+        "phone": "Nambari ya Simu",
+        "phonePlaceholder": "+256701234567",
+        "location": "Eneo / Sehemu",
+        "locationPlaceholder": "mf., Kampala Kati, Ntinda",
+        "nationalId": "Nambari ya Kitambulisho cha Taifa",
+        "nationalIdPlaceholder": "CM12345678ABCDE",
+        "drivingPermit": "Nambari ya Leseni ya Kuendesha",
+        "drivingPermitPlaceholder": "DL12345678",
+        "notes": "Maelezo",
+        "notesPlaceholder": "Maelezo yoyote ya ziada kuhusu dereva huyu..."
+      },
+      "validation": {
+        "firstNameRequired": "Jina la kwanza linahitajika",
+        "firstNameMin": "Jina la kwanza lazima liwe herufi 2 au zaidi",
+        "firstNameInvalid": "Jina la kwanza lina herufi batili",
+        "lastNameRequired": "Jina la mwisho linahitajika",
+        "lastNameMin": "Jina la mwisho lazima liwe herufi 2 au zaidi",
+        "lastNameInvalid": "Jina la mwisho lina herufi batili",
+        "phoneRequired": "Nambari ya simu inahitajika",
+        "phoneInvalid": "Ingiza nambari ya simu ya Uganda halali (mf., +256701234567 au 0701234567)",
+        "nationalIdInvalid": "Muundo batili wa Kitambulisho cha Taifa (mf., CM12345678ABCDE)",
+        "drivingPermitMin": "Leseni ya kuendesha lazima iwe herufi 6 au zaidi",
+        "fixErrors": "Tafadhali rekebisha makosa yaliyo hapa chini kabla ya kuwasilisha"
+      },
+      "submit": "Hifadhi Dereva",
+      "success": {
+        "title": "Dereva ameongezwa kwa mafanikio",
+        "description": "{name} ameongezwa kwenye mfumo"
+      }
+    }
+  },
+  "pipeline": {
+    "stages": {
+      "sourced": "Wamepatikana",
+      "screening": "Wanachunguzwa",
+      "qualified": "Wenye Sifa",
+      "onboarding": "Wanaandikishwa",
+      "handedOver": "Wamekabidhiwa"
+    },
+    "statusUpdated": "Hali imesasishwa",
+    "movedTo": "Dereva {count} wamehamishwa hadi {stage}",
+    "updateFailed": "Sasisha imeshindwa",
+    "updateFailedDescription": "Imeshindwa kusasisha madereva wengine. Tafadhali jaribu tena."
+  },
+  "analytics": {
+    "title": "Uchambuzi",
+    "subtitle": "Fuatilia vipimo vya utendaji na data ya upatikanaji",
+    "export": {
+      "pdf": "Hamisha PDF",
+      "csv": "Hamisha CSV",
+      "drivers": "Hamisha Madereva"
+    },
+    "kpi": {
+      "costPerAcquisition": "Gharama kwa Kupata",
+      "perQualified": "Kwa dereva mwenye sifa",
+      "totalDrivers": "Jumla ya Madereva",
+      "inPipeline": "Katika mfumo",
+      "conversionRate": "Kiwango cha Ubadilishaji",
+      "sourcedToHandedOver": "Kutoka kupatikana hadi kukabidhiwa",
+      "thisMonth": "Mwezi Huu",
+      "driversHandedOver": "Madereva waliokabidwa"
+    },
+    "funnel": {
+      "title": "Funeli ya Upatikanaji",
+      "subtitle": "Madereva kwa kila hatua ya mfumo",
+      "empty": "Hakuna data bado. Ongeza madereva kuona funeli."
+    },
+    "sources": {
+      "title": "Utendaji wa Vyanzo",
+      "subtitle": "Madereva kwa njia ya upatikanaji",
+      "empty": "Hakuna data bado. Ongeza madereva kuona mgawanyiko wa vyanzo."
+    },
+    "targets": {
+      "title": "Malengo ya Kila Mwezi (2026)",
+      "subtitle": "Fuatilia maendeleo dhidi ya malengo ya upatikanaji",
+      "month": "Mwezi",
+      "target": "Lengo",
+      "actual": "Halisi",
+      "progress": "Maendeleo",
+      "total": "Jumla"
+    },
+    "months": {
+      "january": "Januari",
+      "february": "Februari",
+      "march": "Machi",
+      "april": "Aprili",
+      "may": "Mei",
+      "june": "Juni",
+      "july": "Julai",
+      "august": "Agosti",
+      "september": "Septemba",
+      "october": "Oktoba",
+      "november": "Novemba",
+      "december": "Desemba"
+    }
+  },
+  "sidebar": {
+    "main": "Kuu",
+    "overview": "Muhtasari",
+    "pipeline": "Mfumo",
+    "drivers": "Madereva",
+    "handovers": "Makabidhiano",
+    "analytics": "Uchambuzi",
+    "admin": "Usimamizi",
+    "userManagement": "Usimamizi wa Watumiaji",
+    "auditLogs": "Kumbukumbu za Ukaguzi",
+    "settings": "Mipangilio",
+    "version": "v1.0.0",
+    "copyright": "2026 SMP Group"
+  },
+  "errors": {
+    "unexpected": "Hitilafu isiyotarajiwa imetokea",
+    "loadDrivers": "Imeshindwa kupakia madereva. Tafadhali angalia muunganisho wako wa Supabase.",
+    "loadPipeline": "Imeshindwa kupakia mfumo. Tafadhali angalia muunganisho wako wa Supabase."
+  },
+  "metadata": {
+    "title": "SMP Green Rides Africa",
+    "description": "Jukwaa la kupata madereva kwa usafiri endelevu Afrika. Jiunge na mapinduzi ya kijani kwa magurudumu mawili.",
+    "ogTitle": "SMP Green Rides Africa - Jukwaa la Kupata Madereva",
+    "ogDescription": "Jiunge na mtandao wa usafiri wa kijani unaokua kwa kasi zaidi Afrika. Pata mafunzo, cheti, na anza kupata pesa na usafiri endelevu.",
+    "twitterDescription": "Jukwaa la kupata madereva kwa usafiri endelevu Afrika"
+  }
+}
