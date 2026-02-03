@@ -8,9 +8,26 @@ import type { Driver, DriverStatus, SourceChannel } from "@/types/database";
 import { getDrivers, updateDriverStatus, subscribeToDrivers, unsubscribeFromChannel } from "@/lib/supabase/database";
 import { useToast } from "@/components/ui/toast";
 import { PIPELINE_STAGES, SOURCE_CHANNELS } from "@/constants";
+import { useTranslations } from "next-intl";
 
 export default function PipelinePage() {
   const { addToast } = useToast();
+  const t = useTranslations("dashboard.pipeline");
+  const pipeline = useTranslations("pipeline");
+  const common = useTranslations("common");
+  const errors = useTranslations("errors");
+  const sources = useTranslations("drivers.sources");
+
+  // Source channel labels with translations
+  const SOURCE_CHANNEL_LABELS: Record<SourceChannel, string> = {
+    social_media: sources("socialMedia"),
+    referral: sources("referral"),
+    roadshow: sources("roadshow"),
+    boda_stage: sources("bodaStage"),
+    whatsapp: sources("whatsapp"),
+    online_application: sources("onlineApplication"),
+    other: sources("other"),
+  };
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,7 +67,7 @@ export default function PipelinePage() {
       setDrivers(data);
     } catch (err) {
       console.error("Error loading drivers:", err);
-      setError("Failed to load pipeline. Please check your Supabase connection.");
+      setError(errors("loadPipeline"));
     } finally {
       setLoading(false);
     }
@@ -75,15 +92,15 @@ export default function PipelinePage() {
 
       addToast({
         type: "success",
-        title: "Status updated",
-        message: `${driver?.first_name} ${driver?.last_name} moved to ${stageName}`,
+        title: pipeline("statusUpdated"),
+        message: `${driver?.first_name} ${driver?.last_name} → ${stageName}`,
       });
     } catch (err) {
       console.error("Error updating status:", err);
       addToast({
         type: "error",
-        title: "Failed to update status",
-        message: "Please try again",
+        title: pipeline("updateFailed"),
+        message: common("tryAgain"),
       });
       // Revert on error
       loadDrivers();
@@ -136,8 +153,8 @@ export default function PipelinePage() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Pipeline</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Loading pipeline...</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("title")}</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t("loading")}</p>
         </div>
         <SkeletonPipeline />
       </div>
@@ -149,9 +166,9 @@ export default function PipelinePage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Pipeline</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("title")}</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Drag and drop drivers between stages to update their status
+            {t("dragDrop")}
           </p>
         </div>
 
@@ -166,7 +183,7 @@ export default function PipelinePage() {
               }`}
             >
               <Filter className="h-4 w-4" />
-              Filter
+              {common("filter")}
               {hasActiveFilters && (
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-xs text-white">
                   {selectedSources.length + (searchQuery ? 1 : 0)}
@@ -185,13 +202,13 @@ export default function PipelinePage() {
                   {/* Search */}
                   <div className="mb-4">
                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
-                      Search
+                      {common("search")}
                     </label>
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                       <input
                         type="text"
-                        placeholder="Name, phone, location..."
+                        placeholder={t("searchPlaceholder")}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full h-9 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 pl-9 pr-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
@@ -202,7 +219,7 @@ export default function PipelinePage() {
                   {/* Source Channels */}
                   <div className="mb-4">
                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
-                      Source Channel
+                      {t("sourceChannel")}
                     </label>
                     <div className="space-y-1">
                       {SOURCE_CHANNELS.map((source) => (
@@ -215,7 +232,7 @@ export default function PipelinePage() {
                               : "hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
                           }`}
                         >
-                          {source.label}
+                          {SOURCE_CHANNEL_LABELS[source.id as SourceChannel]}
                           {selectedSources.includes(source.id) && (
                             <Check className="h-4 w-4" />
                           )}
@@ -231,7 +248,7 @@ export default function PipelinePage() {
                       className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                       <X className="h-4 w-4" />
-                      Clear all filters
+                      {common("clearAll")}
                     </button>
                   )}
                 </div>
@@ -244,7 +261,7 @@ export default function PipelinePage() {
             className="inline-flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
           >
             <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
-            Refresh
+            {t("refresh")}
           </button>
         </div>
       </div>
@@ -257,7 +274,7 @@ export default function PipelinePage() {
             onClick={loadDrivers}
             className="ml-2 font-medium underline hover:no-underline"
           >
-            Retry
+            {common("tryAgain")}
           </button>
         </div>
       )}
@@ -265,11 +282,11 @@ export default function PipelinePage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         {[
-          { label: "Sourced", count: filteredDrivers.filter((d) => d.status === "sourced").length, icon: Users, iconBg: "bg-gray-100 dark:bg-gray-700", iconColor: "text-gray-600 dark:text-gray-300" },
-          { label: "Screening", count: filteredDrivers.filter((d) => d.status === "screening").length, icon: ClipboardCheck, iconBg: "bg-yellow-100 dark:bg-yellow-900/30", iconColor: "text-yellow-600 dark:text-yellow-400" },
-          { label: "Qualified", count: filteredDrivers.filter((d) => d.status === "qualified").length, icon: Award, iconBg: "bg-blue-100 dark:bg-blue-900/30", iconColor: "text-blue-600 dark:text-blue-400" },
-          { label: "Onboarding", count: filteredDrivers.filter((d) => d.status === "onboarding").length, icon: Rocket, iconBg: "bg-purple-100 dark:bg-purple-900/30", iconColor: "text-purple-600 dark:text-purple-400" },
-          { label: "Handed Over", count: filteredDrivers.filter((d) => d.status === "handed_over").length, icon: CheckCircle2, iconBg: "bg-green-100 dark:bg-green-900/30", iconColor: "text-green-600 dark:text-green-400" },
+          { label: pipeline("stages.sourced"), count: filteredDrivers.filter((d) => d.status === "sourced").length, icon: Users, iconBg: "bg-gray-100 dark:bg-gray-700", iconColor: "text-gray-600 dark:text-gray-300" },
+          { label: pipeline("stages.screening"), count: filteredDrivers.filter((d) => d.status === "screening").length, icon: ClipboardCheck, iconBg: "bg-yellow-100 dark:bg-yellow-900/30", iconColor: "text-yellow-600 dark:text-yellow-400" },
+          { label: pipeline("stages.qualified"), count: filteredDrivers.filter((d) => d.status === "qualified").length, icon: Award, iconBg: "bg-blue-100 dark:bg-blue-900/30", iconColor: "text-blue-600 dark:text-blue-400" },
+          { label: pipeline("stages.onboarding"), count: filteredDrivers.filter((d) => d.status === "onboarding").length, icon: Rocket, iconBg: "bg-purple-100 dark:bg-purple-900/30", iconColor: "text-purple-600 dark:text-purple-400" },
+          { label: pipeline("stages.handedOver"), count: filteredDrivers.filter((d) => d.status === "handed_over").length, icon: CheckCircle2, iconBg: "bg-green-100 dark:bg-green-900/30", iconColor: "text-green-600 dark:text-green-400" },
         ].map((stat) => (
           <div
             key={stat.label}
@@ -299,10 +316,10 @@ export default function PipelinePage() {
       {/* Active Filters Display */}
       {hasActiveFilters && (
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Showing {filteredDrivers.length} of {drivers.length} drivers:</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">{t("showing", { shown: filteredDrivers.length, total: drivers.length })}</span>
           {searchQuery && (
             <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 dark:bg-gray-700 px-3 py-1 text-sm text-gray-700 dark:text-gray-200">
-              Search: "{searchQuery}"
+              {common("search")}: &quot;{searchQuery}&quot;
               <button onClick={() => setSearchQuery("")} className="ml-1 hover:text-gray-900 dark:hover:text-white">
                 <X className="h-3 w-3" />
               </button>
@@ -310,7 +327,7 @@ export default function PipelinePage() {
           )}
           {selectedSources.map((source) => (
             <span key={source} className="inline-flex items-center gap-1 rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-sm text-green-700 dark:text-green-300">
-              {SOURCE_CHANNELS.find((s) => s.id === source)?.label}
+              {SOURCE_CHANNEL_LABELS[source]}
               <button onClick={() => toggleSource(source)} className="ml-1 hover:text-green-900 dark:hover:text-green-100">
                 <X className="h-3 w-3" />
               </button>
