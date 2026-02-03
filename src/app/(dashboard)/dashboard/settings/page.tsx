@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/components/ui/toast";
 import { ROLE_LABELS } from "@/hooks/use-auth";
 import type { UserRole } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 interface ProfileData {
   name: string;
@@ -17,6 +18,8 @@ interface ProfileData {
 
 export default function SettingsPage() {
   const { addToast } = useToast();
+  const t = useTranslations("settings");
+  const common = useTranslations("common");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [changingPassword, setChangingPassword] = useState(false);
@@ -71,8 +74,8 @@ export default function SettingsPage() {
       if (!user) {
         addToast({
           type: "error",
-          title: "Not authenticated",
-          message: "Please log in again",
+          title: t("profile.notAuthenticated"),
+          message: t("profile.loginAgain"),
         });
         return;
       }
@@ -89,8 +92,8 @@ export default function SettingsPage() {
 
       addToast({
         type: "success",
-        title: "Profile updated",
-        message: "Your changes have been saved",
+        title: t("profile.updated"),
+        message: t("profile.updatedMessage"),
       });
 
       loadProfile();
@@ -98,8 +101,8 @@ export default function SettingsPage() {
       console.error("Error saving profile:", err);
       addToast({
         type: "error",
-        title: "Failed to save",
-        message: "Please try again",
+        title: t("profile.failedToSave"),
+        message: common("tryAgain"),
       });
     } finally {
       setSaving(false);
@@ -112,8 +115,8 @@ export default function SettingsPage() {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       addToast({
         type: "error",
-        title: "Passwords don't match",
-        message: "Please make sure your passwords match",
+        title: t("password.mismatch"),
+        message: t("password.mismatchMessage"),
       });
       return;
     }
@@ -121,8 +124,8 @@ export default function SettingsPage() {
     if (passwordData.newPassword.length < 6) {
       addToast({
         type: "warning",
-        title: "Password too short",
-        message: "Password must be at least 6 characters",
+        title: t("password.tooShort"),
+        message: t("password.tooShortMessage"),
       });
       return;
     }
@@ -139,8 +142,8 @@ export default function SettingsPage() {
 
       addToast({
         type: "success",
-        title: "Password updated",
-        message: "Your password has been changed",
+        title: t("password.updated"),
+        message: t("password.updatedMessage"),
       });
 
       setPasswordData({
@@ -152,8 +155,8 @@ export default function SettingsPage() {
       console.error("Error changing password:", err);
       addToast({
         type: "error",
-        title: "Failed to change password",
-        message: "Please try again",
+        title: t("password.failedToChange"),
+        message: common("tryAgain"),
       });
     } finally {
       setChangingPassword(false);
@@ -161,14 +164,14 @@ export default function SettingsPage() {
   };
 
   const handleDeleteAccount = async () => {
-    if (!confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+    if (!confirm(t("danger.confirmDelete"))) {
       return;
     }
 
     addToast({
       type: "info",
-      title: "Contact administrator",
-      message: "Please contact an administrator to delete your account",
+      title: t("danger.contactAdmin"),
+      message: t("danger.contactAdminMessage"),
     });
   };
 
@@ -183,9 +186,9 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("title")}</h1>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Manage your account and application settings
+          {t("subtitle")}
         </p>
       </div>
 
@@ -193,13 +196,13 @@ export default function SettingsPage() {
         {/* Profile Settings */}
         <div className="lg:col-span-2 space-y-6">
           <form onSubmit={handleSaveProfile} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Profile</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Update your personal information</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t("profile.title")}</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t("profile.subtitle")}</p>
 
             <div className="mt-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Full Name
+                  {t("profile.fullName")}
                 </label>
                 <input
                   type="text"
@@ -210,7 +213,7 @@ export default function SettingsPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Email
+                  {t("profile.email")}
                 </label>
                 <input
                   type="email"
@@ -218,17 +221,17 @@ export default function SettingsPage() {
                   disabled
                   className="mt-1 h-10 w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-600 px-3 text-sm text-gray-500 dark:text-gray-400 cursor-not-allowed"
                 />
-                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">Email cannot be changed</p>
+                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{t("profile.emailReadOnly")}</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Phone
+                  {t("profile.phone")}
                 </label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="+256..."
+                  placeholder={t("profile.phonePlaceholder")}
                   className="mt-1 h-10 w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
@@ -238,19 +241,19 @@ export default function SettingsPage() {
                 className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
               >
                 {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-                Save Changes
+                {t("profile.saveChanges")}
               </button>
             </div>
           </form>
 
           <form onSubmit={handleChangePassword} className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Password</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Update your password</p>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t("password.title")}</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t("password.subtitle")}</p>
 
             <div className="mt-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Current Password
+                  {t("password.current")}
                 </label>
                 <input
                   type="password"
@@ -261,7 +264,7 @@ export default function SettingsPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  New Password
+                  {t("password.new")}
                 </label>
                 <input
                   type="password"
@@ -272,7 +275,7 @@ export default function SettingsPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Confirm New Password
+                  {t("password.confirm")}
                 </label>
                 <input
                   type="password"
@@ -287,7 +290,7 @@ export default function SettingsPage() {
                 className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
               >
                 {changingPassword && <Loader2 className="h-4 w-4 animate-spin" />}
-                Update Password
+                {t("password.update")}
               </button>
             </div>
           </form>
@@ -296,38 +299,38 @@ export default function SettingsPage() {
         {/* Sidebar */}
         <div className="space-y-6">
           <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Account</h2>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t("account.title")}</h2>
             <div className="mt-4 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Role</span>
+                <span className="text-gray-500 dark:text-gray-400">{t("account.role")}</span>
                 <span className="font-medium text-gray-900 dark:text-white">
-                  {profile?.role ? ROLE_LABELS[profile.role] : "Unknown"}
+                  {profile?.role ? ROLE_LABELS[profile.role] : t("account.unknown")}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Member since</span>
+                <span className="text-gray-500 dark:text-gray-400">{t("account.memberSince")}</span>
                 <span className="font-medium text-gray-900 dark:text-white">
                   {profile?.created_at
                     ? new Date(profile.created_at).toLocaleDateString("en-US", {
                         month: "short",
                         year: "numeric",
                       })
-                    : "Unknown"}
+                    : t("account.unknown")}
                 </span>
               </div>
             </div>
           </div>
 
           <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-6">
-            <h2 className="text-lg font-semibold text-red-900 dark:text-red-200">Danger Zone</h2>
+            <h2 className="text-lg font-semibold text-red-900 dark:text-red-200">{t("danger.title")}</h2>
             <p className="mt-1 text-sm text-red-600 dark:text-red-300">
-              Permanently delete your account and all data
+              {t("danger.description")}
             </p>
             <button
               onClick={handleDeleteAccount}
               className="mt-4 rounded-lg border border-red-300 dark:border-red-700 bg-white dark:bg-red-900/30 px-4 py-2 text-sm font-medium text-red-600 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/50"
             >
-              Delete Account
+              {t("danger.deleteAccount")}
             </button>
           </div>
         </div>

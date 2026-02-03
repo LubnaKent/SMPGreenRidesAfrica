@@ -447,6 +447,54 @@
     "version": "v1.0.0",
     "copyright": "2026 SMP Group"
   },
+  "settings": {
+    "title": "Mipangilio",
+    "subtitle": "Dhibiti akaunti yako na mipangilio ya programu",
+    "profile": {
+      "title": "Wasifu",
+      "subtitle": "Sasisha taarifa zako za kibinafsi",
+      "fullName": "Jina Kamili",
+      "email": "Barua pepe",
+      "emailReadOnly": "Barua pepe haiwezi kubadilishwa",
+      "phone": "Simu",
+      "phonePlaceholder": "+256...",
+      "saveChanges": "Hifadhi Mabadiliko",
+      "updated": "Wasifu umesasishwa",
+      "updatedMessage": "Mabadiliko yako yamehifadhiwa",
+      "failedToSave": "Imeshindwa kuhifadhi",
+      "notAuthenticated": "Haujathibitishwa",
+      "loginAgain": "Tafadhali ingia tena"
+    },
+    "password": {
+      "title": "Nenosiri",
+      "subtitle": "Sasisha nenosiri lako",
+      "current": "Nenosiri la Sasa",
+      "new": "Nenosiri Jipya",
+      "confirm": "Thibitisha Nenosiri Jipya",
+      "update": "Sasisha Nenosiri",
+      "updated": "Nenosiri limesasishwa",
+      "updatedMessage": "Nenosiri lako limebadilishwa",
+      "mismatch": "Manenosiri hayalingani",
+      "mismatchMessage": "Tafadhali hakikisha manenosiri yako yanalingana",
+      "tooShort": "Nenosiri ni fupi sana",
+      "tooShortMessage": "Nenosiri lazima liwe angalau herufi 6",
+      "failedToChange": "Imeshindwa kubadilisha nenosiri"
+    },
+    "account": {
+      "title": "Akaunti",
+      "role": "Jukumu",
+      "memberSince": "Mwanachama tangu",
+      "unknown": "Haijulikani"
+    },
+    "danger": {
+      "title": "Eneo la Hatari",
+      "description": "Futa akaunti yako na data zote kabisa",
+      "deleteAccount": "Futa Akaunti",
+      "contactAdmin": "Wasiliana na msimamizi",
+      "contactAdminMessage": "Tafadhali wasiliana na msimamizi kufuta akaunti yako",
+      "confirmDelete": "Una uhakika unataka kufuta akaunti yako? Kitendo hiki hakiwezi kutenduliwa."
+    }
+  },
   "errors": {
     "unexpected": "Hitilafu isiyotarajiwa imetokea",
     "loadDrivers": "Imeshindwa kupakia madereva. Tafadhali angalia muunganisho wako wa Supabase.",

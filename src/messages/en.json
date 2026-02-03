@@ -447,6 +447,54 @@
     "version": "v1.0.0",
     "copyright": "2026 SMP Group"
   },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account and application settings",
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Update your personal information",
+      "fullName": "Full Name",
+      "email": "Email",
+      "emailReadOnly": "Email cannot be changed",
+      "phone": "Phone",
+      "phonePlaceholder": "+256...",
+      "saveChanges": "Save Changes",
+      "updated": "Profile updated",
+      "updatedMessage": "Your changes have been saved",
+      "failedToSave": "Failed to save",
+      "notAuthenticated": "Not authenticated",
+      "loginAgain": "Please log in again"
+    },
+    "password": {
+      "title": "Password",
+      "subtitle": "Update your password",
+      "current": "Current Password",
+      "new": "New Password",
+      "confirm": "Confirm New Password",
+      "update": "Update Password",
+      "updated": "Password updated",
+      "updatedMessage": "Your password has been changed",
+      "mismatch": "Passwords don't match",
+      "mismatchMessage": "Please make sure your passwords match",
+      "tooShort": "Password too short",
+      "tooShortMessage": "Password must be at least 6 characters",
+      "failedToChange": "Failed to change password"
+    },
+    "account": {
+      "title": "Account",
+      "role": "Role",
+      "memberSince": "Member since",
+      "unknown": "Unknown"
+    },
+    "danger": {
+      "title": "Danger Zone",
+      "description": "Permanently delete your account and all data",
+      "deleteAccount": "Delete Account",
+      "contactAdmin": "Contact administrator",
+      "contactAdminMessage": "Please contact an administrator to delete your account",
+      "confirmDelete": "Are you sure you want to delete your account? This action cannot be undone."
+    }
+  },
   "errors": {
     "unexpected": "An unexpected error occurred",
     "loadDrivers": "Failed to load drivers. Please check your Supabase connection.",

@@ -447,6 +447,54 @@
     "version": "v1.0.0",
     "copyright": "2026 SMP Group"
   },
+  "settings": {
+    "title": "Eby'okuteekawo",
+    "subtitle": "Ddukanya akawunti yo n'eby'okuteekawo by'enkola",
+    "profile": {
+      "title": "Ebikukwatako",
+      "subtitle": "Kyusa ebikukwatako",
+      "fullName": "Erinnya Eryonna",
+      "email": "Email",
+      "emailReadOnly": "Email tesobola kukyusibwa",
+      "phone": "Essimu",
+      "phonePlaceholder": "+256...",
+      "saveChanges": "Tereka Enkyukakyuka",
+      "updated": "Ebikukwatako bikyusiddwa",
+      "updatedMessage": "Enkyukakyuka zo ziterekeddwa",
+      "failedToSave": "Tekusobodde kutereka",
+      "notAuthenticated": "Tokakasibwa",
+      "loginAgain": "Nsaba oyingire nate"
+    },
+    "password": {
+      "title": "Akabonero",
+      "subtitle": "Kyusa akabonero ko",
+      "current": "Akabonero k'Obutaka",
+      "new": "Akabonero Akappya",
+      "confirm": "Kakasa Akabonero Akappya",
+      "update": "Kyusa Akabonero",
+      "updated": "Akabonero kakyusiddwa",
+      "updatedMessage": "Akabonero ko kakyusiddwa",
+      "mismatch": "Akabonero tekakwatagana",
+      "mismatchMessage": "Nsaba okakase nti akabonero ko kakwatagana",
+      "tooShort": "Akabonero kafupi nnyo",
+      "tooShortMessage": "Akabonero kalina okuba n'ennukuta 6 obwereere",
+      "failedToChange": "Tekusobodde kukyusa akabonero"
+    },
+    "account": {
+      "title": "Akawunti",
+      "role": "Ekifo",
+      "memberSince": "Mmemba okuva",
+      "unknown": "Tekimanyiddwa"
+    },
+    "danger": {
+      "title": "Ekitundu ky'Akabi",
+      "description": "Sazaamu akawunti yo ne data yonna emirembe gyonna",
+      "deleteAccount": "Sazaamu Akawunti",
+      "contactAdmin": "Tuukirira omukulu",
+      "contactAdminMessage": "Nsaba otuukirire omukulu okusazaamu akawunti yo",
+      "confirmDelete": "Oli mukakafu oyagala okusazaamu akawunti yo? Kino tekisobola kuddizibwamu."
+    }
+  },
   "errors": {
     "unexpected": "Waliwo ensobi etasuubirwa",
     "loadDrivers": "Kusazeewo okutereeza baddereeva. Nsaba okebere enkwatagana yo ne Supabase.",
