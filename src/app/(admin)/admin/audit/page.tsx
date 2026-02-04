@@ -13,6 +13,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 import type { AuditLog, AuditAction, UserRole } from "@/types/database";
 import { ROLE_LABELS } from "@/hooks/use-auth";
 
@@ -43,6 +44,9 @@ const ACTION_COLORS: Record<AuditAction, string> = {
 };
 
 export default function AuditLogsPage() {
+  const t = useTranslations("admin.audit");
+  const common = useTranslations("common");
+
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -54,6 +58,20 @@ export default function AuditLogsPage() {
   const [page, setPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const pageSize = 20;
+
+  // Translated action labels
+  const translatedActionLabels: Record<AuditAction, string> = {
+    CREATE: t("actions.created"),
+    READ: t("actions.viewed"),
+    UPDATE: t("actions.updated"),
+    DELETE: t("actions.deleted"),
+    VIEW_SENSITIVE: t("actions.viewedSensitive"),
+    DECRYPT: t("actions.decrypted"),
+    EXPORT: t("actions.exported"),
+    LOGIN: t("actions.loggedIn"),
+    LOGOUT: t("actions.loggedOut"),
+    PERMISSION_DENIED: t("actions.permissionDenied"),
+  };
 
   useEffect(() => {
     fetchLogs();
@@ -119,9 +137,9 @@ export default function AuditLogsPage() {
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Audit Logs</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <p className="text-sm text-gray-500 mt-1">
-            View system activity and security events
+            {t("subtitle")}
           </p>
         </div>
         <button
@@ -129,7 +147,7 @@ export default function AuditLogsPage() {
           className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           <Download className="h-4 w-4" />
-          Export CSV
+          {t("exportCsv")}
         </button>
       </div>
 
@@ -140,7 +158,7 @@ export default function AuditLogsPage() {
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Search logs..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-4 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
@@ -156,8 +174,8 @@ export default function AuditLogsPage() {
             <Filter className="h-4 w-4 text-gray-500" />
             <span>
               {selectedAction === "all"
-                ? "All Actions"
-                : ACTION_LABELS[selectedAction]}
+                ? t("allActions")
+                : translatedActionLabels[selectedAction]}
             </span>
             <ChevronDown className="h-4 w-4 text-gray-400" />
           </button>
@@ -177,7 +195,7 @@ export default function AuditLogsPage() {
                   }}
                   className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                 >
-                  All Actions
+                  {t("allActions")}
                 </button>
                 {(Object.keys(ACTION_LABELS) as AuditAction[]).map((action) => (
                   <button
@@ -189,7 +207,7 @@ export default function AuditLogsPage() {
                     }}
                     className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                   >
-                    {ACTION_LABELS[action]}
+                    {translatedActionLabels[action]}
                   </button>
                 ))}
               </div>
@@ -204,19 +222,19 @@ export default function AuditLogsPage() {
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Timestamp
+                {t("table.timestamp")}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Action
+                {t("table.action")}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Resource
+                {t("table.resource")}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User Role
+                {t("table.userRole")}
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Details
+                {t("table.details")}
               </th>
             </tr>
           </thead>
@@ -224,13 +242,13 @@ export default function AuditLogsPage() {
             {loading ? (
               <tr>
                 <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                  Loading audit logs...
+                  {t("loading")}
                 </td>
               </tr>
             ) : filteredLogs.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                  No audit logs found
+                  {t("noLogs")}
                 </td>
               </tr>
             ) : (
@@ -248,7 +266,7 @@ export default function AuditLogsPage() {
                         ACTION_COLORS[log.action]
                       }`}
                     >
-                      {ACTION_LABELS[log.action]}
+                      {translatedActionLabels[log.action]}
                     </span>
                   </td>
                   <td className="px-6 py-4">
@@ -293,8 +311,7 @@ export default function AuditLogsPage() {
         {totalCount > pageSize && (
           <div className="flex items-center justify-between border-t border-gray-200 px-6 py-3">
             <p className="text-sm text-gray-500">
-              Showing {page * pageSize + 1} to{" "}
-              {Math.min((page + 1) * pageSize, totalCount)} of {totalCount} logs
+              {t("showing", { from: page * pageSize + 1, to: Math.min((page + 1) * pageSize, totalCount), total: totalCount })}
             </p>
             <div className="flex gap-2">
               <button
@@ -302,14 +319,14 @@ export default function AuditLogsPage() {
                 disabled={page === 0}
                 className="rounded-lg border border-gray-200 px-3 py-1 text-sm disabled:opacity-50"
               >
-                Previous
+                {common("previous")}
               </button>
               <button
                 onClick={() => setPage(page + 1)}
                 disabled={(page + 1) * pageSize >= totalCount}
                 className="rounded-lg border border-gray-200 px-3 py-1 text-sm disabled:opacity-50"
               >
-                Next
+                {common("next")}
               </button>
             </div>
           </div>
@@ -321,13 +338,13 @@ export default function AuditLogsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl max-h-[80vh] overflow-y-auto">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              Audit Log Details
+              {t("detail.title")}
             </h2>
 
             <div className="space-y-4">
               <div>
                 <label className="text-xs text-gray-500 uppercase">
-                  Timestamp
+                  {t("detail.timestamp")}
                 </label>
                 <p className="text-sm text-gray-900">
                   {new Date(selectedLog.created_at).toLocaleString()}
@@ -335,21 +352,21 @@ export default function AuditLogsPage() {
               </div>
 
               <div>
-                <label className="text-xs text-gray-500 uppercase">Action</label>
+                <label className="text-xs text-gray-500 uppercase">{t("detail.action")}</label>
                 <p>
                   <span
                     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                       ACTION_COLORS[selectedLog.action]
                     }`}
                   >
-                    {ACTION_LABELS[selectedLog.action]}
+                    {translatedActionLabels[selectedLog.action]}
                   </span>
                 </p>
               </div>
 
               <div>
                 <label className="text-xs text-gray-500 uppercase">
-                  Resource
+                  {t("detail.resource")}
                 </label>
                 <p className="text-sm text-gray-900">
                   {selectedLog.resource_type}
@@ -362,7 +379,7 @@ export default function AuditLogsPage() {
               </div>
 
               <div>
-                <label className="text-xs text-gray-500 uppercase">User</label>
+                <label className="text-xs text-gray-500 uppercase">{t("detail.user")}</label>
                 <p className="text-sm text-gray-900">
                   {ROLE_LABELS[selectedLog.user_role as UserRole] ||
                     selectedLog.user_role}
@@ -375,7 +392,7 @@ export default function AuditLogsPage() {
               {selectedLog.ip_address && (
                 <div>
                   <label className="text-xs text-gray-500 uppercase">
-                    IP Address
+                    {t("detail.ipAddress")}
                   </label>
                   <p className="text-sm text-gray-900 font-mono">
                     {selectedLog.ip_address}
@@ -386,7 +403,7 @@ export default function AuditLogsPage() {
               {selectedLog.metadata && (
                 <div>
                   <label className="text-xs text-gray-500 uppercase">
-                    Metadata
+                    {t("detail.metadata")}
                   </label>
                   <pre className="mt-1 rounded-lg bg-gray-100 p-3 text-xs overflow-x-auto">
                     {JSON.stringify(selectedLog.metadata, null, 2)}
@@ -397,7 +414,7 @@ export default function AuditLogsPage() {
               {selectedLog.old_value && (
                 <div>
                   <label className="text-xs text-gray-500 uppercase">
-                    Old Value
+                    {t("detail.oldValue")}
                   </label>
                   <pre className="mt-1 rounded-lg bg-red-50 p-3 text-xs overflow-x-auto">
                     {JSON.stringify(selectedLog.old_value, null, 2)}
@@ -408,7 +425,7 @@ export default function AuditLogsPage() {
               {selectedLog.new_value && (
                 <div>
                   <label className="text-xs text-gray-500 uppercase">
-                    New Value
+                    {t("detail.newValue")}
                   </label>
                   <pre className="mt-1 rounded-lg bg-green-50 p-3 text-xs overflow-x-auto">
                     {JSON.stringify(selectedLog.new_value, null, 2)}
@@ -422,7 +439,7 @@ export default function AuditLogsPage() {
                 onClick={() => setSelectedLog(null)}
                 className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
               >
-                Close
+                {t("detail.close")}
               </button>
             </div>
           </div>

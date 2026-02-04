@@ -649,5 +649,108 @@
     "ogTitle": "SMP Green Rides Africa - Jukwaa la Kupata Madereva",
     "ogDescription": "Jiunge na mtandao wa usafiri wa kijani unaokua kwa kasi zaidi Afrika. Pata mafunzo, cheti, na anza kupata pesa na usafiri endelevu.",
     "twitterDescription": "Jukwaa la kupata madereva kwa usafiri endelevu Afrika"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashibodi ya Msimamizi",
+      "subtitle": "Muhtasari wa mfumo na usimamizi",
+      "stats": {
+        "totalUsers": "Watumiaji Wote",
+        "securityOfficers": "Maofisa wa Usalama",
+        "smpAgents": "Mawakala wa SMP",
+        "registeredDrivers": "Madereva Waliosajiliwa"
+      },
+      "pending": {
+        "title": "Vitu Vinasubiri",
+        "applications": "Maombi Yanayosubiri",
+        "applicationsNeedReview": "Maombi {count} yanahitaji ukaguzi",
+        "allCaughtUp": "Umekamata yote!"
+      },
+      "activity": {
+        "title": "Shughuli za Hivi Karibuni",
+        "viewAll": "Tazama zote",
+        "eventsInLast24h": "Matukio {count} katika saa 24 zilizopita",
+        "viewAuditLogs": "Tazama kumbukumbu za ukaguzi kwa maelezo"
+      },
+      "quickActions": {
+        "title": "Vitendo vya Haraka",
+        "manageUsers": "Simamia Watumiaji",
+        "manageUsersDesc": "Ongeza, hariri, au ondoa akaunti za watumiaji",
+        "viewAuditLogs": "Tazama Kumbukumbu za Ukaguzi",
+        "viewAuditLogsDesc": "Kagua shughuli za mfumo na kumbukumbu za ufikiaji",
+        "securitySettings": "Mipangilio ya Usalama",
+        "securitySettingsDesc": "Sanidi sera za usalama"
+      }
+    },
+    "users": {
+      "title": "Usimamizi wa Watumiaji",
+      "subtitle": "Simamia akaunti za watumiaji na ruhusa",
+      "addUser": "Ongeza Mtumiaji",
+      "searchPlaceholder": "Tafuta watumiaji...",
+      "allRoles": "Majukumu Yote",
+      "table": {
+        "user": "Mtumiaji",
+        "role": "Jukumu",
+        "joined": "Alijiunga",
+        "actions": "Vitendo"
+      },
+      "loading": "Inapakia watumiaji...",
+      "noUsers": "Hakuna watumiaji wamepatikana",
+      "editRole": {
+        "title": "Hariri Jukumu la Mtumiaji",
+        "changeRoleFor": "Badilisha jukumu la",
+        "current": "Sasa hivi"
+      },
+      "toast": {
+        "roleUpdated": "Jukumu limesasishwa",
+        "roleUpdatedMessage": "{name} sasa ni {role}",
+        "roleUpdateFailed": "Imeshindwa kusasisha jukumu",
+        "userDeleted": "Mtumiaji amefutwa",
+        "userDeletedMessage": "{name} ameondolewa",
+        "userDeleteFailed": "Imeshindwa kufuta mtumiaji"
+      },
+      "confirmDelete": "Una uhakika unataka kufuta mtumiaji huyu?"
+    },
+    "audit": {
+      "title": "Kumbukumbu za Ukaguzi",
+      "subtitle": "Tazama shughuli za mfumo na matukio ya usalama",
+      "exportCsv": "Hamisha CSV",
+      "searchPlaceholder": "Tafuta kumbukumbu...",
+      "allActions": "Vitendo Vyote",
+      "table": {
+        "timestamp": "Muda",
+        "action": "Kitendo",
+        "resource": "Rasilimali",
+        "userRole": "Jukumu la Mtumiaji",
+        "details": "Maelezo"
+      },
+      "loading": "Inapakia kumbukumbu za ukaguzi...",
+      "noLogs": "Hakuna kumbukumbu za ukaguzi zimepatikana",
+      "showing": "Inaonyesha {from} hadi {to} kati ya {total} kumbukumbu",
+      "detail": {
+        "title": "Maelezo ya Kumbukumbu ya Ukaguzi",
+        "timestamp": "Muda",
+        "action": "Kitendo",
+        "resource": "Rasilimali",
+        "user": "Mtumiaji",
+        "ipAddress": "Anwani ya IP",
+        "metadata": "Metadata",
+        "oldValue": "Thamani ya Awali",
+        "newValue": "Thamani Mpya",
+        "close": "Funga"
+      },
+      "actions": {
+        "created": "Imeundwa",
+        "viewed": "Imetazamwa",
+        "updated": "Imesasishwa",
+        "deleted": "Imefutwa",
+        "viewedSensitive": "Imetazama Data Nyeti",
+        "decrypted": "Imefungua Siri ya Data",
+        "exported": "Imehamisha Data",
+        "loggedIn": "Imeingia",
+        "loggedOut": "Imetoka",
+        "permissionDenied": "Ruhusa Imekataliwa"
+      }
+    }
   }
 }

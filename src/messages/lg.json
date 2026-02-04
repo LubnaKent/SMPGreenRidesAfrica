@@ -635,5 +635,108 @@
     "ogTitle": "SMP Green Rides Africa - Akakiiko k'Okufuna Baddereeva",
     "ogDescription": "Yingira mu mukutu gw'entambula eya bulijjo ogukula ennyo mu Afrika. Tendekebwa, funa ekiwandiiko, era otandike okufuna ng'entambula enterevu.",
     "twitterDescription": "Akakiiko k'okufuna baddereeva ku ntambula enterevu mu Afrika"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashiboodi y'Omukubirizi",
+      "subtitle": "Enfunze y'enkola n'okuddukanya",
+      "stats": {
+        "totalUsers": "Abakozesa Bonna",
+        "securityOfficers": "Abakungu b'Obukuumi",
+        "smpAgents": "Bakiimu ba SMP",
+        "registeredDrivers": "Baddereeva Abawandiisiddwa"
+      },
+      "pending": {
+        "title": "Ebintu Ebilindiridde",
+        "applications": "Okusaba Okulindiridde",
+        "applicationsNeedReview": "Okusaba {count} kwetaagisa okukebera",
+        "allCaughtUp": "Okukyuse kwonna!"
+      },
+      "activity": {
+        "title": "Ebikolwa bya Mabegawo",
+        "viewAll": "Laba byonna",
+        "eventsInLast24h": "Ebintu {count} mu ssaawa 24 eziyise",
+        "viewAuditLogs": "Laba ebiwandiiko by'okukebera okusobola okumanya"
+      },
+      "quickActions": {
+        "title": "Ebikolwa bya Mangu",
+        "manageUsers": "Ddukanya Abakozesa",
+        "manageUsersDesc": "Gattako, longoosa, oba jjako akawunti z'abakozesa",
+        "viewAuditLogs": "Laba Ebiwandiiko by'Okukebera",
+        "viewAuditLogsDesc": "Kebera ebikolwa by'enkola n'ebiwandiiko by'okufuna",
+        "securitySettings": "Eby'okuteekawo by'Obukuumi",
+        "securitySettingsDesc": "Tegeka enteekateeka z'obukuumi"
+      }
+    },
+    "users": {
+      "title": "Okuddukanya Abakozesa",
+      "subtitle": "Ddukanya akawunti z'abakozesa n'olukusa",
+      "addUser": "Gattako Omukozesa",
+      "searchPlaceholder": "Noonya abakozesa...",
+      "allRoles": "Ebifo Byonna",
+      "table": {
+        "user": "Omukozesa",
+        "role": "Ekifo",
+        "joined": "Yayingira",
+        "actions": "Ebikolwa"
+      },
+      "loading": "Kitereeza abakozesa...",
+      "noUsers": "Tewali bakozesa bazuddwa",
+      "editRole": {
+        "title": "Longoosa Ekifo ky'Omukozesa",
+        "changeRoleFor": "Kyusa ekifo kya",
+        "current": "Ekya Kaakano"
+      },
+      "toast": {
+        "roleUpdated": "Ekifo kikyusiddwa",
+        "roleUpdatedMessage": "{name} kaakano ye {role}",
+        "roleUpdateFailed": "Tekusobodde kukyusa ekifo",
+        "userDeleted": "Omukozesa asaziddwamu",
+        "userDeletedMessage": "{name} akyusiddwa",
+        "userDeleteFailed": "Tekusobodde okusazaamu omukozesa"
+      },
+      "confirmDelete": "Oli mukakafu oyagala okusazaamu omukozesa ono?"
+    },
+    "audit": {
+      "title": "Ebiwandiiko by'Okukebera",
+      "subtitle": "Laba ebikolwa by'enkola n'ebintu by'obukuumi",
+      "exportCsv": "Fulumya CSV",
+      "searchPlaceholder": "Noonya ebiwandiiko...",
+      "allActions": "Ebikolwa Byonna",
+      "table": {
+        "timestamp": "Obudde",
+        "action": "Ekikolwa",
+        "resource": "Ekintu",
+        "userRole": "Ekifo ky'Omukozesa",
+        "details": "Ebikwatako"
+      },
+      "loading": "Kitereeza ebiwandiiko by'okukebera...",
+      "noLogs": "Tewali biwandiiko by'okukebera bizuddwa",
+      "showing": "Kiragira {from} okutuuka {to} ku {total} ebiwandiiko",
+      "detail": {
+        "title": "Ebikwatako ku Kiwandiiko ky'Okukebera",
+        "timestamp": "Obudde",
+        "action": "Ekikolwa",
+        "resource": "Ekintu",
+        "user": "Omukozesa",
+        "ipAddress": "Endagiriro ya IP",
+        "metadata": "Metadata",
+        "oldValue": "Omuwendo gw'Edda",
+        "newValue": "Omuwendo Omupya",
+        "close": "Ggalawo"
+      },
+      "actions": {
+        "created": "Kitondeddwa",
+        "viewed": "Kilabiddwa",
+        "updated": "Kikyusiddwa",
+        "deleted": "Kisaziddwamu",
+        "viewedSensitive": "Kilabiddwa Data Ey'ekyama",
+        "decrypted": "Kisomoseddwa Data",
+        "exported": "Kifulumiziddwa Data",
+        "loggedIn": "Kyingiziddwa",
+        "loggedOut": "Kyefukumye",
+        "permissionDenied": "Olukusa Lugaanye"
+      }
+    }
   }
 }

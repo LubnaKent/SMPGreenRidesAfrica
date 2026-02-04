@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useToast } from "@/components/ui/toast";
+import { useTranslations } from "next-intl";
 import type { User, UserRole } from "@/types/database";
 import { ROLE_LABELS } from "@/hooks/use-auth";
 
@@ -31,6 +32,8 @@ function UserManagementContent() {
   const searchParams = useSearchParams();
   const roleFilter = searchParams.get("role") as UserRole | null;
   const { addToast } = useToast();
+  const t = useTranslations("admin.users");
+  const common = useTranslations("common");
 
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,21 +87,21 @@ function UserManagementContent() {
       console.error("Error updating role:", error);
       addToast({
         type: "error",
-        title: "Failed to update role",
-        message: "Please try again",
+        title: t("toast.roleUpdateFailed"),
+        message: common("tryAgain"),
       });
     } else {
       addToast({
         type: "success",
-        title: "Role updated",
-        message: `${user?.name || "User"} is now ${ROLE_LABELS[newRole]}`,
+        title: t("toast.roleUpdated"),
+        message: t("toast.roleUpdatedMessage", { name: user?.name || "User", role: ROLE_LABELS[newRole] }),
       });
       fetchUsers();
     }
   };
 
   const deleteUser = async (userId: string) => {
-    if (!confirm("Are you sure you want to delete this user?")) return;
+    if (!confirm(t("confirmDelete"))) return;
 
     const user = users.find((u) => u.id === userId);
     const supabase = createClient();
@@ -108,14 +111,14 @@ function UserManagementContent() {
       console.error("Error deleting user:", error);
       addToast({
         type: "error",
-        title: "Failed to delete user",
-        message: "Please try again",
+        title: t("toast.userDeleteFailed"),
+        message: common("tryAgain"),
       });
     } else {
       addToast({
         type: "success",
-        title: "User deleted",
-        message: `${user?.name || "User"} has been removed`,
+        title: t("toast.userDeleted"),
+        message: t("toast.userDeletedMessage", { name: user?.name || "User" }),
       });
       fetchUsers();
     }
@@ -126,9 +129,9 @@ function UserManagementContent() {
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage user accounts and permissions
+            {t("subtitle")}
           </p>
         </div>
         <button
@@ -136,7 +139,7 @@ function UserManagementContent() {
           className="flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
         >
           <Plus className="h-4 w-4" />
-          Add User
+          {t("addUser")}
         </button>
       </div>
 
@@ -147,7 +150,7 @@ function UserManagementContent() {
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Search users..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-4 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500"
@@ -162,7 +165,7 @@ function UserManagementContent() {
           >
             <Filter className="h-4 w-4 text-gray-500" />
             <span>
-              {selectedRole === "all" ? "All Roles" : ROLE_LABELS[selectedRole]}
+              {selectedRole === "all" ? t("allRoles") : ROLE_LABELS[selectedRole]}
             </span>
             <ChevronDown className="h-4 w-4 text-gray-400" />
           </button>
@@ -181,7 +184,7 @@ function UserManagementContent() {
                   }}
                   className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                 >
-                  All Roles
+                  {t("allRoles")}
                 </button>
                 {(Object.keys(ROLE_LABELS) as UserRole[]).map((role) => (
                   <button
@@ -207,16 +210,16 @@ function UserManagementContent() {
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User
+                {t("table.user")}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
+                {t("table.role")}
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Joined
+                {t("table.joined")}
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
+                {t("table.actions")}
               </th>
             </tr>
           </thead>
@@ -224,13 +227,13 @@ function UserManagementContent() {
             {loading ? (
               <tr>
                 <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
-                  Loading users...
+                  {t("loading")}
                 </td>
               </tr>
             ) : filteredUsers.length === 0 ? (
               <tr>
                 <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
-                  No users found
+                  {t("noUsers")}
                 </td>
               </tr>
             ) : (
@@ -302,10 +305,10 @@ function UserManagementContent() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
-              Edit User Role
+              {t("editRole.title")}
             </h2>
             <p className="text-sm text-gray-500 mb-4">
-              Change the role for{" "}
+              {t("editRole.changeRoleFor")}{" "}
               <span className="font-medium">{editingUser.name}</span>
             </p>
 
@@ -329,7 +332,7 @@ function UserManagementContent() {
                     {ROLE_LABELS[role]}
                   </span>
                   {editingUser.role === role && (
-                    <span className="text-xs text-red-600">Current</span>
+                    <span className="text-xs text-red-600">{t("editRole.current")}</span>
                   )}
                 </button>
               ))}
@@ -340,7 +343,7 @@ function UserManagementContent() {
                 onClick={() => setEditingUser(null)}
                 className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
-                Cancel
+                {common("cancel")}
               </button>
             </div>
           </div>

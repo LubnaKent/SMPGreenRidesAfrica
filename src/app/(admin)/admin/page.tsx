@@ -12,6 +12,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { useTranslations } from "next-intl";
 
 interface DashboardStats {
   totalUsers: number;
@@ -23,6 +24,9 @@ interface DashboardStats {
 }
 
 export default function AdminDashboard() {
+  const t = useTranslations("admin.dashboard");
+  const common = useTranslations("common");
+
   const [stats, setStats] = useState<DashboardStats>({
     totalUsers: 0,
     securityOfficers: 0,
@@ -88,28 +92,28 @@ export default function AdminDashboard() {
 
   const statCards = [
     {
-      name: "Total Users",
+      name: t("stats.totalUsers"),
       value: stats.totalUsers,
       icon: Users,
       color: "bg-blue-500",
       href: "/admin/users",
     },
     {
-      name: "Security Officers",
+      name: t("stats.securityOfficers"),
       value: stats.securityOfficers,
       icon: Shield,
       color: "bg-purple-500",
       href: "/admin/users?role=security_officer",
     },
     {
-      name: "SMP Agents",
+      name: t("stats.smpAgents"),
       value: stats.agents,
       icon: Activity,
       color: "bg-green-500",
       href: "/admin/users?role=smp_agent",
     },
     {
-      name: "Registered Drivers",
+      name: t("stats.registeredDrivers"),
       value: stats.drivers,
       icon: Users,
       color: "bg-orange-500",
@@ -119,22 +123,22 @@ export default function AdminDashboard() {
 
   const quickActions = [
     {
-      name: "Manage Users",
-      description: "Add, edit, or remove user accounts",
+      name: t("quickActions.manageUsers"),
+      description: t("quickActions.manageUsersDesc"),
       icon: Users,
       href: "/admin/users",
       color: "bg-blue-100 text-blue-600",
     },
     {
-      name: "View Audit Logs",
-      description: "Review system activity and access logs",
+      name: t("quickActions.viewAuditLogs"),
+      description: t("quickActions.viewAuditLogsDesc"),
       icon: FileText,
       href: "/admin/audit",
       color: "bg-purple-100 text-purple-600",
     },
     {
-      name: "Security Settings",
-      description: "Configure security policies",
+      name: t("quickActions.securitySettings"),
+      description: t("quickActions.securitySettingsDesc"),
       icon: Shield,
       href: "/admin/security",
       color: "bg-red-100 text-red-600",
@@ -145,9 +149,9 @@ export default function AdminDashboard() {
     <div className="space-y-6">
       {/* Page header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
         <p className="text-sm text-gray-500 mt-1">
-          System overview and management
+          {t("subtitle")}
         </p>
       </div>
 
@@ -181,7 +185,7 @@ export default function AdminDashboard() {
         {/* Pending items */}
         <div className="rounded-xl border border-gray-200 bg-white p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Pending Items
+            {t("pending.title")}
           </h2>
           <div className="space-y-3">
             {stats.pendingApplications > 0 ? (
@@ -190,10 +194,10 @@ export default function AdminDashboard() {
                   <AlertTriangle className="h-5 w-5 text-yellow-500" />
                   <div>
                     <p className="font-medium text-yellow-800">
-                      Pending Applications
+                      {t("pending.applications")}
                     </p>
                     <p className="text-sm text-yellow-600">
-                      {stats.pendingApplications} applications need review
+                      {t("pending.applicationsNeedReview", { count: stats.pendingApplications })}
                     </p>
                   </div>
                 </div>
@@ -207,7 +211,7 @@ export default function AdminDashboard() {
             ) : (
               <div className="flex items-center gap-3 rounded-lg bg-green-50 p-4">
                 <CheckCircle className="h-5 w-5 text-green-500" />
-                <p className="text-green-800">All caught up!</p>
+                <p className="text-green-800">{t("pending.allCaughtUp")}</p>
               </div>
             )}
           </div>
@@ -217,23 +221,23 @@ export default function AdminDashboard() {
         <div className="rounded-xl border border-gray-200 bg-white p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">
-              Recent Activity
+              {t("activity.title")}
             </h2>
             <Link
               href="/admin/audit"
               className="text-sm text-blue-600 hover:text-blue-700"
             >
-              View all
+              {t("activity.viewAll")}
             </Link>
           </div>
           <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-4">
             <FileText className="h-5 w-5 text-gray-500" />
             <div>
               <p className="font-medium text-gray-800">
-                {stats.recentAuditLogs} events in last 24h
+                {t("activity.eventsInLast24h", { count: stats.recentAuditLogs })}
               </p>
               <p className="text-sm text-gray-500">
-                View audit logs for details
+                {t("activity.viewAuditLogs")}
               </p>
             </div>
           </div>
@@ -243,7 +247,7 @@ export default function AdminDashboard() {
       {/* Quick actions */}
       <div>
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Quick Actions
+          {t("quickActions.title")}
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {quickActions.map((action) => (

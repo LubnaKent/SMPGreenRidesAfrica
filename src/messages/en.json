@@ -649,5 +649,108 @@
     "ogTitle": "SMP Green Rides Africa - Driver Acquisition Platform",
     "ogDescription": "Join Africa's fastest-growing eco-mobility network. Get trained, certified, and start earning with sustainable transportation.",
     "twitterDescription": "Driver acquisition platform for sustainable mobility in Africa"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "System overview and management",
+      "stats": {
+        "totalUsers": "Total Users",
+        "securityOfficers": "Security Officers",
+        "smpAgents": "SMP Agents",
+        "registeredDrivers": "Registered Drivers"
+      },
+      "pending": {
+        "title": "Pending Items",
+        "applications": "Pending Applications",
+        "applicationsNeedReview": "{count} applications need review",
+        "allCaughtUp": "All caught up!"
+      },
+      "activity": {
+        "title": "Recent Activity",
+        "viewAll": "View all",
+        "eventsInLast24h": "{count} events in last 24h",
+        "viewAuditLogs": "View audit logs for details"
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "manageUsers": "Manage Users",
+        "manageUsersDesc": "Add, edit, or remove user accounts",
+        "viewAuditLogs": "View Audit Logs",
+        "viewAuditLogsDesc": "Review system activity and access logs",
+        "securitySettings": "Security Settings",
+        "securitySettingsDesc": "Configure security policies"
+      }
+    },
+    "users": {
+      "title": "User Management",
+      "subtitle": "Manage user accounts and permissions",
+      "addUser": "Add User",
+      "searchPlaceholder": "Search users...",
+      "allRoles": "All Roles",
+      "table": {
+        "user": "User",
+        "role": "Role",
+        "joined": "Joined",
+        "actions": "Actions"
+      },
+      "loading": "Loading users...",
+      "noUsers": "No users found",
+      "editRole": {
+        "title": "Edit User Role",
+        "changeRoleFor": "Change the role for",
+        "current": "Current"
+      },
+      "toast": {
+        "roleUpdated": "Role updated",
+        "roleUpdatedMessage": "{name} is now {role}",
+        "roleUpdateFailed": "Failed to update role",
+        "userDeleted": "User deleted",
+        "userDeletedMessage": "{name} has been removed",
+        "userDeleteFailed": "Failed to delete user"
+      },
+      "confirmDelete": "Are you sure you want to delete this user?"
+    },
+    "audit": {
+      "title": "Audit Logs",
+      "subtitle": "View system activity and security events",
+      "exportCsv": "Export CSV",
+      "searchPlaceholder": "Search logs...",
+      "allActions": "All Actions",
+      "table": {
+        "timestamp": "Timestamp",
+        "action": "Action",
+        "resource": "Resource",
+        "userRole": "User Role",
+        "details": "Details"
+      },
+      "loading": "Loading audit logs...",
+      "noLogs": "No audit logs found",
+      "showing": "Showing {from} to {to} of {total} logs",
+      "detail": {
+        "title": "Audit Log Details",
+        "timestamp": "Timestamp",
+        "action": "Action",
+        "resource": "Resource",
+        "user": "User",
+        "ipAddress": "IP Address",
+        "metadata": "Metadata",
+        "oldValue": "Old Value",
+        "newValue": "New Value",
+        "close": "Close"
+      },
+      "actions": {
+        "created": "Created",
+        "viewed": "Viewed",
+        "updated": "Updated",
+        "deleted": "Deleted",
+        "viewedSensitive": "Viewed Sensitive Data",
+        "decrypted": "Decrypted Data",
+        "exported": "Exported Data",
+        "loggedIn": "Logged In",
+        "loggedOut": "Logged Out",
+        "permissionDenied": "Permission Denied"
+      }
+    }
   }
 }
