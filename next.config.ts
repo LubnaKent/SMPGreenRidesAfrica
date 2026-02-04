@@ -4,9 +4,6 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
-  // Output mode for better Vercel compatibility
-  output: 'standalone',
-
   // Performance optimizations
   poweredByHeader: false, // Remove X-Powered-By header for security
 

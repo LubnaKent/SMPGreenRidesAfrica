@@ -182,9 +182,4 @@ export const config = {
   matcher: [
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|json|xml|txt)$).*)',
   ],
-  // Unstable flag that might help with Vercel deployment
-  unstable_allowDynamic: [
-    '/node_modules/@supabase/**',
-    '/node_modules/next-intl/**',
-  ],
 };
