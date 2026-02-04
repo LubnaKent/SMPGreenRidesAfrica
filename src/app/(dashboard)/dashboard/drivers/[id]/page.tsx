@@ -35,6 +35,7 @@ import { DocumentUploadModal, DocumentCard } from "@/components/documents";
 import { PermissionGate } from "@/components/auth";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/components/ui/toast";
+import { useTranslations } from "next-intl";
 
 const statusColors: Record<DriverStatus, string> = {
   sourced: "bg-gray-100 text-gray-800 border-gray-300",
@@ -45,22 +46,37 @@ const statusColors: Record<DriverStatus, string> = {
   rejected: "bg-red-100 text-red-800 border-red-300",
 };
 
-const sourceLabels: Record<SourceChannel, string> = {
-  social_media: "Social Media",
-  referral: "Referral",
-  roadshow: "Roadshow",
-  boda_stage: "Boda Stage",
-  whatsapp: "WhatsApp",
-  online_application: "Online Application",
-  other: "Other",
-};
-
 export default function DriverDetailPage() {
   const params = useParams();
   const router = useRouter();
   const driverId = params.id as string;
   const { hasPermission } = useAuth();
   const { addToast } = useToast();
+  const t = useTranslations("drivers.detail");
+  const common = useTranslations("common");
+  const sources = useTranslations("drivers.sources");
+  const pipeline = useTranslations("pipeline.stages");
+  const newDriver = useTranslations("drivers.new");
+
+  // Translated source labels
+  const sourceLabels: Record<SourceChannel, string> = {
+    social_media: sources("socialMedia"),
+    referral: sources("referral"),
+    roadshow: sources("roadshow"),
+    boda_stage: sources("bodaStage"),
+    whatsapp: sources("whatsapp"),
+    online_application: sources("onlineApplication"),
+    other: sources("other"),
+  };
+
+  // Translated stage labels
+  const stageLabels: Record<string, string> = {
+    sourced: pipeline("sourced"),
+    screening: pipeline("screening"),
+    qualified: pipeline("qualified"),
+    onboarding: pipeline("onboarding"),
+    handed_over: pipeline("handedOver"),
+  };
 
   const [driver, setDriver] = useState<Driver | null>(null);
   const [statusHistory, setStatusHistory] = useState<StatusHistory[]>([]);
@@ -114,7 +130,7 @@ export default function DriverDetailPage() {
   const handleStatusUpdate = async (newStatus: DriverStatus) => {
     if (!driver || newStatus === driver.status) return;
 
-    const stageName = PIPELINE_STAGES.find((s) => s.id === newStatus)?.label || newStatus;
+    const stageName = stageLabels[newStatus] || newStatus;
 
     try {
       setUpdatingStatus(true);
@@ -127,15 +143,15 @@ export default function DriverDetailPage() {
 
       addToast({
         type: "success",
-        title: "Status updated",
-        message: `${driver.first_name} moved to ${stageName}`,
+        title: t("status.updateSuccess"),
+        message: t("status.updateSuccessMessage", { stage: stageName }),
       });
     } catch (err) {
       console.error("Error updating status:", err);
       addToast({
         type: "error",
-        title: "Failed to update status",
-        message: "Please try again",
+        title: t("status.updateFailed"),
+        message: common("tryAgain"),
       });
     } finally {
       setUpdatingStatus(false);
@@ -148,15 +164,14 @@ export default function DriverDetailPage() {
       setDocuments((prev) => [newDoc, ...prev]);
       addToast({
         type: "success",
-        title: "Document uploaded",
-        message: `${file.name} uploaded successfully`,
+        title: t("history.documentUploaded", { filename: file.name }),
       });
     } catch (err) {
       console.error("Error uploading document:", err);
       addToast({
         type: "error",
-        title: "Upload failed",
-        message: "Please try again",
+        title: t("status.updateFailed"),
+        message: common("tryAgain"),
       });
     }
   };
@@ -169,14 +184,14 @@ export default function DriverDetailPage() {
       );
       addToast({
         type: "success",
-        title: verified ? "Document verified" : "Verification removed",
+        title: common("success"),
       });
     } catch (err) {
       console.error("Error verifying document:", err);
       addToast({
         type: "error",
-        title: "Verification failed",
-        message: "Please try again",
+        title: t("status.updateFailed"),
+        message: common("tryAgain"),
       });
     }
   };
@@ -187,14 +202,14 @@ export default function DriverDetailPage() {
       setDocuments((prev) => prev.filter((doc) => doc.id !== documentId));
       addToast({
         type: "success",
-        title: "Document deleted",
+        title: common("success"),
       });
     } catch (err) {
       console.error("Error deleting document:", err);
       addToast({
         type: "error",
-        title: "Delete failed",
-        message: "Please try again",
+        title: common("error"),
+        message: common("tryAgain"),
       });
     }
   };
@@ -235,15 +250,15 @@ export default function DriverDetailPage() {
       setShowEditModal(false);
       addToast({
         type: "success",
-        title: "Driver updated",
-        message: "Changes saved successfully",
+        title: t("editModal.success"),
+        message: t("editModal.successMessage"),
       });
     } catch (err) {
       console.error("Error updating driver:", err);
       addToast({
         type: "error",
-        title: "Failed to save",
-        message: "Please try again",
+        title: common("error"),
+        message: common("tryAgain"),
       });
     } finally {
       setSaving(false);
@@ -280,13 +295,13 @@ export default function DriverDetailPage() {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-4">
         <AlertCircle className="h-12 w-12 text-red-500" />
-        <p className="text-lg text-gray-600">{error || "Driver not found"}</p>
+        <p className="text-lg text-gray-600">{error || t("driverNotFound")}</p>
         <Link
           href="/dashboard/drivers"
           className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Drivers
+          {t("backToDrivers")}
         </Link>
       </div>
     );
@@ -314,7 +329,7 @@ export default function DriverDetailPage() {
                   statusColors[driver.status]
                 )}
               >
-                {PIPELINE_STAGES.find((s) => s.id === driver.status)?.label}
+                {stageLabels[driver.status]}
               </span>
               {driver.screening_score !== null && (
                 <span className="text-sm text-gray-500">
@@ -343,7 +358,7 @@ export default function DriverDetailPage() {
               className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
             >
               <Edit2 className="h-4 w-4" />
-              Edit
+              {common("edit")}
             </button>
           </PermissionGate>
         </div>
@@ -357,7 +372,7 @@ export default function DriverDetailPage() {
               <Phone className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Phone</p>
+              <p className="text-xs text-gray-500">{t("info.phone")}</p>
               <p className="font-medium text-gray-900">{driver.phone}</p>
             </div>
           </div>
@@ -369,8 +384,8 @@ export default function DriverDetailPage() {
               <MapPin className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Location</p>
-              <p className="font-medium text-gray-900">{driver.location || "Not set"}</p>
+              <p className="text-xs text-gray-500">{t("info.location")}</p>
+              <p className="font-medium text-gray-900">{driver.location || "-"}</p>
             </div>
           </div>
         </div>
@@ -381,7 +396,7 @@ export default function DriverDetailPage() {
               <User className="h-5 w-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Source</p>
+              <p className="text-xs text-gray-500">{t("info.source")}</p>
               <p className="font-medium text-gray-900">{sourceLabels[driver.source_channel]}</p>
             </div>
           </div>
@@ -393,7 +408,7 @@ export default function DriverDetailPage() {
               <Calendar className="h-5 w-5 text-orange-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Added</p>
+              <p className="text-xs text-gray-500">{t("info.added")}</p>
               <p className="font-medium text-gray-900">{formatShortDate(driver.created_at)}</p>
             </div>
           </div>
@@ -404,9 +419,9 @@ export default function DriverDetailPage() {
       <div className="border-b border-gray-200">
         <nav className="flex gap-8">
           {[
-            { id: "details", label: "Details" },
-            { id: "documents", label: "Documents" },
-            { id: "history", label: "History" },
+            { id: "details", label: t("tabs.details") },
+            { id: "documents", label: t("tabs.documents") },
+            { id: "history", label: t("tabs.history") },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -429,22 +444,22 @@ export default function DriverDetailPage() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Personal Information */}
           <div className="rounded-lg border border-gray-200 bg-white p-6">
-            <h2 className="text-lg font-semibold text-gray-900">Personal Information</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("personal.title")}</h2>
             <div className="mt-4 space-y-4">
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Full Name</span>
+                <span className="text-sm text-gray-500">{t("personal.fullName")}</span>
                 <span className="text-sm font-medium text-gray-900">
                   {driver.first_name} {driver.last_name}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Phone Number</span>
+                <span className="text-sm text-gray-500">{t("personal.phone")}</span>
                 <span className="text-sm font-medium text-gray-900">{driver.phone}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Location</span>
+                <span className="text-sm text-gray-500">{t("personal.location")}</span>
                 <span className="text-sm font-medium text-gray-900">
-                  {driver.location || "Not provided"}
+                  {driver.location || "-"}
                 </span>
               </div>
             </div>
@@ -452,18 +467,18 @@ export default function DriverDetailPage() {
 
           {/* Documents */}
           <div className="rounded-lg border border-gray-200 bg-white p-6">
-            <h2 className="text-lg font-semibold text-gray-900">Documents</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t("documents.title")}</h2>
             <div className="mt-4 space-y-4">
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">National ID</span>
+                <span className="text-sm text-gray-500">{t("documents.nationalId")}</span>
                 <span className="text-sm font-medium text-gray-900">
-                  {driver.national_id || "Not provided"}
+                  {driver.national_id || "-"}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-gray-500">Driving Permit</span>
+                <span className="text-sm text-gray-500">{t("documents.drivingPermit")}</span>
                 <span className="text-sm font-medium text-gray-900">
-                  {driver.driving_permit_number || "Not provided"}
+                  {driver.driving_permit_number || "-"}
                 </span>
               </div>
             </div>
@@ -471,8 +486,8 @@ export default function DriverDetailPage() {
 
           {/* Status Actions */}
           <div className="rounded-lg border border-gray-200 bg-white p-6 lg:col-span-2">
-            <h2 className="text-lg font-semibold text-gray-900">Update Status</h2>
-            <p className="text-sm text-gray-500">Move driver to the next stage</p>
+            <h2 className="text-lg font-semibold text-gray-900">{t("status.title")}</h2>
+            <p className="text-sm text-gray-500">{t("status.moveTo")}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {PIPELINE_STAGES.map((stage) => (
                 <button
@@ -489,7 +504,7 @@ export default function DriverDetailPage() {
                   {updatingStatus ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    stage.label
+                    stageLabels[stage.id]
                   )}
                 </button>
               ))}
@@ -502,8 +517,8 @@ export default function DriverDetailPage() {
         <div className="rounded-lg border border-gray-200 bg-white p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">Documents</h2>
-              <p className="text-sm text-gray-500">Upload and manage driver documents</p>
+              <h2 className="text-lg font-semibold text-gray-900">{t("documents.title")}</h2>
+              <p className="text-sm text-gray-500">{t("documents.dragDrop")}</p>
             </div>
             <PermissionGate permission="UPLOAD_DOCUMENTS">
               <button
@@ -511,7 +526,7 @@ export default function DriverDetailPage() {
                 className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
               >
                 <Upload className="h-4 w-4" />
-                Upload Document
+                {t("documents.uploadDocument")}
               </button>
             </PermissionGate>
           </div>
@@ -520,13 +535,13 @@ export default function DriverDetailPage() {
             {documents.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8 text-center sm:col-span-2 lg:col-span-3">
                 <FileText className="h-10 w-10 text-gray-300" />
-                <p className="mt-2 text-sm text-gray-500">No documents uploaded</p>
+                <p className="mt-2 text-sm text-gray-500">{t("documents.noDocuments")}</p>
                 <PermissionGate permission="UPLOAD_DOCUMENTS">
                   <button
                     onClick={() => setShowUploadModal(true)}
                     className="mt-2 text-sm font-medium text-green-600 hover:text-green-700"
                   >
-                    Upload first document
+                    {t("documents.uploadDocument")}
                   </button>
                 </PermissionGate>
               </div>
@@ -556,7 +571,7 @@ export default function DriverDetailPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="w-full max-w-lg rounded-xl bg-white dark:bg-gray-800 shadow-xl">
             <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 p-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Edit Driver</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t("editModal.title")}</h2>
               <button
                 onClick={() => setShowEditModal(false)}
                 className="rounded-lg p-1 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -568,7 +583,7 @@ export default function DriverDetailPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    First Name
+                    {newDriver("fields.firstName")}
                   </label>
                   <input
                     type="text"
@@ -580,7 +595,7 @@ export default function DriverDetailPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Last Name
+                    {newDriver("fields.lastName")}
                   </label>
                   <input
                     type="text"
@@ -593,7 +608,7 @@ export default function DriverDetailPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Phone Number
+                  {newDriver("fields.phone")}
                 </label>
                 <input
                   type="tel"
@@ -605,20 +620,20 @@ export default function DriverDetailPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Location
+                  {newDriver("fields.location")}
                 </label>
                 <input
                   type="text"
                   value={editForm.location}
                   onChange={(e) => setEditForm({ ...editForm, location: e.target.value })}
-                  placeholder="e.g., Kampala Central"
+                  placeholder={newDriver("fields.locationPlaceholder")}
                   className="w-full h-10 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 text-sm text-gray-900 dark:text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    National ID
+                    {newDriver("fields.nationalId")}
                   </label>
                   <input
                     type="text"
@@ -629,7 +644,7 @@ export default function DriverDetailPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Driving Permit
+                    {newDriver("fields.drivingPermit")}
                   </label>
                   <input
                     type="text"
@@ -641,7 +656,7 @@ export default function DriverDetailPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Source Channel
+                  {t("personal.source")}
                 </label>
                 <select
                   value={editForm.source_channel}
@@ -650,14 +665,14 @@ export default function DriverDetailPage() {
                 >
                   {SOURCE_CHANNELS.map((channel) => (
                     <option key={channel.id} value={channel.id}>
-                      {channel.label}
+                      {sourceLabels[channel.id as SourceChannel]}
                     </option>
                   ))}
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Notes
+                  {newDriver("fields.notes")}
                 </label>
                 <textarea
                   value={editForm.notes}
@@ -672,7 +687,7 @@ export default function DriverDetailPage() {
                   onClick={() => setShowEditModal(false)}
                   className="rounded-lg border border-gray-200 dark:border-gray-600 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
-                  Cancel
+                  {common("cancel")}
                 </button>
                 <button
                   type="submit"
@@ -680,7 +695,7 @@ export default function DriverDetailPage() {
                   className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                  Save Changes
+                  {t("editModal.saveChanges")}
                 </button>
               </div>
             </form>
@@ -690,14 +705,14 @@ export default function DriverDetailPage() {
 
       {activeTab === "history" && (
         <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <h2 className="text-lg font-semibold text-gray-900">Status History</h2>
-          <p className="text-sm text-gray-500">Track all status changes</p>
+          <h2 className="text-lg font-semibold text-gray-900">{t("history.title")}</h2>
+          <p className="text-sm text-gray-500">{t("status.title")}</p>
 
           <div className="mt-6 space-y-4">
             {statusHistory.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 text-center">
                 <Clock className="h-10 w-10 text-gray-300" />
-                <p className="mt-2 text-sm text-gray-500">No status changes recorded yet</p>
+                <p className="mt-2 text-sm text-gray-500">{t("history.noHistory")}</p>
               </div>
             ) : (
               statusHistory.map((item, index) => (
@@ -722,13 +737,13 @@ export default function DriverDetailPage() {
                           statusColors[item.to_status as DriverStatus]
                         )}
                       >
-                        {PIPELINE_STAGES.find((s) => s.id === item.to_status)?.label}
+                        {stageLabels[item.to_status]}
                       </span>
                       {item.from_status && (
                         <>
-                          <span className="text-xs text-gray-400">from</span>
+                          <span className="text-xs text-gray-400">←</span>
                           <span className="text-xs text-gray-500">
-                            {PIPELINE_STAGES.find((s) => s.id === item.from_status)?.label}
+                            {stageLabels[item.from_status]}
                           </span>
                         </>
                       )}

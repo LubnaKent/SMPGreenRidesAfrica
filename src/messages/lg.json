@@ -366,6 +366,62 @@
         "title": "Ddereeva agattiddwa bulungi",
         "description": "{name} agattiddwa mu nkola"
       }
+    },
+    "detail": {
+      "backToDrivers": "Dda ku Baddereeva",
+      "driverNotFound": "Ddereeva tayizuudde",
+      "tabs": {
+        "details": "Ebikwatako",
+        "documents": "Ebiwandiiko",
+        "history": "Ebyafaayo"
+      },
+      "info": {
+        "phone": "Essimu",
+        "location": "Ekifo",
+        "source": "Ensibuko",
+        "added": "Yagattibwa"
+      },
+      "personal": {
+        "title": "Ebikwata ku Muntu",
+        "fullName": "Erinnya Eryonna",
+        "phone": "Essimu",
+        "location": "Ekifo",
+        "source": "Omukutu gw'Ensibuko",
+        "notes": "Ebiwandiiko"
+      },
+      "documents": {
+        "title": "Ebiwandiiko",
+        "nationalId": "ID y'Eggwanga",
+        "drivingPermit": "Olukusa lw'Okuvuga",
+        "uploadDocument": "Teeka Ekiwandiiko",
+        "dragDrop": "Sika era osiibule fayiro, oba nyiga okulonda",
+        "formats": "PDF, PNG, oba JPG (okusinga 5MB)",
+        "uploading": "Kiteekebwa...",
+        "noDocuments": "Tewali biwandiiko biteekeddwa waakati"
+      },
+      "status": {
+        "title": "Enkyukakyuka y'Embeera",
+        "current": "Embeera ey'Obutaka",
+        "moveTo": "Simbula eri",
+        "update": "Kyusa Embeera",
+        "updateSuccess": "Embeera ekyusiddwa",
+        "updateSuccessMessage": "Ddereeva asimbukiddwa eri {stage}",
+        "updateFailed": "Tekusobodde kukyusa embeera"
+      },
+      "history": {
+        "title": "Ebyafaayo by'Okukolakola",
+        "driverCreated": "Ddereeva atondeddwa",
+        "statusChanged": "Embeera ekyusiddwa okuva {from} okutuuka {to}",
+        "documentUploaded": "Ekiwandiiko kiteekeddwa: {filename}",
+        "noteAdded": "Ekiwandiiko kigattiddwa",
+        "noHistory": "Tewali byafaayo bikyatondeddwa"
+      },
+      "editModal": {
+        "title": "Longoosa Ddereeva",
+        "saveChanges": "Tereka Enkyukakyuka",
+        "success": "Ddereeva alongooseddwa",
+        "successMessage": "Ebikwatako bya ddereeva biterekeddwa"
+      }
     }
   },
   "pipeline": {
@@ -499,6 +555,52 @@
     "unexpected": "Waliwo ensobi etasuubirwa",
     "loadDrivers": "Kusazeewo okutereeza baddereeva. Nsaba okebere enkwatagana yo ne Supabase.",
     "loadPipeline": "Kusazeewo okutereeza enkola. Nsaba okebere enkwatagana yo ne Supabase."
+  },
+  "handovers": {
+    "title": "Okugaba",
+    "subtitle": "Tegeka era oddukanya okugaba kwa baddereeva eri Greenwheels",
+    "scheduleHandover": "Tegeka Okugaba",
+    "noDrivers": "Tewali baddereeva mu ddaala ly'okugabibwa kaakati",
+    "form": {
+      "drivers": "Baddereeva",
+      "date": "Ennaku",
+      "time": "Obudde",
+      "selectTime": "Londa obudde",
+      "selectDate": "Londa ennaku",
+      "morning": "Enkya (8am-12pm)",
+      "afternoon": "Olwegyabwe (12pm-4pm)",
+      "evening": "Akawungeezi (4pm-6pm)",
+      "notes": "Ebiwandiiko (eby'okwagala)",
+      "notesPlaceholder": "Ebiwandiiko ebirala ku kugaba...",
+      "cancel": "Sazaamu",
+      "schedule": "Tegeka Okugaba"
+    },
+    "sections": {
+      "pending": "Okulindiridde Okugabibwa",
+      "pendingDescription": "Baddereeva abategese mu ddaala ly'okugabibwa",
+      "completed": "Okugabibwa okuwedde",
+      "completedDescription": "Baddereeva abagabiddwa bulungi eri Greenwheels"
+    },
+    "card": {
+      "driver": "Ddereeva",
+      "scheduled": "Kiteekeddwa",
+      "location": "Ekifo",
+      "complete": "Weza Okugaba",
+      "handedOver": "Yagabibwa"
+    },
+    "validation": {
+      "selectDriver": "Nsaba olonde ddereeva omutono",
+      "selectDate": "Nsaba olonde ennaku",
+      "selectTime": "Nsaba olonde ekiseera"
+    },
+    "toast": {
+      "scheduled": "Okugaba kuteekeddwa",
+      "scheduledMessage": "Ddereeva/Baddereeva {count} bateekeddwa okugabibwa",
+      "completed": "Okugaba kuwedde",
+      "completedMessage": "Ddereeva agabiddwa bulungi eri Greenwheels",
+      "failed": "Ekintu kizibusse",
+      "failedMessage": "Tekusobodde kutegeka okugaba. Nsaba ogeleme nate."
+    }
   },
   "metadata": {
     "title": "SMP Green Rides Africa",

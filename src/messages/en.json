@@ -366,6 +366,122 @@
         "title": "Driver added successfully",
         "description": "{name} has been added to the pipeline"
       }
+    },
+    "detail": {
+      "backToDrivers": "Back to Drivers",
+      "driverNotFound": "Driver not found",
+      "failedToLoad": "Failed to load driver details. Please try again.",
+      "score": "Score",
+      "startScreening": "Start Screening",
+      "edit": "Edit",
+      "tabs": {
+        "details": "Details",
+        "documents": "Documents",
+        "history": "History"
+      },
+      "info": {
+        "phone": "Phone",
+        "location": "Location",
+        "source": "Source",
+        "added": "Added",
+        "notSet": "Not set",
+        "notProvided": "Not provided"
+      },
+      "personal": {
+        "title": "Personal Information",
+        "fullName": "Full Name",
+        "phoneNumber": "Phone Number"
+      },
+      "documents": {
+        "title": "Documents",
+        "nationalId": "National ID",
+        "drivingPermit": "Driving Permit",
+        "uploadAndManage": "Upload and manage driver documents",
+        "uploadDocument": "Upload Document",
+        "noDocuments": "No documents uploaded",
+        "uploadFirst": "Upload first document",
+        "uploaded": "Document uploaded",
+        "uploadedMessage": "{name} uploaded successfully",
+        "uploadFailed": "Upload failed",
+        "verified": "Document verified",
+        "verificationRemoved": "Verification removed",
+        "verificationFailed": "Verification failed",
+        "deleted": "Document deleted",
+        "deleteFailed": "Delete failed"
+      },
+      "status": {
+        "title": "Update Status",
+        "subtitle": "Move driver to the next stage",
+        "updated": "Status updated",
+        "updatedMessage": "{name} moved to {stage}",
+        "updateFailed": "Failed to update status"
+      },
+      "history": {
+        "title": "Status History",
+        "subtitle": "Track all status changes",
+        "noChanges": "No status changes recorded yet",
+        "from": "from"
+      },
+      "editModal": {
+        "title": "Edit Driver",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "phoneNumber": "Phone Number",
+        "location": "Location",
+        "locationPlaceholder": "e.g., Kampala Central",
+        "nationalId": "National ID",
+        "drivingPermit": "Driving Permit",
+        "sourceChannel": "Source Channel",
+        "notes": "Notes",
+        "cancel": "Cancel",
+        "saveChanges": "Save Changes",
+        "updated": "Driver updated",
+        "updatedMessage": "Changes saved successfully",
+        "failedToSave": "Failed to save"
+      }
+    }
+  },
+  "handovers": {
+    "title": "Handovers",
+    "subtitle": "Schedule and manage driver handovers to Greenwheels",
+    "scheduleHandover": "Schedule Handover",
+    "scheduleNew": "Schedule New Handover",
+    "noHandovers": "No handovers scheduled",
+    "noHandoversHint": "Schedule a handover once you have qualified drivers ready",
+    "scheduled": "Scheduled",
+    "completed": "Completed",
+    "cancelled": "Cancelled",
+    "unknown": "Unknown",
+    "form": {
+      "drivers": "Drivers",
+      "noDriversSelected": "No drivers selected",
+      "selectDrivers": "Select Drivers",
+      "addMoreDrivers": "Add More Drivers",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "locationPlaceholder": "e.g., Greenwheels Training Center",
+      "notes": "Notes",
+      "notesPlaceholder": "Any additional notes for this handover...",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "noDrivers": "No drivers selected",
+      "noDriversMessage": "Please select at least one driver for the handover",
+      "dateRequired": "Date required",
+      "dateRequiredMessage": "Please select a scheduled date"
+    },
+    "toast": {
+      "loadFailed": "Failed to load handovers",
+      "loadFailedMessage": "Please try refreshing the page",
+      "scheduled": "Handover scheduled",
+      "scheduledMessage": "{count} driver(s) scheduled for handover",
+      "scheduleFailed": "Failed to schedule handover",
+      "completed": "Handover completed",
+      "completedMessage": "Drivers have been marked as handed over",
+      "completeFailed": "Failed to complete handover",
+      "cancelled": "Handover cancelled",
+      "cancelFailed": "Failed to cancel handover"
     }
   },
   "pipeline": {

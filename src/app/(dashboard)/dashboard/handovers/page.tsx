@@ -13,9 +13,12 @@ import { DriverSelectionModal, HandoverCard } from "@/components/handovers";
 import { useToast } from "@/components/ui/toast";
 import { PermissionGate } from "@/components/auth";
 import type { Handover, Driver } from "@/types/database";
+import { useTranslations } from "next-intl";
 
 export default function HandoversPage() {
   const { addToast } = useToast();
+  const t = useTranslations("handovers");
+  const common = useTranslations("common");
   const [handovers, setHandovers] = useState<Handover[]>([]);
   const [driverMap, setDriverMap] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
@@ -59,8 +62,8 @@ export default function HandoversPage() {
       console.error("Error loading handovers:", error);
       addToast({
         type: "error",
-        title: "Failed to load handovers",
-        message: "Please try refreshing the page",
+        title: t("toast.failed"),
+        message: t("toast.failedMessage"),
       });
     } finally {
       setLoading(false);
@@ -97,8 +100,7 @@ export default function HandoversPage() {
     if (selectedDriverIds.length === 0) {
       addToast({
         type: "warning",
-        title: "No drivers selected",
-        message: "Please select at least one driver for the handover",
+        title: t("validation.selectDriver"),
       });
       return;
     }
@@ -106,8 +108,7 @@ export default function HandoversPage() {
     if (!formData.scheduled_date) {
       addToast({
         type: "warning",
-        title: "Date required",
-        message: "Please select a scheduled date",
+        title: t("validation.selectDate"),
       });
       return;
     }
@@ -127,8 +128,8 @@ export default function HandoversPage() {
 
       addToast({
         type: "success",
-        title: "Handover scheduled",
-        message: `${selectedDriverIds.length} driver(s) scheduled for handover`,
+        title: t("toast.scheduled"),
+        message: t("toast.scheduledMessage", { count: selectedDriverIds.length }),
       });
 
       // Reset form
@@ -148,8 +149,8 @@ export default function HandoversPage() {
       console.error("Error creating handover:", error);
       addToast({
         type: "error",
-        title: "Failed to schedule handover",
-        message: "Please try again",
+        title: t("toast.failed"),
+        message: t("toast.failedMessage"),
       });
     } finally {
       setSubmitting(false);
@@ -162,16 +163,16 @@ export default function HandoversPage() {
       await completeHandover(handoverId);
       addToast({
         type: "success",
-        title: "Handover completed",
-        message: "Drivers have been marked as handed over",
+        title: t("toast.completed"),
+        message: t("toast.completedMessage"),
       });
       loadHandovers();
     } catch (error) {
       console.error("Error completing handover:", error);
       addToast({
         type: "error",
-        title: "Failed to complete handover",
-        message: "Please try again",
+        title: t("toast.failed"),
+        message: common("tryAgain"),
       });
     } finally {
       setActionLoading(null);
@@ -184,15 +185,15 @@ export default function HandoversPage() {
       await cancelHandover(handoverId);
       addToast({
         type: "info",
-        title: "Handover cancelled",
+        title: common("success"),
       });
       loadHandovers();
     } catch (error) {
       console.error("Error cancelling handover:", error);
       addToast({
         type: "error",
-        title: "Failed to cancel handover",
-        message: "Please try again",
+        title: t("toast.failed"),
+        message: common("tryAgain"),
       });
     } finally {
       setActionLoading(null);
@@ -211,9 +212,9 @@ export default function HandoversPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Handovers</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <p className="text-sm text-gray-500">
-            Schedule and manage driver handovers to Greenwheels
+            {t("subtitle")}
           </p>
         </div>
         <PermissionGate permission="MANAGE_HANDOVERS">
@@ -222,7 +223,7 @@ export default function HandoversPage() {
             className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
           >
             <Plus className="h-4 w-4" />
-            Schedule Handover
+            {t("scheduleHandover")}
           </button>
         </PermissionGate>
       </div>
@@ -232,7 +233,7 @@ export default function HandoversPage() {
         <div className="rounded-lg border border-gray-200 bg-white p-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">
-              Schedule New Handover
+              {t("scheduleHandover")}
             </h2>
             <button
               onClick={() => setShowForm(false)}
@@ -246,7 +247,7 @@ export default function HandoversPage() {
             {/* Selected Drivers */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Drivers *
+                {t("form.drivers")} *
               </label>
               {selectedDriverIds.length > 0 ? (
                 <div className="flex flex-wrap gap-2 mb-2">
@@ -267,7 +268,7 @@ export default function HandoversPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-gray-500 mb-2">No drivers selected</p>
+                <p className="text-sm text-gray-500 mb-2">{t("noDrivers")}</p>
               )}
               <button
                 type="button"
@@ -275,7 +276,7 @@ export default function HandoversPage() {
                 className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 <Users className="h-4 w-4" />
-                {selectedDriverIds.length > 0 ? "Add More Drivers" : "Select Drivers"}
+                {t("form.drivers")}
               </button>
             </div>
 
@@ -286,7 +287,7 @@ export default function HandoversPage() {
                   htmlFor="scheduled_date"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Date *
+                  {t("form.date")} *
                 </label>
                 <input
                   type="date"
@@ -305,7 +306,7 @@ export default function HandoversPage() {
                   htmlFor="scheduled_time"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Time
+                  {t("form.time")}
                 </label>
                 <input
                   type="time"
@@ -325,7 +326,7 @@ export default function HandoversPage() {
                 htmlFor="location"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Location
+                {t("card.location")}
               </label>
               <input
                 type="text"
@@ -345,7 +346,7 @@ export default function HandoversPage() {
                 htmlFor="notes"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Notes
+                {t("form.notes")}
               </label>
               <textarea
                 id="notes"
@@ -354,7 +355,7 @@ export default function HandoversPage() {
                   setFormData({ ...formData, notes: e.target.value })
                 }
                 rows={3}
-                placeholder="Any additional notes for this handover..."
+                placeholder={t("form.notesPlaceholder")}
                 className="w-full rounded-lg border border-gray-200 px-4 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500"
               />
             </div>
@@ -366,7 +367,7 @@ export default function HandoversPage() {
                 onClick={() => setShowForm(false)}
                 className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
-                Cancel
+                {common("cancel")}
               </button>
               <button
                 type="submit"
@@ -374,7 +375,7 @@ export default function HandoversPage() {
                 className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
-                Schedule Handover
+                {t("form.schedule")}
               </button>
             </div>
           </form>
@@ -391,9 +392,9 @@ export default function HandoversPage() {
         <div className="rounded-lg border border-gray-200 bg-white">
           <div className="flex flex-col items-center justify-center p-12 text-center">
             <Calendar className="h-12 w-12 text-gray-300" />
-            <p className="mt-2 text-gray-500">No handovers scheduled</p>
+            <p className="mt-2 text-gray-500">{t("noDrivers")}</p>
             <p className="text-sm text-gray-400">
-              Schedule a handover once you have qualified drivers ready
+              {t("sections.pendingDescription")}
             </p>
           </div>
         </div>
@@ -404,14 +405,14 @@ export default function HandoversPage() {
           {scheduledHandovers.length > 0 && (
             <div>
               <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                Scheduled ({scheduledHandovers.length})
+                {t("sections.pending")} ({scheduledHandovers.length})
               </h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {scheduledHandovers.map((handover) => (
                   <HandoverCard
                     key={handover.id}
                     handover={handover}
-                    driverNames={handover.driver_ids.map((id) => driverMap[id] || "Unknown")}
+                    driverNames={handover.driver_ids.map((id) => driverMap[id] || "-")}
                     onComplete={handleComplete}
                     onCancel={handleCancel}
                     isLoading={actionLoading === handover.id}
@@ -425,14 +426,14 @@ export default function HandoversPage() {
           {completedHandovers.length > 0 && (
             <div>
               <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                Completed ({completedHandovers.length})
+                {t("sections.completed")} ({completedHandovers.length})
               </h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {completedHandovers.map((handover) => (
                   <HandoverCard
                     key={handover.id}
                     handover={handover}
-                    driverNames={handover.driver_ids.map((id) => driverMap[id] || "Unknown")}
+                    driverNames={handover.driver_ids.map((id) => driverMap[id] || "-")}
                     onComplete={handleComplete}
                     onCancel={handleCancel}
                   />
@@ -445,14 +446,14 @@ export default function HandoversPage() {
           {cancelledHandovers.length > 0 && (
             <div>
               <h2 className="mb-4 text-lg font-semibold text-gray-500">
-                Cancelled ({cancelledHandovers.length})
+                {common("cancel")} ({cancelledHandovers.length})
               </h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {cancelledHandovers.map((handover) => (
                   <HandoverCard
                     key={handover.id}
                     handover={handover}
-                    driverNames={handover.driver_ids.map((id) => driverMap[id] || "Unknown")}
+                    driverNames={handover.driver_ids.map((id) => driverMap[id] || "-")}
                     onComplete={handleComplete}
                     onCancel={handleCancel}
                   />

@@ -366,6 +366,122 @@
         "title": "Dereva ameongezwa kwa mafanikio",
         "description": "{name} ameongezwa kwenye mfumo"
       }
+    },
+    "detail": {
+      "backToDrivers": "Rudi kwa Madereva",
+      "driverNotFound": "Dereva hajapatikana",
+      "failedToLoad": "Imeshindwa kupakia maelezo ya dereva. Tafadhali jaribu tena.",
+      "score": "Alama",
+      "startScreening": "Anza Uchunguzi",
+      "edit": "Hariri",
+      "tabs": {
+        "details": "Maelezo",
+        "documents": "Nyaraka",
+        "history": "Historia"
+      },
+      "info": {
+        "phone": "Simu",
+        "location": "Eneo",
+        "source": "Chanzo",
+        "added": "Imeongezwa",
+        "notSet": "Haijawekwa",
+        "notProvided": "Haijatolewa"
+      },
+      "personal": {
+        "title": "Taarifa za Kibinafsi",
+        "fullName": "Jina Kamili",
+        "phoneNumber": "Nambari ya Simu"
+      },
+      "documents": {
+        "title": "Nyaraka",
+        "nationalId": "Kitambulisho cha Taifa",
+        "drivingPermit": "Leseni ya Kuendesha",
+        "uploadAndManage": "Pakia na dhibiti nyaraka za dereva",
+        "uploadDocument": "Pakia Nyaraka",
+        "noDocuments": "Hakuna nyaraka zilizopakiwa",
+        "uploadFirst": "Pakia nyaraka ya kwanza",
+        "uploaded": "Nyaraka imepakiwa",
+        "uploadedMessage": "{name} imepakiwa kwa mafanikio",
+        "uploadFailed": "Kupakia kumeshindwa",
+        "verified": "Nyaraka imethibitishwa",
+        "verificationRemoved": "Uthibitisho umeondolewa",
+        "verificationFailed": "Uthibitisho umeshindwa",
+        "deleted": "Nyaraka imefutwa",
+        "deleteFailed": "Kufuta kumeshindwa"
+      },
+      "status": {
+        "title": "Sasisha Hali",
+        "subtitle": "Hamisha dereva hadi hatua inayofuata",
+        "updated": "Hali imesasishwa",
+        "updatedMessage": "{name} amehamishwa hadi {stage}",
+        "updateFailed": "Imeshindwa kusasisha hali"
+      },
+      "history": {
+        "title": "Historia ya Hali",
+        "subtitle": "Fuatilia mabadiliko yote ya hali",
+        "noChanges": "Hakuna mabadiliko ya hali yaliyorekodiwa bado",
+        "from": "kutoka"
+      },
+      "editModal": {
+        "title": "Hariri Dereva",
+        "firstName": "Jina la Kwanza",
+        "lastName": "Jina la Mwisho",
+        "phoneNumber": "Nambari ya Simu",
+        "location": "Eneo",
+        "locationPlaceholder": "mfano, Kampala Central",
+        "nationalId": "Kitambulisho cha Taifa",
+        "drivingPermit": "Leseni ya Kuendesha",
+        "sourceChannel": "Chanzo cha Kupata",
+        "notes": "Maelezo",
+        "cancel": "Ghairi",
+        "saveChanges": "Hifadhi Mabadiliko",
+        "updated": "Dereva amesasishwa",
+        "updatedMessage": "Mabadiliko yamehifadhiwa kwa mafanikio",
+        "failedToSave": "Imeshindwa kuhifadhi"
+      }
+    }
+  },
+  "handovers": {
+    "title": "Makabidhi",
+    "subtitle": "Panga na dhibiti makabidhi ya madereva kwa Greenwheels",
+    "scheduleHandover": "Panga Mkabidhi",
+    "scheduleNew": "Panga Mkabidhi Mpya",
+    "noHandovers": "Hakuna makabidhi yaliyopangwa",
+    "noHandoversHint": "Panga mkabidhi mara tu una madereva wenye sifa tayari",
+    "scheduled": "Imepangwa",
+    "completed": "Imekamilika",
+    "cancelled": "Imeghairiwa",
+    "unknown": "Haijulikani",
+    "form": {
+      "drivers": "Madereva",
+      "noDriversSelected": "Hakuna madereva waliochaguliwa",
+      "selectDrivers": "Chagua Madereva",
+      "addMoreDrivers": "Ongeza Madereva Zaidi",
+      "date": "Tarehe",
+      "time": "Wakati",
+      "location": "Eneo",
+      "locationPlaceholder": "mfano, Kituo cha Mafunzo cha Greenwheels",
+      "notes": "Maelezo",
+      "notesPlaceholder": "Maelezo yoyote ya ziada kwa mkabidhi huu...",
+      "cancel": "Ghairi"
+    },
+    "validation": {
+      "noDrivers": "Hakuna madereva waliochaguliwa",
+      "noDriversMessage": "Tafadhali chagua angalau dereva mmoja kwa mkabidhi",
+      "dateRequired": "Tarehe inahitajika",
+      "dateRequiredMessage": "Tafadhali chagua tarehe iliyopangwa"
+    },
+    "toast": {
+      "loadFailed": "Imeshindwa kupakia makabidhi",
+      "loadFailedMessage": "Tafadhali jaribu kuonyesha upya ukurasa",
+      "scheduled": "Mkabidhi umepangwa",
+      "scheduledMessage": "Dereva {count} wamepangwa kwa mkabidhi",
+      "scheduleFailed": "Imeshindwa kupanga mkabidhi",
+      "completed": "Mkabidhi umekamilika",
+      "completedMessage": "Madereva wameashiriwa kama wamekabidhiwa",
+      "completeFailed": "Imeshindwa kukamilisha mkabidhi",
+      "cancelled": "Mkabidhi umeghairiwa",
+      "cancelFailed": "Imeshindwa kughairi mkabidhi"
     }
   },
   "pipeline": {
