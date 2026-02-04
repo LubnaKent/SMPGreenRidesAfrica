@@ -183,3 +183,6 @@ export const config = {
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|json|xml|txt)$).*)',
   ],
 };
+
+// Force edge runtime for middleware
+export const runtime = 'edge';
