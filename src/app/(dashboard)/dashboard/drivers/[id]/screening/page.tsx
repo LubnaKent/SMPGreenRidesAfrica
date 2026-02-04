@@ -8,6 +8,7 @@ import { ScreeningQuestionnaire } from "@/components/screening";
 import { getDriverById, updateDriver, saveScreeningResponse, updateDriverStatus } from "@/lib/supabase/database";
 import { SCREENING_QUESTIONS, PASSING_SCORE } from "@/constants/screening";
 import { useToast } from "@/components/ui/toast";
+import { useTranslations } from "next-intl";
 import type { Driver } from "@/types/database";
 
 export default function ScreeningPage() {
@@ -15,6 +16,8 @@ export default function ScreeningPage() {
   const router = useRouter();
   const driverId = params.id as string;
   const { addToast } = useToast();
+  const t = useTranslations("drivers.screening");
+  const common = useTranslations("common");
 
   const [driver, setDriver] = useState<Driver | null>(null);
   const [loading, setLoading] = useState(true);
@@ -27,7 +30,7 @@ export default function ScreeningPage() {
         setDriver(data);
       } catch (err) {
         console.error("Error fetching driver:", err);
-        setError("Failed to load driver details.");
+        setError(t("loadError"));
       } finally {
         setLoading(false);
       }
@@ -68,28 +71,28 @@ export default function ScreeningPage() {
         await updateDriverStatus(driverId, "qualified", "Passed screening questionnaire");
         addToast({
           type: "success",
-          title: "Screening complete",
-          message: `${driver.first_name} passed with ${score}% and is now qualified`,
+          title: t("toast.complete"),
+          message: t("toast.passed", { name: driver.first_name, score }),
         });
       } else if (score >= PASSING_SCORE) {
         addToast({
           type: "success",
-          title: "Screening complete",
-          message: `Score: ${score}% - Passed!`,
+          title: t("toast.complete"),
+          message: t("toast.passedScore", { score }),
         });
       } else {
         addToast({
           type: "warning",
-          title: "Screening complete",
-          message: `Score: ${score}% - Below passing threshold (${PASSING_SCORE}%)`,
+          title: t("toast.complete"),
+          message: t("toast.belowThreshold", { score, threshold: PASSING_SCORE }),
         });
       }
     } catch (err) {
       console.error("Error saving screening:", err);
       addToast({
         type: "error",
-        title: "Failed to save screening",
-        message: "Please try again",
+        title: t("toast.saveFailed"),
+        message: common("tryAgain"),
       });
     }
   };
@@ -110,13 +113,13 @@ export default function ScreeningPage() {
     return (
       <div className="flex h-96 flex-col items-center justify-center gap-4">
         <AlertCircle className="h-12 w-12 text-red-500" />
-        <p className="text-lg text-gray-600">{error || "Driver not found"}</p>
+        <p className="text-lg text-gray-600">{error || t("driverNotFound")}</p>
         <Link
           href="/dashboard/drivers"
           className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Drivers
+          {t("backToDrivers")}
         </Link>
       </div>
     );
@@ -134,7 +137,7 @@ export default function ScreeningPage() {
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Screening Complete</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{t("complete")}</h1>
             <p className="text-sm text-gray-500">
               {driver.first_name} {driver.last_name}
             </p>
@@ -143,7 +146,7 @@ export default function ScreeningPage() {
 
         <div className="rounded-lg border border-gray-200 bg-white p-6">
           <div className="text-center">
-            <p className="text-sm text-gray-500">Previous Screening Score</p>
+            <p className="text-sm text-gray-500">{t("previousScore")}</p>
             <p
               className={`text-4xl font-bold ${
                 driver.screening_score >= PASSING_SCORE
@@ -154,7 +157,7 @@ export default function ScreeningPage() {
               {driver.screening_score}%
             </p>
             <p className="mt-4 text-sm text-gray-500">
-              This driver has already been screened. To re-screen, please contact an administrator.
+              {t("alreadyScreened")}
             </p>
           </div>
         </div>
@@ -164,7 +167,7 @@ export default function ScreeningPage() {
             href={`/dashboard/drivers/${driverId}`}
             className="rounded-lg bg-green-600 px-6 py-2 text-sm font-medium text-white hover:bg-green-700"
           >
-            Back to Driver
+            {t("backToDriver")}
           </Link>
         </div>
       </div>
@@ -181,9 +184,9 @@ export default function ScreeningPage() {
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Driver Screening</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <p className="text-sm text-gray-500">
-            Evaluate {driver.first_name} {driver.last_name}
+            {t("evaluate", { name: `${driver.first_name} ${driver.last_name}` })}
           </p>
         </div>
       </div>

@@ -422,6 +422,33 @@
         "success": "Ddereeva alongooseddwa",
         "successMessage": "Ebikwatako bya ddereeva biterekeddwa"
       }
+    },
+    "screening": {
+      "title": "Okusengula Ddereeva",
+      "evaluate": "Sengula {name}",
+      "complete": "Okusengula Kuwedde",
+      "previousScore": "Obubonero bw'Okusengula Okwasooka",
+      "alreadyScreened": "Ddereeva ono yasengulwa dda. Okusengula nate, nsaba otuukirire omukubirizi.",
+      "backToDriver": "Dda ku Ddereeva",
+      "backToDrivers": "Dda ku Baddereeva",
+      "driverNotFound": "Ddereeva tayizuudde",
+      "loadError": "Tekusobodde kutereeza ebikwata ku ddereeva.",
+      "toast": {
+        "complete": "Okusengula kuwedde",
+        "passed": "{name} ayise n'obubonero {score}% era kaakati alina obukugu",
+        "passedScore": "Obubonero: {score}% - Wayise!",
+        "belowThreshold": "Obubonero: {score}% - Wansi w'obutuufu ({threshold}%)",
+        "saveFailed": "Tekusobodde kutereka okusengula"
+      },
+      "questionnaire": {
+        "title": "Ekibuuzo ky'Okusengula",
+        "progress": "Ekibuuzo {current} ku {total}",
+        "selectOption": "Londa eddamu",
+        "previous": "Ekyayita",
+        "next": "Ekiddako",
+        "submit": "Weereza Okusengula",
+        "cancel": "Sazaamu"
+      }
     }
   },
   "pipeline": {

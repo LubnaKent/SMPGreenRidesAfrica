@@ -439,6 +439,33 @@
         "updatedMessage": "Mabadiliko yamehifadhiwa kwa mafanikio",
         "failedToSave": "Imeshindwa kuhifadhi"
       }
+    },
+    "screening": {
+      "title": "Uchunguzi wa Dereva",
+      "evaluate": "Tathmini {name}",
+      "complete": "Uchunguzi Umekamilika",
+      "previousScore": "Alama ya Uchunguzi wa Awali",
+      "alreadyScreened": "Dereva huyu tayari amechunguzwa. Kuchunguza tena, tafadhali wasiliana na msimamizi.",
+      "backToDriver": "Rudi kwa Dereva",
+      "backToDrivers": "Rudi kwa Madereva",
+      "driverNotFound": "Dereva hakupatikana",
+      "loadError": "Imeshindwa kupakia maelezo ya dereva.",
+      "toast": {
+        "complete": "Uchunguzi umekamilika",
+        "passed": "{name} amefaulu na {score}% na sasa ana sifa",
+        "passedScore": "Alama: {score}% - Amefaulu!",
+        "belowThreshold": "Alama: {score}% - Chini ya kiwango cha kupita ({threshold}%)",
+        "saveFailed": "Imeshindwa kuhifadhi uchunguzi"
+      },
+      "questionnaire": {
+        "title": "Dodoso la Uchunguzi",
+        "progress": "Swali {current} kati ya {total}",
+        "selectOption": "Chagua jibu",
+        "previous": "Iliyopita",
+        "next": "Ifuatayo",
+        "submit": "Wasilisha Uchunguzi",
+        "cancel": "Ghairi"
+      }
     }
   },
   "handovers": {

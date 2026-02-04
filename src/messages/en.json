@@ -439,6 +439,33 @@
         "updatedMessage": "Changes saved successfully",
         "failedToSave": "Failed to save"
       }
+    },
+    "screening": {
+      "title": "Driver Screening",
+      "evaluate": "Evaluate {name}",
+      "complete": "Screening Complete",
+      "previousScore": "Previous Screening Score",
+      "alreadyScreened": "This driver has already been screened. To re-screen, please contact an administrator.",
+      "backToDriver": "Back to Driver",
+      "backToDrivers": "Back to Drivers",
+      "driverNotFound": "Driver not found",
+      "loadError": "Failed to load driver details.",
+      "toast": {
+        "complete": "Screening complete",
+        "passed": "{name} passed with {score}% and is now qualified",
+        "passedScore": "Score: {score}% - Passed!",
+        "belowThreshold": "Score: {score}% - Below passing threshold ({threshold}%)",
+        "saveFailed": "Failed to save screening"
+      },
+      "questionnaire": {
+        "title": "Screening Questionnaire",
+        "progress": "Question {current} of {total}",
+        "selectOption": "Select an option",
+        "previous": "Previous",
+        "next": "Next",
+        "submit": "Submit Screening",
+        "cancel": "Cancel"
+      }
     }
   },
   "handovers": {
