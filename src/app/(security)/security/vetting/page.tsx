@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslations } from "next-intl";
 import type { DocumentType } from "@/types/database";
 
 interface PendingDocument {
@@ -31,15 +32,17 @@ interface PendingDocument {
   };
 }
 
-const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
-  national_id: "National ID",
-  driving_permit: "Driving Permit",
-  photo: "Photo",
-  other: "Other Document",
-};
-
 export default function VettingQueuePage() {
   const { profile } = useAuth();
+  const t = useTranslations("security.vetting");
+
+  // Translated document type labels
+  const documentTypeLabels: Record<DocumentType, string> = {
+    national_id: t("documentTypes.nationalId"),
+    driving_permit: t("documentTypes.drivingPermit"),
+    photo: t("documentTypes.photo"),
+    other: t("documentTypes.other"),
+  };
   const [documents, setDocuments] = useState<PendingDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -103,7 +106,7 @@ export default function VettingQueuePage() {
 
     if (error) {
       console.error("Error verifying document:", error);
-      alert("Failed to verify document");
+      alert(t("toast.verifyFailed"));
     } else {
       // Log the action
       await supabase.from("audit_logs").insert({
@@ -134,9 +137,9 @@ export default function VettingQueuePage() {
     <div className="space-y-6">
       {/* Page header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Vetting Queue</h1>
+        <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Review and verify driver documents
+          {t("subtitle")}
         </p>
       </div>
 
@@ -147,7 +150,7 @@ export default function VettingQueuePage() {
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Search by driver name..."
+            placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-4 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
@@ -163,8 +166,8 @@ export default function VettingQueuePage() {
             <Filter className="h-4 w-4 text-gray-500" />
             <span>
               {selectedType === "all"
-                ? "All Types"
-                : DOCUMENT_TYPE_LABELS[selectedType]}
+                ? t("allTypes")
+                : documentTypeLabels[selectedType]}
             </span>
             <ChevronDown className="h-4 w-4 text-gray-400" />
           </button>
@@ -183,9 +186,9 @@ export default function VettingQueuePage() {
                   }}
                   className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                 >
-                  All Types
+                  {t("allTypes")}
                 </button>
-                {(Object.keys(DOCUMENT_TYPE_LABELS) as DocumentType[]).map(
+                {(Object.keys(documentTypeLabels) as DocumentType[]).map(
                   (type) => (
                     <button
                       key={type}
@@ -195,7 +198,7 @@ export default function VettingQueuePage() {
                       }}
                       className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                     >
-                      {DOCUMENT_TYPE_LABELS[type]}
+                      {documentTypeLabels[type]}
                     </button>
                   )
                 )}
@@ -209,8 +212,7 @@ export default function VettingQueuePage() {
       <div className="flex items-center gap-4 rounded-lg bg-yellow-50 border border-yellow-200 p-4">
         <Clock className="h-5 w-5 text-yellow-600" />
         <p className="text-sm text-yellow-800">
-          <span className="font-semibold">{filteredDocuments.length}</span>{" "}
-          documents pending verification
+          {t("pendingCount", { count: filteredDocuments.length })}
         </p>
       </div>
 
@@ -218,12 +220,12 @@ export default function VettingQueuePage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {loading ? (
           <div className="col-span-full text-center py-12 text-gray-500">
-            Loading documents...
+            {t("loading")}
           </div>
         ) : filteredDocuments.length === 0 ? (
           <div className="col-span-full text-center py-12">
             <FileCheck className="h-12 w-12 text-green-300 mx-auto mb-4" />
-            <p className="text-gray-500">All documents have been verified!</p>
+            <p className="text-gray-500">{t("allVerified")}</p>
           </div>
         ) : (
           filteredDocuments.map((doc) => (
@@ -245,7 +247,7 @@ export default function VettingQueuePage() {
                   </div>
                 )}
                 <span className="absolute top-2 right-2 rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-700">
-                  {DOCUMENT_TYPE_LABELS[doc.document_type]}
+                  {documentTypeLabels[doc.document_type]}
                 </span>
               </div>
 
@@ -258,7 +260,7 @@ export default function VettingQueuePage() {
                   </p>
                 </div>
                 <p className="text-sm text-gray-500 mb-3">
-                  Uploaded {new Date(doc.uploaded_at).toLocaleDateString()}
+                  {t("uploaded", { date: new Date(doc.uploaded_at).toLocaleDateString() })}
                 </p>
 
                 <div className="flex gap-2">
@@ -267,19 +269,19 @@ export default function VettingQueuePage() {
                     className="flex-1 flex items-center justify-center gap-1 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
                   >
                     <Eye className="h-4 w-4" />
-                    Review
+                    {t("review")}
                   </button>
                   <button
                     onClick={() => verifyDocument(doc.id, true)}
                     className="flex items-center justify-center rounded-lg bg-green-600 p-2 text-white hover:bg-green-700"
-                    title="Approve"
+                    title={t("approve")}
                   >
                     <CheckCircle className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => verifyDocument(doc.id, false)}
                     className="flex items-center justify-center rounded-lg bg-red-600 p-2 text-white hover:bg-red-700"
-                    title="Reject"
+                    title={t("reject")}
                   >
                     <XCircle className="h-4 w-4" />
                   </button>
@@ -297,7 +299,7 @@ export default function VettingQueuePage() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  Document Review
+                  {t("modal.title")}
                 </h2>
                 <button
                   onClick={() => setSelectedDocument(null)}
@@ -309,20 +311,20 @@ export default function VettingQueuePage() {
 
               {/* Driver info */}
               <div className="rounded-lg bg-gray-50 p-4 mb-4">
-                <p className="text-sm text-gray-500">Driver</p>
+                <p className="text-sm text-gray-500">{t("modal.driver")}</p>
                 <p className="font-medium text-gray-900">
                   {selectedDocument.driver.first_name}{" "}
                   {selectedDocument.driver.last_name}
                 </p>
                 <p className="text-sm text-gray-500 mt-1">
-                  Phone: {selectedDocument.driver.phone}
+                  {t("modal.phone")}: {selectedDocument.driver.phone}
                 </p>
               </div>
 
               {/* Document type */}
               <div className="mb-4">
                 <span className="inline-flex items-center rounded-full bg-purple-100 px-3 py-1 text-sm font-medium text-purple-700">
-                  {DOCUMENT_TYPE_LABELS[selectedDocument.document_type]}
+                  {documentTypeLabels[selectedDocument.document_type]}
                 </span>
               </div>
 
@@ -351,7 +353,7 @@ export default function VettingQueuePage() {
                   className="flex-1 flex items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 hover:bg-red-100 disabled:opacity-50"
                 >
                   <XCircle className="h-4 w-4" />
-                  Reject Document
+                  {t("modal.rejectDocument")}
                 </button>
                 <button
                   onClick={() => {
@@ -361,7 +363,7 @@ export default function VettingQueuePage() {
                   className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
                 >
                   <CheckCircle className="h-4 w-4" />
-                  Verify Document
+                  {t("modal.verifyDocument")}
                 </button>
               </div>
             </div>

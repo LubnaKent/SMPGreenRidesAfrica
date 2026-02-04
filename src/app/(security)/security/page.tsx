@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslations } from "next-intl";
 
 interface SecurityStats {
   pendingVetting: number;
@@ -25,6 +26,7 @@ interface SecurityStats {
 
 export default function SecurityDashboard() {
   const { profile } = useAuth();
+  const t = useTranslations("security.dashboard");
   const [stats, setStats] = useState<SecurityStats>({
     pendingVetting: 0,
     documentsVerifiedToday: 0,
@@ -90,7 +92,7 @@ export default function SecurityDashboard() {
 
   const statCards = [
     {
-      name: "Pending Vetting",
+      name: t("stats.pendingVetting"),
       value: stats.pendingVetting,
       icon: Clock,
       color: "bg-yellow-500",
@@ -98,21 +100,21 @@ export default function SecurityDashboard() {
       urgent: stats.pendingVetting > 10,
     },
     {
-      name: "Verified Today",
+      name: t("stats.verifiedToday"),
       value: stats.documentsVerifiedToday,
       icon: CheckCircle,
       color: "bg-green-500",
       href: "/security/vetting",
     },
     {
-      name: "Drivers Vetted",
+      name: t("stats.driversVetted"),
       value: stats.driversVetted,
       icon: Users,
       color: "bg-blue-500",
       href: "/security/drivers",
     },
     {
-      name: "Security Events",
+      name: t("stats.securityEvents"),
       value: stats.recentActivityCount,
       icon: Shield,
       color: "bg-purple-500",
@@ -122,23 +124,23 @@ export default function SecurityDashboard() {
 
   const quickActions = [
     {
-      name: "Vetting Queue",
-      description: "Review pending documents",
+      name: t("quickActions.vettingQueue"),
+      description: t("quickActions.vettingQueueDesc"),
       icon: FileCheck,
       href: "/security/vetting",
       color: "bg-yellow-100 text-yellow-600",
       badge: stats.pendingVetting > 0 ? stats.pendingVetting : null,
     },
     {
-      name: "Driver Records",
-      description: "View sensitive driver data",
+      name: t("quickActions.driverRecords"),
+      description: t("quickActions.driverRecordsDesc"),
       icon: Eye,
       href: "/security/drivers",
       color: "bg-blue-100 text-blue-600",
     },
     {
-      name: "Audit Logs",
-      description: "Review access history",
+      name: t("quickActions.auditLogs"),
+      description: t("quickActions.auditLogsDesc"),
       icon: FileText,
       href: "/security/audit",
       color: "bg-purple-100 text-purple-600",
@@ -150,15 +152,15 @@ export default function SecurityDashboard() {
       {/* Page header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Security Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Welcome back, {profile?.name?.split(" ")[0] || "Security Officer"}
+            {t("welcome", { name: profile?.name?.split(" ")[0] || t("welcomeDefault") })}
           </p>
         </div>
         <div className="flex items-center gap-2 rounded-lg bg-purple-100 px-3 py-1.5">
           <Shield className="h-4 w-4 text-purple-600" />
           <span className="text-sm font-medium text-purple-700">
-            Secure Session Active
+            {t("secureSession")}
           </span>
         </div>
       </div>
@@ -170,17 +172,17 @@ export default function SecurityDashboard() {
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
             <div>
               <p className="font-medium text-yellow-800">
-                High volume of pending documents
+                {t("alert.title")}
               </p>
               <p className="text-sm text-yellow-600">
-                {stats.pendingVetting} documents are awaiting verification
+                {t("alert.message", { count: stats.pendingVetting })}
               </p>
             </div>
             <Link
               href="/security/vetting"
               className="ml-auto rounded-lg bg-yellow-500 px-4 py-2 text-sm font-medium text-white hover:bg-yellow-600"
             >
-              Review Now
+              {t("alert.reviewNow")}
             </Link>
           </div>
         </div>
@@ -219,7 +221,7 @@ export default function SecurityDashboard() {
         {/* Quick actions */}
         <div className="rounded-xl border border-gray-200 bg-white p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Quick Actions
+            {t("quickActions.title")}
           </h2>
           <div className="space-y-3">
             {quickActions.map((action) => (
@@ -252,19 +254,19 @@ export default function SecurityDashboard() {
         <div className="rounded-xl border border-gray-200 bg-white p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-900">
-              Recent Security Activity
+              {t("activity.title")}
             </h2>
             <Link
               href="/security/audit"
               className="text-sm text-purple-600 hover:text-purple-700"
             >
-              View all
+              {t("activity.viewAll")}
             </Link>
           </div>
           <div className="space-y-3">
             {recentActivity.length === 0 ? (
               <p className="text-sm text-gray-500 text-center py-4">
-                No recent security activity
+                {t("activity.noActivity")}
               </p>
             ) : (
               recentActivity.map((activity) => (
@@ -298,12 +300,12 @@ export default function SecurityDashboard() {
         <div className="flex items-start gap-4">
           <Shield className="h-6 w-6 text-purple-600 mt-1" />
           <div>
-            <h3 className="font-semibold text-purple-900">Security Guidelines</h3>
+            <h3 className="font-semibold text-purple-900">{t("guidelines.title")}</h3>
             <ul className="mt-2 space-y-1 text-sm text-purple-700">
-              <li>• All sensitive data access is logged and monitored</li>
-              <li>• Verify document authenticity before approval</li>
-              <li>• Report any suspicious activity immediately</li>
-              <li>• Do not share access credentials with others</li>
+              <li>• {t("guidelines.items.logged")}</li>
+              <li>• {t("guidelines.items.verify")}</li>
+              <li>• {t("guidelines.items.report")}</li>
+              <li>• {t("guidelines.items.credentials")}</li>
             </ul>
           </div>
         </div>

@@ -650,6 +650,113 @@
     "ogDescription": "Join Africa's fastest-growing eco-mobility network. Get trained, certified, and start earning with sustainable transportation.",
     "twitterDescription": "Driver acquisition platform for sustainable mobility in Africa"
   },
+  "portal": {
+    "welcome": "Welcome, {name}!",
+    "welcomeDefault": "Driver",
+    "subtitle": "Track your application progress and manage your profile",
+    "applicationStatus": {
+      "title": "Application Status",
+      "approved": "Congratulations! Your application has been approved.",
+      "rejected": "Please contact us for more information.",
+      "reviewing": "We're reviewing your application."
+    },
+    "status": {
+      "pending": "Pending Review",
+      "underReview": "Under Review",
+      "approved": "Approved",
+      "rejected": "Not Approved",
+      "requiresInfo": "More Info Needed"
+    },
+    "stats": {
+      "documentsUploaded": "Documents Uploaded",
+      "documentsVerified": "Documents Verified",
+      "unreadMessages": "Unread Messages",
+      "noTraining": "No Training",
+      "scheduled": "Scheduled"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "updateProfile": "Update Profile",
+      "updateProfileDesc": "Edit your personal information",
+      "uploadDocuments": "Upload Documents",
+      "uploadDocumentsDesc": "Submit required documents",
+      "viewApplication": "View Application",
+      "viewApplicationDesc": "Check your application status",
+      "messages": "Messages",
+      "messagesDesc": "Contact SMP agents"
+    }
+  },
+  "security": {
+    "dashboard": {
+      "title": "Security Dashboard",
+      "welcome": "Welcome back, {name}",
+      "welcomeDefault": "Security Officer",
+      "secureSession": "Secure Session Active",
+      "alert": {
+        "title": "High volume of pending documents",
+        "message": "{count} documents are awaiting verification",
+        "reviewNow": "Review Now"
+      },
+      "stats": {
+        "pendingVetting": "Pending Vetting",
+        "verifiedToday": "Verified Today",
+        "driversVetted": "Drivers Vetted",
+        "securityEvents": "Security Events"
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "vettingQueue": "Vetting Queue",
+        "vettingQueueDesc": "Review pending documents",
+        "driverRecords": "Driver Records",
+        "driverRecordsDesc": "View sensitive driver data",
+        "auditLogs": "Audit Logs",
+        "auditLogsDesc": "Review access history"
+      },
+      "activity": {
+        "title": "Recent Security Activity",
+        "viewAll": "View all",
+        "noActivity": "No recent security activity"
+      },
+      "guidelines": {
+        "title": "Security Guidelines",
+        "items": {
+          "logged": "All sensitive data access is logged and monitored",
+          "verify": "Verify document authenticity before approval",
+          "report": "Report any suspicious activity immediately",
+          "credentials": "Do not share access credentials with others"
+        }
+      }
+    },
+    "vetting": {
+      "title": "Vetting Queue",
+      "subtitle": "Review and verify driver documents",
+      "searchPlaceholder": "Search by driver name...",
+      "allTypes": "All Types",
+      "pendingCount": "{count} documents pending verification",
+      "loading": "Loading documents...",
+      "allVerified": "All documents have been verified!",
+      "uploaded": "Uploaded {date}",
+      "review": "Review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "modal": {
+        "title": "Document Review",
+        "driver": "Driver",
+        "phone": "Phone",
+        "rejectDocument": "Reject Document",
+        "verifyDocument": "Verify Document"
+      },
+      "documentTypes": {
+        "nationalId": "National ID",
+        "drivingPermit": "Driving Permit",
+        "photo": "Photo",
+        "other": "Other Document"
+      },
+      "toast": {
+        "verifyFailed": "Failed to verify document"
+      }
+    }
+  },
   "admin": {
     "dashboard": {
       "title": "Admin Dashboard",

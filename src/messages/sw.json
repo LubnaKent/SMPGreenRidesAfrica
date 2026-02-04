@@ -650,6 +650,113 @@
     "ogDescription": "Jiunge na mtandao wa usafiri wa kijani unaokua kwa kasi zaidi Afrika. Pata mafunzo, cheti, na anza kupata pesa na usafiri endelevu.",
     "twitterDescription": "Jukwaa la kupata madereva kwa usafiri endelevu Afrika"
   },
+  "portal": {
+    "welcome": "Karibu, {name}!",
+    "welcomeDefault": "Dereva",
+    "subtitle": "Fuatilia maendeleo ya maombi yako na dhibiti wasifu wako",
+    "applicationStatus": {
+      "title": "Hali ya Maombi",
+      "approved": "Hongera! Maombi yako yameidhinishwa.",
+      "rejected": "Tafadhali wasiliana nasi kwa habari zaidi.",
+      "reviewing": "Tunakagua maombi yako."
+    },
+    "status": {
+      "pending": "Inasubiri Ukaguzi",
+      "underReview": "Inakaguliwa",
+      "approved": "Imeidhinishwa",
+      "rejected": "Haijaidhinishwa",
+      "requiresInfo": "Habari Zaidi Inahitajika"
+    },
+    "stats": {
+      "documentsUploaded": "Nyaraka Zilizopakiwa",
+      "documentsVerified": "Nyaraka Zilizothibitishwa",
+      "unreadMessages": "Ujumbe Usiosomwa",
+      "noTraining": "Hakuna Mafunzo",
+      "scheduled": "Imepangwa"
+    },
+    "quickActions": {
+      "title": "Vitendo vya Haraka",
+      "updateProfile": "Sasisha Wasifu",
+      "updateProfileDesc": "Hariri taarifa zako za kibinafsi",
+      "uploadDocuments": "Pakia Nyaraka",
+      "uploadDocumentsDesc": "Wasilisha nyaraka zinazohitajika",
+      "viewApplication": "Angalia Maombi",
+      "viewApplicationDesc": "Angalia hali ya maombi yako",
+      "messages": "Ujumbe",
+      "messagesDesc": "Wasiliana na mawakala wa SMP"
+    }
+  },
+  "security": {
+    "dashboard": {
+      "title": "Dashibodi ya Usalama",
+      "welcome": "Karibu tena, {name}",
+      "welcomeDefault": "Afisa wa Usalama",
+      "secureSession": "Kikao Salama Kinatumika",
+      "alert": {
+        "title": "Idadi kubwa ya nyaraka zinazosubiri",
+        "message": "Nyaraka {count} zinasubiri uthibitisho",
+        "reviewNow": "Kagua Sasa"
+      },
+      "stats": {
+        "pendingVetting": "Uchunguzi Unasubiri",
+        "verifiedToday": "Zimethibitishwa Leo",
+        "driversVetted": "Madereva Waliochunguzwa",
+        "securityEvents": "Matukio ya Usalama"
+      },
+      "quickActions": {
+        "title": "Vitendo vya Haraka",
+        "vettingQueue": "Foleni ya Uchunguzi",
+        "vettingQueueDesc": "Kagua nyaraka zinazosubiri",
+        "driverRecords": "Rekodi za Madereva",
+        "driverRecordsDesc": "Angalia data nyeti za madereva",
+        "auditLogs": "Kumbukumbu za Ukaguzi",
+        "auditLogsDesc": "Kagua historia ya ufikiaji"
+      },
+      "activity": {
+        "title": "Shughuli za Usalama za Hivi Karibuni",
+        "viewAll": "Angalia zote",
+        "noActivity": "Hakuna shughuli za usalama za hivi karibuni"
+      },
+      "guidelines": {
+        "title": "Miongozo ya Usalama",
+        "items": {
+          "logged": "Ufikiaji wote wa data nyeti unarekodiwa na kufuatiliwa",
+          "verify": "Thibitisha uhalisi wa nyaraka kabla ya kuidhinisha",
+          "report": "Ripoti shughuli yoyote ya kushukiwa mara moja",
+          "credentials": "Usishiriki vyeti vya ufikiaji na wengine"
+        }
+      }
+    },
+    "vetting": {
+      "title": "Foleni ya Uchunguzi",
+      "subtitle": "Kagua na thibitisha nyaraka za madereva",
+      "searchPlaceholder": "Tafuta kwa jina la dereva...",
+      "allTypes": "Aina Zote",
+      "pendingCount": "Nyaraka {count} zinasubiri uthibitisho",
+      "loading": "Inapakia nyaraka...",
+      "allVerified": "Nyaraka zote zimethibitishwa!",
+      "uploaded": "Imepakiwa {date}",
+      "review": "Kagua",
+      "approve": "Idhinisha",
+      "reject": "Kataa",
+      "modal": {
+        "title": "Ukaguzi wa Nyaraka",
+        "driver": "Dereva",
+        "phone": "Simu",
+        "rejectDocument": "Kataa Nyaraka",
+        "verifyDocument": "Thibitisha Nyaraka"
+      },
+      "documentTypes": {
+        "nationalId": "Kitambulisho cha Taifa",
+        "drivingPermit": "Leseni ya Kuendesha",
+        "photo": "Picha",
+        "other": "Nyaraka Nyingine"
+      },
+      "toast": {
+        "verifyFailed": "Imeshindwa kuthibitisha nyaraka"
+      }
+    }
+  },
   "admin": {
     "dashboard": {
       "title": "Dashibodi ya Msimamizi",

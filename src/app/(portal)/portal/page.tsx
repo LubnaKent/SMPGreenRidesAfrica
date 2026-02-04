@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslations } from "next-intl";
 
 interface PortalStats {
   applicationStatus: string;
@@ -27,16 +28,17 @@ interface PortalStats {
   } | null;
 }
 
-const STATUS_DISPLAY: Record<string, { label: string; color: string; icon: typeof CheckCircle }> = {
-  pending: { label: "Pending Review", color: "text-yellow-600 bg-yellow-100", icon: Clock },
-  under_review: { label: "Under Review", color: "text-blue-600 bg-blue-100", icon: Clock },
-  approved: { label: "Approved", color: "text-green-600 bg-green-100", icon: CheckCircle },
-  rejected: { label: "Not Approved", color: "text-red-600 bg-red-100", icon: AlertCircle },
-  requires_info: { label: "More Info Needed", color: "text-orange-600 bg-orange-100", icon: AlertCircle },
+const STATUS_COLORS: Record<string, { color: string; icon: typeof CheckCircle }> = {
+  pending: { color: "text-yellow-600 bg-yellow-100", icon: Clock },
+  under_review: { color: "text-blue-600 bg-blue-100", icon: Clock },
+  approved: { color: "text-green-600 bg-green-100", icon: CheckCircle },
+  rejected: { color: "text-red-600 bg-red-100", icon: AlertCircle },
+  requires_info: { color: "text-orange-600 bg-orange-100", icon: AlertCircle },
 };
 
 export default function PortalDashboard() {
   const { profile } = useAuth();
+  const t = useTranslations("portal");
   const [stats, setStats] = useState<PortalStats>({
     applicationStatus: "pending",
     documentsUploaded: 0,
@@ -119,34 +121,44 @@ export default function PortalDashboard() {
     fetchStats();
   }, [profile?.email]);
 
-  const statusInfo = STATUS_DISPLAY[stats.applicationStatus] || STATUS_DISPLAY.pending;
+  // Translated status labels
+  const statusLabels: Record<string, string> = {
+    pending: t("status.pending"),
+    under_review: t("status.underReview"),
+    approved: t("status.approved"),
+    rejected: t("status.rejected"),
+    requires_info: t("status.requiresInfo"),
+  };
+
+  const statusInfo = STATUS_COLORS[stats.applicationStatus] || STATUS_COLORS.pending;
   const StatusIcon = statusInfo.icon;
+  const statusLabel = statusLabels[stats.applicationStatus] || statusLabels.pending;
 
   const quickActions = [
     {
-      name: "Update Profile",
-      description: "Edit your personal information",
+      name: t("quickActions.updateProfile"),
+      description: t("quickActions.updateProfileDesc"),
       icon: User,
       href: "/portal/profile",
       color: "bg-blue-100 text-blue-600",
     },
     {
-      name: "Upload Documents",
-      description: "Submit required documents",
+      name: t("quickActions.uploadDocuments"),
+      description: t("quickActions.uploadDocumentsDesc"),
       icon: FileText,
       href: "/portal/documents",
       color: "bg-green-100 text-green-600",
     },
     {
-      name: "View Application",
-      description: "Check your application status",
+      name: t("quickActions.viewApplication"),
+      description: t("quickActions.viewApplicationDesc"),
       icon: ClipboardList,
       href: "/portal/application",
       color: "bg-purple-100 text-purple-600",
     },
     {
-      name: "Messages",
-      description: "Contact SMP agents",
+      name: t("quickActions.messages"),
+      description: t("quickActions.messagesDesc"),
       icon: MessageSquare,
       href: "/portal/messages",
       color: "bg-orange-100 text-orange-600",
@@ -158,17 +170,17 @@ export default function PortalDashboard() {
       {/* Welcome section */}
       <div className="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 p-6 text-white">
         <h1 className="text-2xl font-bold">
-          Welcome, {profile?.name?.split(" ")[0] || "Driver"}!
+          {t("welcome", { name: profile?.name?.split(" ")[0] || t("welcomeDefault") })}
         </h1>
         <p className="text-orange-100 mt-1">
-          Track your application progress and manage your profile
+          {t("subtitle")}
         </p>
       </div>
 
       {/* Application status card */}
       <div className="rounded-xl border border-gray-200 bg-white p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Application Status
+          {t("applicationStatus.title")}
         </h2>
         <div className="flex items-center gap-4">
           <div
@@ -178,14 +190,14 @@ export default function PortalDashboard() {
           </div>
           <div>
             <p className={`text-lg font-semibold ${statusInfo.color.split(" ")[0]}`}>
-              {statusInfo.label}
+              {statusLabel}
             </p>
             <p className="text-sm text-gray-500">
               {stats.applicationStatus === "approved"
-                ? "Congratulations! Your application has been approved."
+                ? t("applicationStatus.approved")
                 : stats.applicationStatus === "rejected"
-                ? "Please contact us for more information."
-                : "We're reviewing your application."}
+                ? t("applicationStatus.rejected")
+                : t("applicationStatus.reviewing")}
             </p>
           </div>
           <Link
@@ -208,7 +220,7 @@ export default function PortalDashboard() {
               <p className="text-2xl font-bold text-gray-900">
                 {loading ? "-" : stats.documentsUploaded}
               </p>
-              <p className="text-sm text-gray-500">Documents Uploaded</p>
+              <p className="text-sm text-gray-500">{t("stats.documentsUploaded")}</p>
             </div>
           </div>
         </div>
@@ -222,7 +234,7 @@ export default function PortalDashboard() {
               <p className="text-2xl font-bold text-gray-900">
                 {loading ? "-" : stats.documentsVerified}
               </p>
-              <p className="text-sm text-gray-500">Documents Verified</p>
+              <p className="text-sm text-gray-500">{t("stats.documentsVerified")}</p>
             </div>
           </div>
         </div>
@@ -236,7 +248,7 @@ export default function PortalDashboard() {
               <p className="text-2xl font-bold text-gray-900">
                 {loading ? "-" : stats.unreadMessages}
               </p>
-              <p className="text-sm text-gray-500">Unread Messages</p>
+              <p className="text-sm text-gray-500">{t("stats.unreadMessages")}</p>
             </div>
           </div>
         </div>
@@ -258,8 +270,8 @@ export default function PortalDashboard() {
                 </>
               ) : (
                 <>
-                  <p className="text-sm font-medium text-gray-900">No Training</p>
-                  <p className="text-sm text-gray-500">Scheduled</p>
+                  <p className="text-sm font-medium text-gray-900">{t("stats.noTraining")}</p>
+                  <p className="text-sm text-gray-500">{t("stats.scheduled")}</p>
                 </>
               )}
             </div>
@@ -270,7 +282,7 @@ export default function PortalDashboard() {
       {/* Quick actions */}
       <div>
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Quick Actions
+          {t("quickActions.title")}
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {quickActions.map((action) => (

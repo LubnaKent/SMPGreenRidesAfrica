@@ -636,6 +636,113 @@
     "ogDescription": "Yingira mu mukutu gw'entambula eya bulijjo ogukula ennyo mu Afrika. Tendekebwa, funa ekiwandiiko, era otandike okufuna ng'entambula enterevu.",
     "twitterDescription": "Akakiiko k'okufuna baddereeva ku ntambula enterevu mu Afrika"
   },
+  "portal": {
+    "welcome": "Tukwanukudde, {name}!",
+    "welcomeDefault": "Ddereeva",
+    "subtitle": "Goberera enkulaakulana y'okusaba kwo era oddukanya ebikukwatako",
+    "applicationStatus": {
+      "title": "Embeera y'Okusaba",
+      "approved": "Weebale! Okusaba kwo kukkiriziddwa.",
+      "rejected": "Nsaba otuukirire okufuna ebikwatako ebisingawo.",
+      "reviewing": "Tukebera okusaba kwo."
+    },
+    "status": {
+      "pending": "Kulindirira Okukebera",
+      "underReview": "Kukebeddwa",
+      "approved": "Kukkiriziddwa",
+      "rejected": "Tekukkirizibwa",
+      "requiresInfo": "Kyetaagisa Ebikwatako Ebisingawo"
+    },
+    "stats": {
+      "documentsUploaded": "Ebiwandiiko Ebiteekeddwa",
+      "documentsVerified": "Ebiwandiiko Ebithibitiziddwa",
+      "unreadMessages": "Obubaka Obutaasomeddwa",
+      "noTraining": "Tewali Kutendekebwa",
+      "scheduled": "Kuteekeddwa"
+    },
+    "quickActions": {
+      "title": "Ebikolwa bya Mangu",
+      "updateProfile": "Kyusa Ebikukwatako",
+      "updateProfileDesc": "Longoosa ebikukwatako",
+      "uploadDocuments": "Teeka Ebiwandiiko",
+      "uploadDocumentsDesc": "Waayo ebiwandiiko ebyetaagibwa",
+      "viewApplication": "Laba Okusaba",
+      "viewApplicationDesc": "Kebera embeera y'okusaba kwo",
+      "messages": "Obubaka",
+      "messagesDesc": "Yogera ne bakiimu ba SMP"
+    }
+  },
+  "security": {
+    "dashboard": {
+      "title": "Dashiboodi y'Obukuumi",
+      "welcome": "Tukwanukudde, {name}",
+      "welcomeDefault": "Omukugu w'Obukuumi",
+      "secureSession": "Ssesoni Eya Bukuumi Ekola",
+      "alert": {
+        "title": "Ebiwandiiko ebingi ebilindiridde",
+        "message": "Ebiwandiiko {count} bilindiridde okukakasibwa",
+        "reviewNow": "Kebera Kaakano"
+      },
+      "stats": {
+        "pendingVetting": "Okusesema Kulindiridde",
+        "verifiedToday": "Bithibitiziddwa Leero",
+        "driversVetted": "Baddereeva Abasesemeddwa",
+        "securityEvents": "Ebintu by'Obukuumi"
+      },
+      "quickActions": {
+        "title": "Ebikolwa bya Mangu",
+        "vettingQueue": "Olulondolondo lw'Okusesema",
+        "vettingQueueDesc": "Kebera ebiwandiiko ebilindiridde",
+        "driverRecords": "Ebiwandiiko bya Baddereeva",
+        "driverRecordsDesc": "Laba data ey'ekyama eya baddereeva",
+        "auditLogs": "Ebiwandiiko by'Okukebera",
+        "auditLogsDesc": "Kebera ebyafaayo by'okuyingira"
+      },
+      "activity": {
+        "title": "Ebikolwa by'Obukuumi bya Mabegawo",
+        "viewAll": "Laba byonna",
+        "noActivity": "Tewali bikolwa by'obukuumi bya mabegawo"
+      },
+      "guidelines": {
+        "title": "Ebiragiro by'Obukuumi",
+        "items": {
+          "logged": "Okuyingira konna ku data ey'ekyama kuwandiikibwa era kugoberebwa",
+          "verify": "Kakasa obwa mazima bw'ebiwandiiko ng'otonakukkiriza",
+          "report": "Loopa ebikolwa byonna ebikukwatako mangu ddala",
+          "credentials": "Togabana biwandiiko by'okuyingira n'abalala"
+        }
+      }
+    },
+    "vetting": {
+      "title": "Olulondolondo lw'Okusesema",
+      "subtitle": "Kebera era othibitize ebiwandiiko bya baddereeva",
+      "searchPlaceholder": "Noonya n'erinnya lya ddereeva...",
+      "allTypes": "Ebika Byonna",
+      "pendingCount": "Ebiwandiiko {count} bilindiridde okuthibitizibwa",
+      "loading": "Kitereeza ebiwandiiko...",
+      "allVerified": "Ebiwandiiko byonna bithibitiziddwa!",
+      "uploaded": "Byateekeddwa {date}",
+      "review": "Kebera",
+      "approve": "Kkiriza",
+      "reject": "Gaana",
+      "modal": {
+        "title": "Okukebera Ekiwandiiko",
+        "driver": "Ddereeva",
+        "phone": "Essimu",
+        "rejectDocument": "Gaana Ekiwandiiko",
+        "verifyDocument": "Thibitiza Ekiwandiiko"
+      },
+      "documentTypes": {
+        "nationalId": "ID y'Eggwanga",
+        "drivingPermit": "Olukusa lw'Okuvuga",
+        "photo": "Ekifaananyi",
+        "other": "Ekiwandiiko Ekirala"
+      },
+      "toast": {
+        "verifyFailed": "Tekusobodde kuthibitiza ekiwandiiko"
+      }
+    }
+  },
   "admin": {
     "dashboard": {
       "title": "Dashiboodi y'Omukubirizi",
