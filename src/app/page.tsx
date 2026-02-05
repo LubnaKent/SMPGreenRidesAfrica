@@ -1,25 +1,6 @@
-import {
-  Navbar,
-  Hero,
-  About,
-  Services,
-  HowItWorks,
-  Contact,
-  Footer,
-} from "@/components/landing";
+import { redirect } from 'next/navigation';
+import { defaultLocale } from '@/i18n/config';
 
-export default function Home() {
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <HowItWorks />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
-  );
+export default function RootPage() {
+  redirect(`/${defaultLocale}`);
 }

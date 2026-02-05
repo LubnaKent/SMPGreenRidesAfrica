@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import { ArrowRight, Zap, Shield, Clock, ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function Hero() {
+  const t = useTranslations("hero");
+
   const scrollToAbout = () => {
     document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -39,19 +42,19 @@ export function Hero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              Now Onboarding Drivers in 5 Cities
+              {t("badge")}
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-[0.95] tracking-tight">
-              Power the
+              {t("title").split("Green Revolution")[0]}
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-300 to-teal-400">
                 Green Revolution
               </span>
-              on Two Wheels
+              {t("title").split("Green Revolution")[1] || "on Two Wheels"}
             </h1>
 
             <p className="mt-8 text-lg sm:text-xl text-emerald-100/80 leading-relaxed max-w-xl">
-              Join Africa&apos;s fastest-growing eco-mobility network. Get trained, get certified, and start earning — because every journey matters.
+              {t("subtitle")}
             </p>
 
             {/* CTA Buttons */}
@@ -60,23 +63,23 @@ export function Hero() {
                 href="/register"
                 className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-emerald-900 font-bold text-lg rounded-2xl hover:bg-emerald-50 transition-all shadow-2xl shadow-black/20"
               >
-                Start Your Journey
+                {t("cta")}
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/login"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold text-lg rounded-2xl hover:bg-white/20 transition-all border border-white/20"
               >
-                Partner Login
+                {t("partnerLogin")}
               </Link>
             </div>
 
             {/* Quick Stats */}
             <div className="mt-12 grid grid-cols-3 gap-6">
               {[
-                { value: "2,500+", label: "Certified Drivers" },
-                { value: "50+", label: "Fleet Partners" },
-                { value: "98%", label: "Success Rate" },
+                { value: t("stats.drivers"), label: t("stats.driversLabel") },
+                { value: t("stats.partners"), label: t("stats.partnersLabel") },
+                { value: t("stats.successRate"), label: t("stats.successRateLabel") },
               ].map((stat) => (
                 <div key={stat.label} className="text-center lg:text-left">
                   <p className="text-2xl sm:text-3xl font-black text-white">{stat.value}</p>
@@ -152,7 +155,7 @@ export function Hero() {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2">
-          <span className="text-emerald-300/50 text-sm">Scroll to explore</span>
+          <span className="text-emerald-300/50 text-sm">{t("scrollToExplore")}</span>
           <button onClick={scrollToAbout} className="animate-bounce">
             <ChevronDown className="h-6 w-6 text-emerald-300/50" />
           </button>

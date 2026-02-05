@@ -40,11 +40,11 @@ const PUBLIC_ROUTES = [
   '/api/applications',
 ];
 
-// Create the next-intl middleware
+// Create the next-intl middleware with 'always' prefix to redirect paths without locale
 const intlMiddleware = createMiddleware({
   locales,
   defaultLocale,
-  localePrefix: 'as-needed',
+  localePrefix: 'always',
 });
 
 // Helper to add security headers to response
@@ -68,24 +68,12 @@ function getPathnameWithoutLocale(pathname: string): string {
   return pathname;
 }
 
-export async function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
-
-  // Skip middleware for static files and Next.js internals
-  if (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/favicon.ico') ||
-    pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|json|xml|txt)$/)
-  ) {
-    return NextResponse.next();
-  }
-
-  // Handle internationalization first
-  const response = intlMiddleware(request);
-
-  // Get the pathname without locale prefix for auth checks
-  const pathnameWithoutLocale = getPathnameWithoutLocale(pathname);
-
+// Helper function to handle auth and headers
+async function handleAuthAndHeaders(
+  request: NextRequest,
+  response: NextResponse,
+  pathnameWithoutLocale: string
+): Promise<NextResponse> {
   // Skip auth for API routes
   if (pathnameWithoutLocale.startsWith('/api/')) {
     return applySecurityHeaders(response);
@@ -135,8 +123,8 @@ export async function middleware(request: NextRequest) {
         .single();
 
       if (profile?.role) {
-        const defaultDashboard = ROLE_DEFAULT_DASHBOARD[profile.role as UserRole];
-        return applySecurityHeaders(NextResponse.redirect(new URL(defaultDashboard, request.url)));
+        const dashboardPath = ROLE_DEFAULT_DASHBOARD[profile.role as UserRole];
+        return applySecurityHeaders(NextResponse.redirect(new URL(dashboardPath, request.url)));
       }
     }
     return applySecurityHeaders(response);
@@ -166,8 +154,8 @@ export async function middleware(request: NextRequest) {
   for (const [routePrefix, allowedRoles] of Object.entries(ROUTE_PERMISSIONS)) {
     if (pathnameWithoutLocale.startsWith(routePrefix)) {
       if (!allowedRoles.includes(userRole)) {
-        const defaultDashboard = ROLE_DEFAULT_DASHBOARD[userRole];
-        const redirectUrl = new URL(defaultDashboard, request.url);
+        const roleDashboard = ROLE_DEFAULT_DASHBOARD[userRole];
+        const redirectUrl = new URL(roleDashboard, request.url);
         redirectUrl.searchParams.set('error', 'unauthorized');
         return applySecurityHeaders(NextResponse.redirect(redirectUrl));
       }
@@ -178,8 +166,51 @@ export async function middleware(request: NextRequest) {
   return applySecurityHeaders(response);
 }
 
+export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  // Skip middleware for static files and Next.js internals
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico|json|xml|txt)$/)
+  ) {
+    return NextResponse.next();
+  }
+
+  // Skip i18n for API routes - just apply security headers
+  if (pathname.startsWith('/api/')) {
+    return applySecurityHeaders(NextResponse.next());
+  }
+
+  // Check if path has a locale prefix
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
+  );
+
+  // Manually redirect paths without locale prefix to include default locale
+  if (!pathnameHasLocale) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${defaultLocale}${pathname}`;
+    return applySecurityHeaders(NextResponse.redirect(url));
+  }
+
+  // Let intlMiddleware handle locale-prefixed requests
+  const response = intlMiddleware(request);
+
+  // If intlMiddleware returned a redirect (e.g., /login -> /en/login), return it
+  if (response.status >= 300 && response.status < 400) {
+    return applySecurityHeaders(response);
+  }
+
+  // Get the pathname without locale prefix for auth checks
+  const pathnameWithoutLocale = getPathnameWithoutLocale(pathname);
+
+  // Handle authentication and apply security headers
+  return handleAuthAndHeaders(request, response, pathnameWithoutLocale);
+}
+
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|json|xml|txt)$).*)',
-  ],
+  // Match all paths except static files
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|json|xml|txt)$).*)'],
 };

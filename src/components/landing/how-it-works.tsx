@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { UserPlus, ClipboardCheck, GraduationCap, Rocket, ArrowRight } from "lucide-react";
 
 const steps = [
@@ -184,13 +185,13 @@ export function HowItWorks() {
                 Join <span className="font-bold text-gray-900">2,500+</span> drivers
               </p>
             </div>
-            <a
+            <Link
               href="/register"
               className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
             >
               Start Your Application
               <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
