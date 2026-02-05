@@ -47,7 +47,7 @@ export function LanguageSwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+        className="flex items-center gap-2 px-3 py-2 text-sm font-bold bg-orange-500 text-white hover:bg-orange-600 rounded-lg transition-colors shadow-md"
         aria-label="Select language"
         aria-expanded={isOpen}
         aria-haspopup="listbox"
